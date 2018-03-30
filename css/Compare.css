@@ -1,0 +1,41 @@
+﻿del {
+	background-color: DarkKhaki;
+}
+
+.del2 {
+	background-color: DarkKhaki;
+}
+
+mark {
+	background-color: LightGreen;
+}
+
+.content {
+	white-space: pre-wrap;
+	font-size: 0.9em;
+	line-height: 0%;
+}
+
+#search_differences {
+	z-index: 999;
+	width: 32px;
+	height: 64px;
+	position: fixed;
+	right: 0;
+	top: 50%;
+	margin: -100px 20px 0 -100px;
+	padding: 10px;
+}
+
+.container {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.filebutton {
+	width: 48%;
+	word-wrap: break-word;
+	margin-left: 1%;
+	margin-right: 1%;
+}

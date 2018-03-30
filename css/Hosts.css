@@ -1,0 +1,33 @@
+﻿.freemachine {
+	background-color: transparent;
+}
+
+.workmachine {
+	background-color: yellow;
+}
+
+.longworkmachine {
+	background-color: burlywood;
+}
+
+.verylongworkmachine {
+	background-color: coral;
+}
+
+.noworkmachine {
+	background-color: brown;
+}
+
+.vnc {
+	cursor: pointer;
+	text-align: center;
+}
+
+.pau {
+	cursor: pointer;
+	text-align: center;
+}
+
+.ethernetproblem {
+	background-color: yellow;
+}

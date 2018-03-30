@@ -1,0 +1,31 @@
+﻿body 
+{
+	color:Black
+}
+
+h1 {font-family:Arial;font-size:10}
+h2 {font-family:Arial;font-size:10}
+p {font-family:Arial;font-size:10}
+
+.cell
+{
+	padding:0px;
+	color:White;
+}
+
+.cell
+{
+	padding:0px;
+	color:White;
+}
+
+input.btn
+{
+	padding-left: 1px;
+	padding-right: 1px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	border:1px solid;
+	font-family:Arial;
+	font-size:7pt;
+}

@@ -1,0 +1,1523 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1251">
+<meta name=Generator content="Microsoft Word 12 (filtered)">
+<title>DEMO DATABASE Creation Procedure</title>
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Cambria;
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0mm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+h1
+	{mso-style-link:"Heading 1 Char";
+	margin:0mm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	font-weight:normal;}
+h2
+	{mso-style-link:"Heading 2 Char";
+	margin:0mm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	font-weight:normal;}
+h3
+	{mso-style-link:"Heading 3 Char";
+	margin:0mm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	font-weight:normal;}
+h4
+	{mso-style-link:"Heading 4 Char";
+	margin:0mm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	font-weight:normal;}
+p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText
+	{mso-style-link:"Footnote Text Char";
+	margin:0mm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+span.MsoFootnoteReference
+	{vertical-align:super;}
+p.MsoTitle, li.MsoTitle, div.MsoTitle
+	{mso-style-link:"Title Char";
+	margin:0mm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;}
+p.MsoNoSpacing, li.MsoNoSpacing, div.MsoNoSpacing
+	{margin:0mm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{margin-top:0mm;
+	margin-right:0mm;
+	margin-bottom:0mm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoQuote, li.MsoQuote, div.MsoQuote
+	{mso-style-link:"Quote Char";
+	margin:0mm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	color:black;
+	font-style:italic;}
+span.MsoSubtleEmphasis
+	{color:gray;
+	font-style:italic;}
+span.MsoSubtleReference
+	{font-variant:small-caps;
+	color:#C0504D;
+	text-decoration:underline;}
+span.Heading1Char
+	{mso-style-name:"Heading 1 Char";
+	mso-style-link:"Heading 1";
+	font-family:"Cambria","serif";
+	color:#365F91;
+	font-weight:bold;}
+span.Heading2Char
+	{mso-style-name:"Heading 2 Char";
+	mso-style-link:"Heading 2";
+	font-family:"Cambria","serif";
+	color:#4F81BD;
+	font-weight:bold;}
+span.Heading3Char
+	{mso-style-name:"Heading 3 Char";
+	mso-style-link:"Heading 3";
+	font-family:"Cambria","serif";
+	color:#4F81BD;
+	font-weight:bold;}
+span.Heading4Char
+	{mso-style-name:"Heading 4 Char";
+	mso-style-link:"Heading 4";
+	font-family:"Cambria","serif";
+	color:#4F81BD;
+	font-weight:bold;
+	font-style:italic;}
+span.FootnoteTextChar
+	{mso-style-name:"Footnote Text Char";
+	mso-style-link:"Footnote Text";
+	font-family:"Calibri","sans-serif";}
+span.TitleChar
+	{mso-style-name:"Title Char";
+	mso-style-link:Title;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+span.QuoteChar
+	{mso-style-name:"Quote Char";
+	mso-style-link:Quote;
+	font-family:"Calibri","sans-serif";
+	color:black;
+	font-style:italic;}
+p.msolistparagraphcxspfirst, li.msolistparagraphcxspfirst, div.msolistparagraphcxspfirst
+	{mso-style-name:msolistparagraphcxspfirst;
+	margin-top:0mm;
+	margin-right:0mm;
+	margin-bottom:0mm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.msolistparagraphcxspmiddle, li.msolistparagraphcxspmiddle, div.msolistparagraphcxspmiddle
+	{mso-style-name:msolistparagraphcxspmiddle;
+	margin-top:0mm;
+	margin-right:0mm;
+	margin-bottom:0mm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.msolistparagraphcxsplast, li.msolistparagraphcxsplast, div.msolistparagraphcxsplast
+	{mso-style-name:msolistparagraphcxsplast;
+	margin-top:0mm;
+	margin-right:0mm;
+	margin-bottom:0mm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.msotitlecxspfirst, li.msotitlecxspfirst, div.msotitlecxspfirst
+	{mso-style-name:msotitlecxspfirst;
+	margin:0mm;
+	margin-bottom:.0001pt;
+	font-size:26.0pt;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+p.msotitlecxspmiddle, li.msotitlecxspmiddle, div.msotitlecxspmiddle
+	{mso-style-name:msotitlecxspmiddle;
+	margin:0mm;
+	margin-bottom:.0001pt;
+	font-size:26.0pt;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+p.msotitlecxsplast, li.msotitlecxsplast, div.msotitlecxsplast
+	{mso-style-name:msotitlecxsplast;
+	margin-top:0mm;
+	margin-right:0mm;
+	margin-bottom:15.0pt;
+	margin-left:0mm;
+	font-size:26.0pt;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+p.msopapdefault, li.msopapdefault, div.msopapdefault
+	{mso-style-name:msopapdefault;
+	margin-right:0mm;
+	margin-left:0mm;
+	line-height:115%;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.msochpdefault, li.msochpdefault, div.msochpdefault
+	{mso-style-name:msochpdefault;
+	margin-right:0mm;
+	margin-left:0mm;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+p.heading1, li.heading1, div.heading1
+	{mso-style-name:heading1;
+	margin:0mm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.heading2, li.heading2, div.heading2
+	{mso-style-name:heading2;
+	margin:0mm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.heading3, li.heading3, div.heading3
+	{mso-style-name:heading3;
+	margin:0mm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.heading4, li.heading4, div.heading4
+	{mso-style-name:heading4;
+	margin:0mm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.footnotetext, li.footnotetext, div.footnotetext
+	{mso-style-name:footnotetext;
+	margin:0mm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.title, li.title, div.title
+	{mso-style-name:title;
+	margin:0mm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.quote, li.quote, div.quote
+	{mso-style-name:quote;
+	margin:0mm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+span.heading1char0
+	{mso-style-name:heading1char;
+	font-family:"Cambria","serif";
+	color:#365F91;
+	font-weight:bold;}
+span.heading2char0
+	{mso-style-name:heading2char;
+	font-family:"Cambria","serif";
+	color:#4F81BD;
+	font-weight:bold;}
+span.heading3char0
+	{mso-style-name:heading3char;
+	font-family:"Cambria","serif";
+	color:#4F81BD;
+	font-weight:bold;}
+span.heading4char0
+	{mso-style-name:heading4char;
+	font-family:"Cambria","serif";
+	color:#4F81BD;
+	font-weight:bold;
+	font-style:italic;}
+span.titlechar0
+	{mso-style-name:titlechar;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+span.quotechar1
+	{mso-style-name:quotechar1;
+	font-family:"Calibri","sans-serif";
+	color:black;
+	font-style:italic;}
+span.quotechar0
+	{mso-style-name:quotechar;
+	color:black;
+	font-style:italic;}
+span.quotechar2
+	{mso-style-name:quotechar2;
+	font-family:"Calibri","sans-serif";
+	color:black;
+	font-style:italic;}
+.MsoChpDefault
+	{font-size:10.0pt;}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:20.0mm 42.5pt 20.0mm 30.0mm;}
+div.Section1
+	{page:Section1;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple>
+
+<div class=Section1>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<div style='border:none;border-bottom:solid #4F81BD 1.0pt;padding:0mm 0mm 4.0pt 0mm'>
+
+<p class=MsoTitle align=center style='text-align:center'><a
+name="_Instruction_#1"></a><span style='font-size:26.0pt;line-height:115%;
+font-family:"Cambria","serif";color:#17365D;letter-spacing:.25pt'>FIP WILI TIP
+Procedure</span></p>
+
+</div>
+
+<h2 align=center style='text-align:center;page-break-after:avoid'><b><span
+style='font-size:13.0pt;line-height:115%;font-family:"Cambria","serif";
+color:#4F81BD'>Doc ID: {CAFCFFA7-C514-4a2c-9294-F268C67AF040}</span></b></h2>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal><b><span style='font-size:14.0pt;line-height:115%'>Table of
+contents</span></b></p>
+
+<p class=MsoListParagraph style='margin-left:47.25pt;text-indent:-29.25pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>1.</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'><a
+href="#_Wili_Tip_SQL">GENERAL TIP PROCEDURE</a></span></p>
+
+<p class=MsoListParagraph style='margin-left:72.0pt;text-indent:-18.0pt'>a.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'><a
+href="#_STEP_1">STEP 1</a></span></p>
+
+<p class=MsoListParagraph style='margin-left:72.0pt;text-indent:-18.0pt'>b.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'><a
+href="#_STEP_2_repeat">STEP 2 repeat STEP 1</a></span></p>
+
+<p class=MsoListParagraph style='margin-left:47.25pt;text-indent:-29.25pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>2.</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'><a
+href="#_FINAL_COMPOSITE_LOG">FINAL COMPOSITE LOG</a></span></p>
+
+<p class=MsoListParagraph style='margin-left:47.25pt;text-indent:-29.25pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>3.</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'><a
+href="#_WILI_TIP_MPLs">WILI TIP MPLs</a></span></p>
+
+<p class=MsoListParagraph style='margin-left:47.25pt;text-indent:-29.25pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>4.</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><a href="#_Check_Preview_Allocation">Check Preview Allocation</a></p>
+
+<p class=MsoListParagraph style='margin-left:47.25pt;text-indent:-29.25pt'>5.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style='font-family:"Arial","sans-serif"'><a href="#_Events_Import_Test">Events
+Import Test</a></span></p>
+
+<div style='border:none;border-bottom:solid windowtext 1.0pt;padding:0mm 0mm 1.0pt 0mm'>
+
+<p class=MsoNormal>&nbsp;</p>
+
+</div>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>The test can be performed for two database types: ORACLE and
+SQL server.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>DB = {<b>FIP_WILL_TIP</b>}</p>
+
+<h2 style='page-break-after:avoid'><a name="_Wili_Tip_SQL"></a><a
+name="_General_TIP_Procedure"></a><b><span style='font-size:13.0pt;line-height:
+115%;font-family:"Cambria","serif";color:#4F81BD'>GENERAL TIP PROCEDURE</span></b></h2>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>1.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Run SQL scripts before launch Fieldpro</p>
+
+<p class=MsoListParagraph>a.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Scripts for MS SQL</p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:36.0pt;border-collapse:collapse'>
+ <tr>
+  <td width=1076 valign=top style='width:807.05pt;border:solid black 1.0pt;
+  padding:0mm 5.4pt 0mm 5.4pt'>
+  <p class=MsoListParagraph><span style='color:red'>delete from
+  por_well_prod_data where date = '2008/10/23'&nbsp; </span></p>
+  <p class=MsoListParagraph><span style='color:red'>&nbsp;and
+  (data_component_id in (select production_comp_id from
+  por_well_stage_info)&nbsp; </span></p>
+  <p class=MsoListParagraph><span style='color:red'>&nbsp;or data_component_id
+  in (select production_comp_id from por_projects)) </span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=1076 valign=top style='width:807.05pt;border:solid black 1.0pt;
+  border-top:none;padding:0mm 5.4pt 0mm 5.4pt'>
+  <p class=MsoListParagraph><span style='color:red'>delete from design_production_data
+  where date = '2008/10/23' and (data_component_id in (select
+  production_comp_id from por_well_stage_info) or data_component_id in (select
+  production_comp_id from por_projects)) </span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=1076 valign=top style='width:807.05pt;border:solid black 1.0pt;
+  border-top:none;padding:0mm 5.4pt 0mm 5.4pt'>
+  <p class=MsoListParagraph><span style='color:red'>delete from por_tank_data
+  where date = '2008/10/23' </span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=1076 valign=top style='width:807.05pt;border:solid black 1.0pt;
+  border-top:none;padding:0mm 5.4pt 0mm 5.4pt'>
+  <p class=MsoListParagraph><span style='color:red'>delete from
+  V_PRODUCTION_LAB_DATA where lrd_date = '2008/10/23' </span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=1076 valign=top style='width:807.05pt;border:solid black 1.0pt;
+  border-top:none;padding:0mm 5.4pt 0mm 5.4pt'>
+  <p class=MsoListParagraph><span style='color:red'>delete from POR_METER_DATA
+  where &quot;DATE&quot; = '2008/10/23' </span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=1076 valign=top style='width:807.05pt;border:solid black 1.0pt;
+  border-top:none;padding:0mm 5.4pt 0mm 5.4pt'>
+  <p class=MsoListParagraph style='margin-left:0mm'><span style='color:red'>&nbsp;delete
+  from por_well_test_data where year(date) = 2008 and month (date) =10</span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoListParagraph>b.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Scripts for Oracle</p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:36.0pt;border-collapse:collapse'>
+ <tr>
+  <td width=1076 valign=top style='width:807.05pt;border:solid black 1.0pt;
+  padding:0mm 5.4pt 0mm 5.4pt'>
+  <p class=MsoListParagraph style='margin-left:0mm'><span style='font-size:
+  8.0pt;line-height:115%;color:red'>delete from por_well_prod_data where
+  &quot;DATE&quot; = to_date('2008/10/23','yyyy/mm/dd') and (data_component_id
+  in (select production_comp_id from por_well_stage_info) or data_component_id
+  in (select production_comp_id from por_projects))</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=1076 valign=top style='width:807.05pt;border:solid black 1.0pt;
+  border-top:none;padding:0mm 5.4pt 0mm 5.4pt'>
+  <p class=MsoListParagraph style='margin-left:0mm'><span style='font-size:
+  8.0pt;line-height:115%;color:red'>delete from design_production_data where
+  &quot;DATE&quot; = to_date('2008/10/23','yyyy/mm/dd') and (data_component_id
+  in (select production_comp_id from por_well_stage_info) or data_component_id
+  in (select production_comp_id from &nbsp;por_projects))</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=1076 valign=top style='width:807.05pt;border:solid black 1.0pt;
+  border-top:none;padding:0mm 5.4pt 0mm 5.4pt'>
+  <p class=MsoListParagraph style='margin-left:0mm'><span style='font-size:
+  8.0pt;line-height:115%;color:red'>delete from por_tank_data where
+  &quot;DATE&quot; = to_date('2008/10/23','yyyy/mm/dd')</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=1076 valign=top style='width:807.05pt;border:solid black 1.0pt;
+  border-top:none;padding:0mm 5.4pt 0mm 5.4pt'>
+  <p class=MsoListParagraph style='margin-left:0mm'><span style='font-size:
+  8.0pt;line-height:115%;color:red'>delete from V_PRODUCTION_LAB_DATA where
+  lrd_date = to_date('2008/10/23','yyyy/mm/dd')</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=1076 valign=top style='width:807.05pt;border:solid black 1.0pt;
+  border-top:none;padding:0mm 5.4pt 0mm 5.4pt'>
+  <p class=MsoListParagraph style='margin-left:0mm'><span style='font-size:
+  8.0pt;line-height:115%;color:red'>delete from POR_METER_DATA where
+  &quot;DATE&quot; = to_date('2008/10/23','yyyy/mm/dd')</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=1076 valign=top style='width:807.05pt;border:solid black 1.0pt;
+  border-top:none;padding:0mm 5.4pt 0mm 5.4pt'>
+  <p class=MsoListParagraph style='margin-left:0mm'><span style='font-size:
+  8.0pt;line-height:115%;color:red'>delete from por_well_test_data where
+  extract(year from &quot;DATE&quot;) =2008&nbsp; and extract(month from
+  &quot;DATE&quot;) = 10</span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoListParagraph style='margin-left:21.3pt'><span style='font-size:
+8.0pt;line-height:115%'>&nbsp;</span></p>
+
+<h2 style='page-break-after:avoid'><b><span style='font-size:13.0pt;line-height:
+115%;font-family:"Cambria","serif";color:#4F81BD'>Check Preview Allocation</span></b></h2>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>TT27108 - BST for the Allocation Preview screen</p>
+
+<p class=MsoNormal>Execute this procedure before <a href="#_STEP_1">Step 1</a></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>1.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Launch <b>Projects Explorer</b> using main menu</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>2.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Wait For <b>Project Explorer</b> to appear</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>3.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Select Tree Item “<b>/Production Monitoring Project</b>”</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>4.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Select List Item “<b>Wintershall Libya</b>”</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>5.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Press Button &quot;<b>Edit Project</b>&quot;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>6.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Wait For <b>Production Monitoring Project</b> to appear</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>7.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Maximize <b>Production Monitoring Project</b></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>8.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Select Tree Item &quot;<b>/Wintershall Libya/Project
+Allocation/Allocation Profile Configuration/</b><i>WILI Oil Allocation C96 2004</i>&quot;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>9.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Select List Item “<i>WILI Oil Allocation C96 2004</i>”</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>10.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;
+</span>Press Button &quot;<b>Preview Allocation Values</b>&quot;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>11.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;
+</span>Wait For <b>Preview Allocation Data Screen</b> to appear</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>12.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;
+</span>Set Date “<b>23.10.2008</b>”</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>13.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;
+</span>Press <b>Jump To Date</b></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>14.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;
+</span>List Verify Data with “<b>S:\OUTPUTS\FIP_WILI_TIP\REPORTS\ETALON\AllocationPreview\</b><i>WILI
+Oil Allocation C96 2004</i>”</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>15.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;
+</span>Close <b>Preview Allocation Data Screen</b></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>16.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;
+</span>Repeat Steps 8- 15 for:</p>
+
+<p class=MsoListParagraph style='margin-left:108.0pt;text-indent:-108.0pt'><i><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>i.</i><i><span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>WILI Oil Allocation Nakhla+N+P+T+Hamid+O+Q+Tuama</i></p>
+
+<p class=MsoListParagraph style='margin-left:108.0pt;text-indent:-108.0pt'><i><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>ii.</i><i><span style='font-size:7.0pt;line-height:115%;font-family:
+"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>WILI Gas Allocation
+C96 2004</i></p>
+
+<p class=MsoListParagraph style='margin-left:108.0pt;text-indent:-108.0pt'><i><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>iii.</i><i><span style='font-size:7.0pt;line-height:115%;font-family:
+"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>WILI Gas
+Allocation Nakhla+Tuama+N+P+T+Hamid+O+Q</i></p>
+
+<p class=MsoListParagraph style='margin-left:108.0pt;text-indent:-108.0pt'><i><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>iv.</i><i><span style='font-size:7.0pt;line-height:115%;font-family:
+"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>WILI Water
+Allocation C96 2004</i></p>
+
+<p class=MsoListParagraph style='margin-left:108.0pt;text-indent:-108.0pt'><i><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>v.</i><i><span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>WILI Water Allocation Nakhla+Tuama+N+P+T+Hamid+O+Q</i></p>
+
+<p class=MsoListParagraph style='margin-left:108.0pt;text-indent:-108.0pt'><i><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>vi.</i><i><span style='font-size:7.0pt;line-height:115%;font-family:
+"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>WILI Oil MASS
+Allocation C96</i></p>
+
+<p class=MsoListParagraph style='margin-left:108.0pt;text-indent:-108.0pt'><i><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>vii.</i><i><span style='font-size:7.0pt;line-height:115%;font-family:
+"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>WILI Oil MASS
+Allocation Nakhla+N+P+T+Tuama+Hamid+O</i></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h1><a name="_STEP_1"></a><b><span style='font-size:13.0pt;line-height:115%;
+font-family:"Cambria","serif";color:#4F81BD'>STEP 1&nbsp;</span></b></h1>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>2.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Import file (<b>S:\FIP_WILL_TIP\DATA\Wintershall Libya October 23,
+2008.xxp</b>) with “<b>Merge</b>” &quot;<b>Wintershall Libya</b>&quot;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>3.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Import file (<b>S:\FIP_WILL_TIP\DATA\Wintershall Libya Test data October
+2008.xxp</b>) with “<b>Merge</b>” &quot;<b>Wintershall Libya</b>&quot;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>4.&nbsp; &nbsp; Setting
+up current date “07.04.2008&quot;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>5.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Launch <b>Project Explorer </b>using main menu</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>6.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Select Tree Item &quot;<b>/Production Monitoring Project</b>&quot;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>7.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Select List Item “<b>Wintershall Libya</b>”</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>8.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Press button &quot;<b>Edit Project</b>&quot;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>9.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Wait for <b>ProductionMonitoringProject</b> to appear</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>10.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;
+</span>Press button “<b>Perform Allocation</b>” from toolbar</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>11.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;
+</span>Wait for <b>Perform Allocation Wizard</b> to appear</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>12.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;
+</span>Perform Allocation</p>
+
+<p class=MsoListParagraph style='margin-left:72.0pt;text-indent:-18.0pt'>a.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Press button <b>Next </b></p>
+
+<p class=MsoListParagraph style='margin-left:72.0pt;text-indent:-18.0pt'>b.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Press button <b>Next</b> </p>
+
+<p class=MsoListParagraph style='margin-left:72.0pt;text-indent:-18.0pt'>c.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Set Start Date “<b>23.10.2008</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:72.0pt;text-indent:-18.0pt'>d.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Set End Date “<b>23.10.2008</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:72.0pt;text-indent:-18.0pt'>e.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Set check Allocation Fluids </p>
+
+<p class=MsoListParagraph style='margin-left:108.0pt'><b>Oil&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</b></p>
+
+<p class=MsoListParagraph style='margin-left:108.0pt'><b>Gas</b></p>
+
+<p class=MsoListParagraph style='margin-left:108.0pt'><b>Water</b></p>
+
+<p class=MsoListParagraph style='margin-left:108.0pt'><b>Oil Mass</b></p>
+
+<p class=MsoListParagraph style='margin-left:72.0pt;text-indent:-18.0pt'>f.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Configure Fluid</p>
+
+<p class=MsoListParagraph style='margin-left:108.0pt'>For Oil select “<b>WILI
+Oil Allocation C96 2004</b>”, “<b>WILI Oil Allocation Nakhla+N+P+T+Hamid+O+Q+Tuama</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:108.0pt'>For Gas select “<b>WILI
+Gas Allocation C96 2004</b>”, “<b>WILI Gas Allocation
+Nakhla+Tuama+N+P+T+Hamid+O+Q</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:108.0pt'>For Water select “<b>WILI
+Water Allocation C96 2004</b>”, “<b>WILI Water Allocation
+Nakhla+Tuama+N+P+T+Hamid+O+Q</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:108.0pt'>For Oil Mass select “<b><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>WILI
+Oil MASS Allocation C96</span></b>”, “<b><span style='font-size:10.0pt;
+line-height:115%;font-family:"Arial","sans-serif"'>WILI Oil MASS Allocation
+Nakhla+N+P+T+Tuama+Hamid+O</span></b>”</p>
+
+<p class=MsoListParagraph style='margin-left:72.0pt;text-indent:-18.0pt'>g.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Press button <b>Next</b></p>
+
+<p class=MsoListParagraph style='margin-left:72.0pt;text-indent:-18.0pt'>h.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Press button <b>Next</b></p>
+
+<p class=MsoListParagraph style='margin-left:72.0pt;text-indent:-18.0pt'>i.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Press button <b>Perform Allocation And Finish</b></p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j</span>.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>If “<b>Confirm Yes No” </b>dialog Exist then Press button “<b>YES” </b>on
+dialog</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>13.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;
+</span>Close <b>Production Monitoring Project</b></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>14.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;
+</span>Close <b>Project Explorer</b></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>15.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Verify and&nbsp;save Reports in &quot;<b>HTML Format&nbsp; (*.html) </b>&quot;
+and “<b>ASCII Format&nbsp; (*.txt)</b>” format.</p>
+
+<p class=MsoListParagraph style='text-indent:-.6pt'>&nbsp;Folder for outputs <b>S:\OUTPUTS\FIP_WILI_TIP\REPORTS\First</b></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+15.1&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; Report full path<b>: &quot;/All
+Reports/Administrator (*)/C96 &amp; C97 WellTest Recap/C96 (Recap) - Monthly
+(main)&quot;</b></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables: &quot;Report Date&quot;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables values: “23.10.2008”</p>
+
+<p class=MsoListParagraph style='margin-left:0mm;text-indent:35.4pt'>15.2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Report full path: <b>&quot;/All
+Reports/Administrator (*)/C96 &amp; C97 WellTest Recap/C97 (Recap) - Monthly
+(main)&quot;</b></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables: &quot;Report Date&quot;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables values: “23.10.2008”</p>
+
+<p class=MsoListParagraph style='text-indent:-.6pt'>15.3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Report full path: <b>&quot;/All
+Reports/Administrator (*)/C96 &amp; C97 Welltest Recap/C96 (GOR_OilRate_WC) -
+Monthly (main)&quot;</b></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables: &quot;Report Date&quot;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables values: “23.10.2008”</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+15.4 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Report full path:&nbsp; <b>&quot;/All
+Reports/Administrator (*)/C96 &amp; C97 Welltest Recap/C97(GOR_OilRate_WC)-
+Monthly (main)&quot;</b></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables: &quot;Report Month&quot;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables values: “23.10.2008”</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+15.5 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Report full path:&nbsp; <b>&quot;/All
+Reports/Administrator (*)/C96 &amp; C97 GOSP Main Daily Reports/04a - Reduced
+Daily Production Summary&quot;</b></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables: &quot;Current Date&quot;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables values: “23.10.2008”</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+15.6 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Report full path:&nbsp; <b>&quot;/All
+Reports/Administrator (*)/C96 &amp; C97 GOSP Main Daily Reports/11 - Daily Well
+Record C96- C97 (Full)&quot;</b></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables: &quot;Current Date&quot;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables values: “23.10.2008”</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+15.7 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Report full path:&nbsp; <b>&quot;/All
+Reports/Administrator (*)/C96 &amp; C97 GOSP Main Daily Reports/12 - Daily
+Plant Report C96 (Full)&quot;</b></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables: &quot;Current Date&quot;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables values: “23.10.2008”</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+15.8 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Report full path:&nbsp; <b>&quot;/All
+Reports/Administrator (*)/C96 &amp; C97 GOSP Main Daily Reports/15 - Daily
+Plant Report C 97&quot;</b></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables: &quot;Current Date&quot;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables values: “23.10.2008”</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+15.9 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Report full path: <b>&nbsp;&quot;/All
+Reports/Administrator (*)/Tripoli Daily Production Reports/NOC Daily Report
+(Oil)&quot;</b></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables: {&quot;Report
+Date&quot;,&quot;From&quot;,&quot;Signature&quot;,&quot;Title&quot;}</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables values: {“23.10.2008”,&quot;Nahed Elgarwi&quot;,&quot;Nahed
+Elgarwi&quot;,&quot;Production Engineer&quot;}</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+15.10 &nbsp;&nbsp;&nbsp; Report full path: <b>&nbsp;&quot;/All
+Reports/Administrator (*)/Tripoli Daily Production Reports/NOC Daily Report
+(Gas)&quot;</b></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables: {&quot;Report
+Date&quot;,&quot;From&quot;,&quot;Signature&quot;,&quot;Title&quot;}</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables values: {“23.10.2008”, &quot;Abduladim
+Nashnush&quot;,&quot;Andreas Scheck&quot;,&quot;Production Operations
+Manager&quot;}</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+15.11&nbsp;&nbsp;&nbsp;&nbsp; Report full path:&nbsp; <b>&quot;/All
+Reports/Administrator (*)/Allocation Report&quot;</b></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables: &quot;Report Date&quot;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Report variables values: “23.10.2008”</p>
+
+<h1><a name="_STEP_2_repeat"></a><b><span style='font-size:13.0pt;line-height:
+115%;font-family:"Cambria","serif";color:#4F81BD'>STEP 2 repeat STEP 1</span></b></h1>
+
+<p class=MsoListParagraph style='text-indent:-.6pt'>With one change for point
+15. &nbsp;Folder for outputs <b>S:\OUTPUTS\FIP_WILI_TIP\REPORTS\Second</b></p>
+
+<div style='border:none;border-bottom:solid windowtext 1.0pt;padding:0mm 0mm 1.0pt 0mm'>
+
+<p class=MsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+
+<p class=MsoNormal><a name="_Check_Preview_Allocation"></a>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+</div>
+
+<h2 style='page-break-after:avoid'><a name="_WILI_HYP"></a><a
+name="_FINAL_COMPOSITE_LOG"></a>&nbsp;</h2>
+
+<h2 style='page-break-after:avoid'><b><span style='font-size:13.0pt;line-height:
+115%;font-family:"Cambria","serif";color:#4F81BD'>FINAL COMPOSITE LOG</span></b></h2>
+
+<h2 style='page-break-after:avoid'><b><span style='font-size:13.0pt;line-height:
+115%;font-family:"Cambria","serif";color:#4F81BD'>&nbsp;</span></b></h2>
+
+<p class=MsoNormal>TT26680 - EVIN B&amp;R BST for WILI TIP launching of the
+final composite log mpls</p>
+
+<p class=MsoListParagraph style='margin-left:0mm'><b><i>HARCH</i></b> –
+Hyperlink Archive {&quot;<span style='color:red'>Concession 97 Las Archive</span>&quot;}</p>
+
+<p class=MsoListParagraph style='margin-left:0mm'><b><i>HPATH </i></b>–
+Hyperlinks Location Path {&quot;<span style='color:red'>S:\FIP_WILI_TIP\DATA\Concession
+97\</span>&quot;}</p>
+
+<p class=MsoListParagraph style='margin-left:0mm'><b><i>NMULTIPANEL</i></b> –
+Multipanel name {&quot;<span style='color:red'>Final Log 97-T 001</span>&quot;}</p>
+
+<p class=MsoListParagraph style='margin-left:0mm'>&nbsp;</p>
+
+<p class=MsoListParagraph style='margin-left:0mm'>&nbsp;</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>1.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Set Location For Archive</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>a.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Launch “<b>Hyperlinks Explorer</b>” using main menu</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>b.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Wait For “<b>Hyperlinks Explorer</b>” to appear</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>c.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Select Tree Item &quot;<b>/Hyperlinks By Archive</b>&quot;</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>d.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Select List Item <b><i>HARCH</i></b></p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>e.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Press Button &quot;<b>Edit Archive Properties</b>&quot;</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>f.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Wait for “<b>Edit Archive Properties</b>” dialog to appear</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>g.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Set Active “<b>Edit Archive Properties</b>” dialog</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>h.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Set Location <b><i>HPATH</i></b></p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>i.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Press button <b>“OK”</b></p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>j.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Set Active “<b>Hyperlinks Explorer</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>k.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Close “<b>Hyperlinks Explorer</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>2.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Verify Multipanel</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>a.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Run Output “<b>From Explorer”</b></p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>i.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Set Active<b> Fieldpro</b></p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>ii.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Launch “<b>Output Explorer” </b>using main menu</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>iii.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Wait for “<b>Output Explorer”</b> to appear</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>iv.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Maximize “<b>Output Explorer”</b></p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>v.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Select Tree Item “<b>/Global Multipanels/C97-T/</b><i>NMULTIPANEL</i>”</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>vi.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Press button “<b>View</b>” using toolbar</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>b.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Wait For <b>FieldproMplViewer</b> to appear</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>c.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Set Active <b>FieldproMplViewer</b></p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>d.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Press button “<b>Display Body</b>” using toolbar</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>e.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Press button “<b>Page Setup</b>” using toolbar</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>f.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Wait For <b>PageOutputSetup </b>dialog to appear</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>g.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Set Page Setup</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>i.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><b>PageOutputSetup </b>&nbsp;Set Active</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>ii.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Check “<b>Fit To Page</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>iii.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Select Range Source &quot;<b>Set equal to current zoom interval</b>&quot;</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>iv.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Check “<b>Print Header</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>v.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Check “<b>Print Footer</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>vi.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Press button “<b>OK”</b></p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>h.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><a href="COMMON%20Procedures.htm#_PrintToPDFAndPng">PrintToPDFAndPng</a>
+with <b>PATH</b> = &quot;<b>S:\OUTPUTS\FIP_WILI_TIP\REPORTS\</b>&quot;, <b>FILE</b>
+= “Final Log 97-T 001”,</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt'>&nbsp;<b>ETALON</b> = “<b>S:\OUTPUTS\FIP_WILI_TIP\REPORTS\ETALON\Multipanel\Final
+Log 97-T 001</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>i.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Set Active <b>FieldproMplViewer</b></p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>j.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Zoom</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>i.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Press “<b>Properties</b>” using toolbar</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>ii.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Wait For “Multipanel Properties” dialog to appear</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>iii.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Check “<b>Use Extent</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>iv.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Check “<b>Zoom From</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>v.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Set Zoom “<b>7400</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>vi.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Check “<b>Zoom To</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>vii.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Set Zoom “<b>7875</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>k.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Press button “<b>Page Setup</b>” using toolbar</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>l.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Wait For <b>PageOutputSetup </b>dialog to appear</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>m.<span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;
+</span>Set Page Setup</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>i.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><b>PageOutputSetup </b>&nbsp;Set Active</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>ii.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Check “<b>Fit To Page</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>iii.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Select Range Source &quot;<b>Set equal to current zoom interval</b>&quot;</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>iv.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>UnCheck “<b>Print Header</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>v.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>UnCheck “<b>Print Footer</b>”</p>
+
+<p class=MsoListParagraph style='margin-left:126.0pt;text-indent:-126.0pt'><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>vi.<span style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Press button “<b>OK”</b></p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>n.&nbsp;
+&nbsp;<a href="COMMON%20Procedures.htm#_PrintToPDFAndPng">PrintToPDFAndPng</a>
+with <b>PATH</b> = &quot;<b>S:\OUTPUTS\FIP_WILI_TIP\REPORTS\</b>&quot;, <b>FILE</b>
+= “Final Log 97-T 001_from_7400_to_7875”,</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt'>&nbsp;<b>ETALON</b> = “<b>S:\OUTPUTS\FIP_WILI_TIP\REPORTS\ETALON\Multipanel\Final
+Log 97-T 001_from_7400_to_7875</b>”</p>
+
+<p class=MsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+o.&nbsp; &nbsp;Set Active <b>FieldproMplViewer</b></p>
+
+<p class=MsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+p.&nbsp;&nbsp; Set Zoom (repeat Item <b>“j” </b>with Zoom = { 11625 , 11725 })</p>
+
+<p class=MsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+q.&nbsp;&nbsp;&nbsp; Press button “<b>Page Setup</b>” using toolbar</p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:36.0pt'>r.&nbsp;&nbsp;&nbsp;
+Wait For <b>PageOutputSetup </b>dialog to appear</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>s.
+&nbsp;&nbsp;&nbsp;Set Page Setup (Repeat item “<b>m</b>”)</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>t.&nbsp;&nbsp;&nbsp;
+<a href="COMMON%20Procedures.htm#_PrintToPDFAndPng">PrintToPDFAndPng</a> with <b>PATH</b>
+= &quot;<b>S:\OUTPUTS\FIP_WILI_TIP\REPORTS\</b>&quot;, <b>FILE</b> = “Final Log
+97-T 001_from_11625_to_11725”,</p>
+
+<p class=MsoListParagraph style='margin-left:90.0pt;text-indent:-18.0pt'>&nbsp;<b>ETALON</b>
+= “<b>S:\OUTPUTS\FIP_WILI_TIP\REPORTS\ETALON\Multipanel\Final Log 97-T
+001_from_11625_to_11725</b>”</p>
+
+<div style='border:none;border-bottom:solid windowtext 1.0pt;padding:0mm 0mm 1.0pt 0mm'>
+
+<p class=MsoNormal>&nbsp;</p>
+
+</div>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h2 style='page-break-after:avoid'><a name="_WILI_TIP_MPLs"></a><b><span
+style='font-size:13.0pt;line-height:115%;font-family:"Cambria","serif";
+color:#4F81BD'>WILI TIP MPLs</span></b></h2>
+
+<h2 style='page-break-after:avoid'><b><span style='font-size:13.0pt;line-height:
+115%;font-family:"Cambria","serif";color:#4F81BD'>&nbsp;</span></b></h2>
+
+<p class=MsoListParagraph style='margin-left:0mm'>Test should be work after <a
+href="FIP%20WILI%20JAKHIRA%20procedure.htm#_WILI_MULTIPANEL">JAKHIRA_Export_Multipanel</a>
+tests. Because multipanel “<b>Final Log 97-N 008</b>” is exporting in this
+test.</p>
+
+<p class=MsoListParagraph style='margin-left:0mm'><b><i>NMULTIPANEL</i></b> –
+Multipanel name {&quot;<span style='color:red'>Final Log 97-N 008</span>&quot;}</p>
+
+<p class=MsoListParagraph style='margin-left:0mm'>&nbsp;</p>
+
+<p class=MsoListParagraph style='margin-left:0mm'>&nbsp;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>1.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><a href="COMMON%20Procedures.htm#_Quick_Import">Quick Import</a> (<b><i>FPATH</i>:
+”S:\OUTPUTS\FIP_WILI_JAKHIRA\REPORTS\Final Log 97-N 008.trf</b>”)</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>2.<span style='font-size:
+7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Verify Multipanel</p>
+
+<p class=MsoListParagraph>a.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Run Output
+“From Explorer”</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+i.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set Active <b>Fieldpro</b></p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Launch “<b>Output Explorer</b>” using main
+menu</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Wait for “<b>Output Explorer</b>” to appear</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+iv.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Maximize “<b>Output Explorer</b>”</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+v.&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;Select Tree Item “<b>/Global
+Multipanels/C97-N/NMULTIPANEL</b>”</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+vi.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Press button “<b>View</b>” using toolbar</p>
+
+<p class=MsoListParagraph>b.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Wait For <b>FieldproMplViewer</b>
+to appear</p>
+
+<p class=MsoListParagraph>c.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set Active <b>FieldproMplViewe</b></p>
+
+<p class=MsoListParagraph>d.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Press button “<b>Display
+Body</b>” using toolbar</p>
+
+<p class=MsoListParagraph>e.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Press button “<b>Page
+Setup</b>” using toolbar</p>
+
+<p class=MsoListParagraph>f.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Wait For
+<b>PageOutputSetup</b> dialog to appear</p>
+
+<p class=MsoListParagraph>g.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set Page Setup</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+i.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>PageOutputSetup</b>&nbsp; Set Active</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Check “<b>Fit To Page</b>”</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+iii. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select Range Source &quot;<b>Set equal to
+current zoom interval</b>&quot;</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+iv.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Check “<b>Print Header</b>”</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+v.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Check “<b>Print Footer</b>”</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vi.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Press button “<b>OK</b>”</p>
+
+<p class=MsoListParagraph>h.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><a
+href="COMMON%20Procedures.htm#_PrintToPDFAndPng">PrintToPDFAndPng</a></b> with
+PATH = &quot;<b>S:\OUTPUTS\FIP_WILI_JAKHIRA\REPORTS\</b>&quot;, FILE = “<b>Final
+Log 97-N 008</b>”,</p>
+
+<p class=MsoListParagraph>&nbsp;ETALON = “<b>S:\OUTPUTS\FIP_WILI_JAKHIRA\REPORTS\ETALON\Multipanel\Final
+Log 97-N 008</b>”</p>
+
+<p class=MsoListParagraph>i.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Set Active <b>FieldproMplViewer</b></p>
+
+<p class=MsoListParagraph>j.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Zoom</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+i.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Press “<b>Properties</b>” using toolbar</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Wait For “<b>Multipanel Properties</b>”
+dialog to appear</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+iii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Check “<b>Use Extent</b>”</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+iv.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Check “<b>Zoom From</b>”</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+v.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set Zoom “<b>2600</b>”</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+vi.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Check “<b>Zoom To</b>”</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+vii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set Zoom “<b>2900</b>”</p>
+
+<p class=MsoListParagraph>k.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Press button “<b>Page
+Setup</b>” using toolbar</p>
+
+<p class=MsoListParagraph>l.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Wait For <b>PageOutputSetup</b> dialog to appear</p>
+
+<p class=MsoListParagraph>m.&nbsp;&nbsp;&nbsp; Set Page Setup</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+i.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>PageOutputSetup</b>&nbsp; Set Active</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Check “<b>Fit To Page</b>”</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+iii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Select Range Source &quot;<b>Set equal to
+current zoom interval</b>&quot;</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+iv.&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;Uncheck “<b>Print Header</b>”</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+v.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Uncheck “<b>Print Footer</b>”</p>
+
+<p class=MsoListParagraph>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+vi.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Press button “<b>OK</b>”</p>
+
+<p class=MsoListParagraph>n.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a
+href="COMMON%20Procedures.htm#_PrintToPDFAndPng">PrintToPDFAndPng</a> with PATH
+= &quot;<b>S:\OUTPUTS\FIP_WILI_JAKHIRA\REPORTS\</b>&quot;, FILE = “<b>Final Log
+97-N 008_from_2600_to_2900</b>”,</p>
+
+<p class=MsoListParagraph>&nbsp;ETALON = “<b>S:\OUTPUTS\FIP_WILI_JAKHIRA\REPORTS\ETALON\Multipanel\Final
+Log 97-N 008_from_2600_to_2900</b>”</p>
+
+<p class=MsoListParagraph>o.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set Active <b>FieldproMplViewer</b></p>
+
+<p class=MsoListParagraph>p.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set Zoom (repeat
+Item “j” with Zoom = { 13200 , 13500 })</p>
+
+<p class=MsoListParagraph>q.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Press button “<b>Page
+Setup</b>” using toolbar</p>
+
+<p class=MsoListParagraph>r.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Wait For
+<b>PageOutputSetup</b> dialog to appear</p>
+
+<p class=MsoListParagraph>s.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set Page Setup
+(Repeat item “m”)</p>
+
+<p class=MsoListParagraph>t.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a
+href="COMMON%20Procedures.htm#_PrintToPDFAndPng">PrintToPDFAndPng</a> with PATH
+= &quot;<b> S:\OUTPUTS\FIP_WILI_JAKHIRA\REPORTS\</b>&quot;, FILE = “<b>Final
+Log 97-N 008_from_13200_to_13500</b>”,</p>
+
+<p class=MsoListParagraph>&nbsp;ETALON = “<b>S:\OUTPUTS\FIP_WILI_JAKHIRA\REPORTS\ETALON\Multipanel\Final
+Log 97-N 008_from_13200_to_13500</b>”</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h1><a name="_Events_Import_Test"></a>&nbsp;<b><span style='font-size:13.0pt;
+line-height:115%;font-family:"Cambria","serif";color:#4F81BD'>Events Import
+Test</span></b></h1>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoListParagraph style='margin-left:35.45pt;text-indent:-18.0pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>1.</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Run
+following SQL script before launch FIELDPRO: “<span style='color:red'>delete
+from DESIGN_INSTANCES where SC_MODULE_TYPE=213 and Inst_Name='B33-96 BST Test
+Well Service Events'</span>”. This script is used to delete existing events
+component.</span></p>
+
+<p class=MsoListParagraph style='margin-left:35.45pt;text-indent:-18.0pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>2.</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Log
+in as Administrator.</span></p>
+
+<p class=MsoListParagraph style='margin-left:35.45pt;text-indent:-18.0pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>3.</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Import
+events component. The result of the import should be new events component “<b>B33-96
+BST Test Well Service Events</b>”:</span></p>
+
+<p class=MsoListParagraph style='margin-left:53.45pt;text-indent:-18.0pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>a)</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Launch
+MIGPRO F2 screen</span></p>
+
+<p class=MsoListParagraph style='margin-left:53.45pt;text-indent:-18.0pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>b)</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>On
+toolbar click “<b>Import from Excel</b>”</span></p>
+
+<p class=MsoListParagraph style='margin-left:53.45pt;text-indent:-18.0pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>c)</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Press
+“Next” button 2 times</span></p>
+
+<p class=MsoListParagraph style='margin-left:53.45pt;text-indent:-18.0pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>d)</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>For
+“<b>PCF File Name</b>” group box enter: &quot;<b>S:\FIP_WILI_TIP\DATA\WILI Well
+Services.mig</b>&quot;</span></p>
+
+<p class=MsoListParagraph style='margin-left:53.45pt;text-indent:-18.0pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>e)</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>For
+“<b>Select a specific discreet file as the data source</b>” group box enter:
+&quot;<b>S:\FIP_WILI_TIP\DATA\B 33-96, Job report BST test.xls</b>&quot;</span></p>
+
+<p class=MsoListParagraph style='margin-left:53.45pt;text-indent:-18.0pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>f)</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Press
+“Next” button.</span></p>
+
+<p class=MsoListParagraph style='margin-left:53.45pt;text-indent:-18.0pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>g)</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>On
+list control set check in “Use” column for “Events” row.</span></p>
+
+<p class=MsoListParagraph style='margin-left:53.45pt;text-indent:-18.0pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>h)</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Press
+“Next” button 2 times and then “Finish”.</span></p>
+
+<p class=MsoListParagraph style='margin-left:53.45pt;text-indent:-18.0pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>i)</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Wait
+for progress bar to disappear.</span></p>
+
+<p class=MsoListParagraph style='margin-left:35.45pt;text-indent:-18.0pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>4.&nbsp;&nbsp;
+Open output explorer.</span></p>
+
+<p class=MsoListParagraph style='margin-left:35.45pt;text-indent:-18.0pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>5.</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Delete
+report (if exist) “<b>/All Reports/Administrator (*)/Well Services Reports/Well
+Services Operations Report BST Test</b>”</span></p>
+
+<p class=MsoListParagraph style='margin-left:35.45pt;text-indent:-18.0pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>6.</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'><a
+href="COMMON%20Procedures.htm#_Quick_Import">Quick Import</a> (<b><i>FPATH</i></b>:
+&quot;<b>S:\FIP_WILI_TIP\DATA\Well Services Operations Report BST Test.trf</b>&quot;)</span></p>
+
+<p class=MsoListParagraph style='margin-left:35.45pt;text-indent:-18.0pt'><span
+style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>7.</span><span
+style='font-size:7.0pt;line-height:115%;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Output
+and verify report “<b>/All Reports/Administrator (*)/Well Services Reports/Well
+Services Operations Report BST Test</b>”<br>
+Etalon path: &quot;<b>S:\OUTPUTS\FIP_WILI_TIP\Reports\ETALON\Well Services
+Operations Report BST Test.txt</b>&quot;. Etalon is the same fot Oracle and
+MSSQL.</span></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+﻿.graph .labels.x-labels {
+	text-anchor: middle;
+}
+
+.graph .labels.y-labels {
+	text-anchor: end;
+}
+
+.graph {
+	height: 200%;
+	width: 100%;
+}
+
+.graph .grid {
+	stroke: #ccc;
+	stroke-dasharray: 0;
+	stroke-width: 1;
+}
+
+.labels {
+	font-size: 13px;
+}
+
+.label-title {
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 12px;
+	fill: black;
+}
+
+.data {
+	fill: gray;
+	stroke-width: 1;
+	cursor: pointer;
+}
+
+.data-point:hover {
+	fill: black;
+}
+
+.data-ex {
+	fill: red;
+}
+
+.data-db {
+	fill: firebrick;
+}
+
+.data-ou {
+	fill: coral;
+}
+
+.data-er {
+	fill: deeppink;
+}

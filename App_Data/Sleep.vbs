@@ -1,0 +1,1 @@
+wscript.sleep(Wscript.Arguments(0))

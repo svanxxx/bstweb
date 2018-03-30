@@ -1,0 +1,18 @@
+﻿#base {
+position:absolute;
+overflow: auto;
+left:11px;
+top:10px;
+width:80%;
+height:158px;
+z-index:1;
+background-color: #F8F8F8;
+border-style:groove;
+margin-top:100px;
+margin-left:100px;
+visibility:hidden;
+font-family: Geneva; font-size: 11pt;
+}
+#base tr:hover { background: #E8E8E8; }
+#base table { border: none;}
+#base TD{font-family: Geneva; font-size: 11pt;}

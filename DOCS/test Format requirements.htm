@@ -1,0 +1,568 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1251">
+<meta name=Generator content="Microsoft Word 12 (filtered)">
+<title>BST Usage Description</title>
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Cambria;
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Arial","sans-serif";}
+h1
+	{mso-style-link:"Heading 1 Char";
+	margin-top:24.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	font-family:"Cambria","serif";
+	color:#365F91;}
+h2
+	{mso-style-link:"Heading 2 Char";
+	margin-top:10.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	page-break-after:avoid;
+	font-size:13.0pt;
+	font-family:"Cambria","serif";
+	color:#4F81BD;}
+h3
+	{mso-style-link:"Heading 3 Char";
+	margin-top:10.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	page-break-after:avoid;
+	font-size:10.0pt;
+	font-family:"Cambria","serif";
+	color:#4F81BD;}
+p.MsoTitle, li.MsoTitle, div.MsoTitle
+	{mso-style-link:"Title Char";
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:15.0pt;
+	margin-left:0cm;
+	font-size:26.0pt;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Arial","sans-serif";}
+span.Heading1Char
+	{mso-style-name:"Heading 1 Char";
+	mso-style-link:"Heading 1";
+	font-family:"Cambria","serif";
+	color:#365F91;
+	font-weight:bold;}
+span.Heading2Char
+	{mso-style-name:"Heading 2 Char";
+	mso-style-link:"Heading 2";
+	font-family:"Cambria","serif";
+	color:#4F81BD;
+	font-weight:bold;}
+span.Heading3Char
+	{mso-style-name:"Heading 3 Char";
+	mso-style-link:"Heading 3";
+	font-family:"Cambria","serif";
+	color:#4F81BD;
+	font-weight:bold;}
+span.TitleChar
+	{mso-style-name:"Title Char";
+	mso-style-link:Title;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+p.msotitlecxspfirst, li.msotitlecxspfirst, div.msotitlecxspfirst
+	{mso-style-name:msotitlecxspfirst;
+	mso-style-link:"Title Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:26.0pt;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+p.msotitlecxspmiddle, li.msotitlecxspmiddle, div.msotitlecxspmiddle
+	{mso-style-name:msotitlecxspmiddle;
+	mso-style-link:"Title Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:26.0pt;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+p.msotitlecxsplast, li.msotitlecxsplast, div.msotitlecxsplast
+	{mso-style-name:msotitlecxsplast;
+	mso-style-link:"Title Char";
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:15.0pt;
+	margin-left:0cm;
+	font-size:26.0pt;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+p.msolistparagraphcxspfirst, li.msolistparagraphcxspfirst, div.msolistparagraphcxspfirst
+	{mso-style-name:msolistparagraphcxspfirst;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Arial","sans-serif";}
+p.msolistparagraphcxspmiddle, li.msolistparagraphcxspmiddle, div.msolistparagraphcxspmiddle
+	{mso-style-name:msolistparagraphcxspmiddle;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Arial","sans-serif";}
+p.msolistparagraphcxsplast, li.msolistparagraphcxsplast, div.msolistparagraphcxsplast
+	{mso-style-name:msolistparagraphcxsplast;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Arial","sans-serif";}
+p.msochpdefault, li.msochpdefault, div.msochpdefault
+	{mso-style-name:msochpdefault;
+	margin-right:0cm;
+	margin-left:0cm;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+.MsoChpDefault
+	{font-size:10.0pt;}
+@page Section1
+	{size:612.0pt 792.0pt;
+	margin:2.0cm 42.5pt 2.0cm 3.0cm;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple>
+
+<div class=Section1>
+
+<div style='border:none;border-bottom:solid windowtext 1.0pt;padding:0cm 0cm 1.0pt 0cm'>
+
+<p class=MsoTitle align=center style='text-align:center'>BST Usage Description</p>
+
+</div>
+
+<h2 align=center style='text-align:center'>DOC ID:
+{5085350E-5739-4bd4-BB56-869615379B37}</h2>
+
+<h2 align=center style='text-align:center'>&nbsp;</h2>
+
+<p class=MsoNormal>Table of contents</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><a href="#_PC_Requirements_1">PC Requirements</a></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><a href="#_Test_format_requirements_1">Test format requirements</a></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><a href="#_Command_line_mode_1">Command line mode</a></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>4.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><a href="#_General_Requirements">General Requirements</a></p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>5.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><a href="#_Installations_and_local">Installations and local versions</a></p>
+
+<div style='border:none;border-bottom:solid windowtext 1.0pt;padding:0cm 0cm 1.0pt 0cm'>
+
+<h1 style='margin-top:0cm'>&nbsp;</h1>
+
+</div>
+
+<h1 style='margin-top:0cm'><a name="_Test_Format_requirements"></a><a
+name="_PC_Requirements"></a>&nbsp;</h1>
+
+<h1 style='margin-top:0cm'><a name="_PC_Requirements_1"></a>PC Requirements</h1>
+
+<p class=MsoListParagraph style='margin-left:54.0pt'>&nbsp;</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>1.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;
+&nbsp;</span>Outlook express should be the default emailing program</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>2.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;
+&nbsp;</span>PC Date format should be: <b>dd.mm.yyyy</b></p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>3.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;
+&nbsp;</span>PC Time format should be: <b>HH:mm:ss</b></p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>4.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;
+&nbsp;</span>PC decimal separator should be “<b>.</b>” (dot (t o c h k a)!)</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>5.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;
+&nbsp;</span>PC format and standards / location should be <b>English (United
+Kingdom)</b></p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>6.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;
+&nbsp;</span>Root of all BST code can be located everywhere (and folder, any
+drive)</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>7.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;
+&nbsp;</span>BST is working on S drive only</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>8.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;
+&nbsp;</span>In order to have all drives required for correct working of BST
+you have to run <b>SUBS_THIS_SILK.BAT</b> located in BST root</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>9.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;
+&nbsp;</span>SilkTest should have Options / General / Save Outline set as
+“Collapse All”</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>10. <span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;</span>BST
+code is located on VSS : <b>$/_Misc/Testing</b></p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>11. <span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;</span>You
+should have FIELDPRO client installed.</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>12.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp; </span>Install
+<a href="file:///R:\Work\Visual%20Source%20Safe%202005\setup.exe">R:\Work\Visual
+Source Safe 2005\setup.exe</a></p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>14.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp; </span>If
+you are using movie recording during test cases you have to install <a
+href="file:///\\192.168.0.1\Installs\For%20Video\camstudio\CamStudio20.exe">camstudio</a></p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>15.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp; </span>For
+some tests you should install <a
+href="file:///R:\Acrobat\Adobe%20Acrobat%208%20Professionnal%20Full\AcroPro80_efg.exe">Adobe
+Acrobat 8 Professionnal Full</a> (w<a
+href="file:///R:\Acrobat\Adobe%20Acrobat%208%20Professionnal%20Full\keygen.exe">kgn</a>)</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>16.&nbsp;
+For some tests you should install <a
+href="file:///R:\Archivating\WinRar\wrar371.exe">WinRar</a> (see <a
+href="file:///R:\Archivating\WinRar\Crack_3_71\rarreg.key">key</a>)</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>&nbsp;&nbsp;
+</p>
+
+<div style='border:none;border-bottom:solid windowtext 1.0pt;padding:0cm 0cm 1.0pt 0cm'>
+
+<p class=MsoNormal>&nbsp;</p>
+
+</div>
+
+<h1 style='margin-top:0cm'>&nbsp;</h1>
+
+<h1 style='margin-top:0cm'><a name="_Test_format_requirements_1"></a>Test
+format requirements</h1>
+
+<p class=MsoListParagraph>&nbsp;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>1.<span style='font-size:
+7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp; </span>Each
+test should formed as separate .t file and separate folder on s:\ drive</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>2.<span style='font-size:
+7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp; </span>Each
+test should be derived from CDBTest* and should have next methods overwritten:</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>A.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;
+</span>virtual string GetTestName()</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>B.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;
+</span>virtual void DoTestCase()</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>C.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;
+</span>virtual string GetTestGUID() (after this method is implemented –
+corresponding guid with name should be inserted into the statistics database)</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>D.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;
+</span>virtual string GetTestCaseName()</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>E.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;
+</span>virtual string GetTestCaseOutFldr()</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>F.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;
+</span>virtual string GetDSNName()</p>
+
+<p class=MsoListParagraph style='margin-left:54.0pt;text-indent:-18.0pt'>G.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;
+</span>virtual string GetFiPUserName()</p>
+
+<div style='border:none;border-bottom:solid windowtext 1.0pt;padding:0cm 0cm 1.0pt 0cm'>
+
+<p class=MsoNormal>&nbsp;</p>
+
+</div>
+
+<h1 style='margin-top:0cm'>&nbsp;</h1>
+
+<h1 style='margin-top:0cm'><a name="_Command_line_mode"></a><a
+name="_Command_line_mode_1"></a>Command line mode</h1>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>Example of running test from command line:</p>
+
+<p class=MsoNormal><b>&quot;C:\Program Files\Segue\SilkTest\partner.exe&quot;
+-q -r S:\FIP_WILI_JAKIRA\FIP_WILI_JAKIRA.t &quot;noinstall&quot;</b></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>Command line switches for tests:</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'><b><span
+style='font-family:"Cambria","serif";color:#4F81BD'>1.</span></b><b><span
+style='font-size:7.0pt;font-family:"Times New Roman","serif";color:#4F81BD'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></b><span class=Heading3Char>&quot;noinstall&quot;</span> – indicates
+that no FIELDPRO installation script will be launched</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'><b><span
+style='font-family:"Cambria","serif";color:#4F81BD'>2.</span></b><b><span
+style='font-size:7.0pt;font-family:"Times New Roman","serif";color:#4F81BD'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></b><span class=Heading3Char>“</span><a href="mailto:fieldpro@resnet.com"><span
+class=Heading3Char><span style='text-decoration:none'>fieldpro@resnet.com</span></span></a><span
+class=Heading3Char>” </span>–<b> </b>any argument passed with “@” symbol is
+treated as email to which final report should be sent</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'><b><span
+style='font-family:"Cambria","serif";color:#4F81BD'>3.</span></b><b><span
+style='font-size:7.0pt;font-family:"Times New Roman","serif";color:#4F81BD'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></b><span class=Heading3Char>“nodbrestore”</span> – indicates that no
+FIELDPRO database will be restored</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'><span class=Heading3Char>4.</span><span
+class=Heading3Char><span style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>“dbtaccess”</span> – indicates that test will be performed on MS Access
+database type</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'><span class=Heading3Char>5.</span><span
+class=Heading3Char><span style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>“dbtoracle”</span> – indicates that test will be performed on Oracle
+database type</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'><span class=Heading3Char>6.</span><span
+class=Heading3Char><span style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>“dbtsql”</span> – indicates that test will be performed on MS SQL Server
+database type</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'><b><span
+style='font-family:"Cambria","serif";color:#4F81BD'>7.</span></b><b><span
+style='font-size:7.0pt;font-family:"Times New Roman","serif";color:#4F81BD'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></b><span class=Heading3Char>“version#x”</span> – indicates which
+version will be used for testing. Example “version#e”</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'><span class=Heading3Char>8.</span><span
+class=Heading3Char><span style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&nbsp;“debug”</span> – indicates the test is under debug (no emails will
+be sent to <a href="mailto:fieldpro@resnet.com">fieldpro@resnet.com</a> and
+output logs will be placed to W:\DEBUG\OUTPUTS\ instead of W:\OUTPUTS\)</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'><span class=Heading3Char>9</span>.&nbsp;&nbsp;&nbsp;&nbsp;
+<span class=Heading3Char>&quot;recordmovie&quot; </span>– indicates that during
+Testcase a movie will be recorded (.avi file with the same name as test log
+will be placed along with the log file)&nbsp;</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'><span class=Heading3Char>10</span>.&nbsp;&nbsp;
+<span class=Heading3Char>“netsend:”</span> – indicates that after test is
+finished it will send net send message. This parameter format: “<b>netsend:svan
+test is finished</b>”. Here svan is the host name; all the other characters
+after space are the message itself.</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'><span class=Heading3Char>11</span>.
+<span class=Heading3Char>“dbtype:”</span> – indicated which db type should be
+used for test. Available values: “<b>msaccess</b>”, “<b>mssql</b>”, “<b>oracle</b>”.
+It is used only in tests supporting this option.</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'><span class=Heading3Char>12</span>.
+<span class=Heading3Char>“step:”</span> – indicated which step should be used
+for test. It is supported by some scripts that consist of several stages.
+Available values: “<b>1</b>”…. &nbsp;Example: “step:3” – means only step 3 will
+be performed.</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'><span class=Heading3Char>12</span>.
+<span class=Heading3Char>“startstep:”</span> – indicated which step the test
+should be started from. It is supported by some scripts that consist of several
+stages. Available values: “<b>1</b>”…. &nbsp;Example: “startstep:3” – means the
+test will start from step 3 and continue to the number steps.</p>
+
+<div style='border:none;border-bottom:solid windowtext 1.0pt;padding:0cm 0cm 1.0pt 0cm'>
+
+<p class=MsoNormal>&nbsp; </p>
+
+</div>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h1 style='margin-top:0cm'><a name="_General_Requirements"></a>General
+Requirements</h1>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoListParagraph style='margin-left:40.5pt;text-indent:-18.0pt'>1.<span
+style='font-size:7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span>When you are awaiting for some screen to appear after specific action –
+use <b>WaitForWindow</b> function located in s:\cmnutils\cmnutils.inc. Example:
+</p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:22.5pt;border-collapse:collapse'>
+ <tr style='height:21.1pt'>
+  <td width=413 valign=top style='width:309.65pt;border:solid black 1.0pt;
+  background:#D9D9D9;padding:0cm 5.4pt 0cm 5.4pt;height:21.1pt'>
+  <p class=MsoListParagraph>MainScreen.File.Pick()</p>
+  <p class=MsoListParagraph>WaiForWindow(OpenDialog, 3)</p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>1.<span style='font-size:
+7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp; </span>Usually
+you should have the latest Fieldpro version installed each day morning to be
+sure the latest updates are tested / worked out.</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>2.<span style='font-size:
+7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp; </span>All
+the changes put on vss must be accompanied by TT ID or chat with request to do
+the changes.</p>
+
+<p class=MsoListParagraph style='text-indent:-18.0pt'>3.<span style='font-size:
+7.0pt;font-family:"Times New Roman","serif"'>&nbsp;&nbsp;&nbsp;&nbsp; </span>Code
+should be separated by blocks when you are working with different screens, next
+example is not acceptable:</p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:54.0pt;background:#D9D9D9;border-collapse:collapse'>
+ <tr>
+  <td width=154 valign=top style='width:115.7pt;border:solid black 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal>Scrceen1.SetActive()</p>
+  <p class=MsoNormal>Scrceen1.PressButton()</p>
+  <p class=MsoNormal>Scrceen2.SetActive()</p>
+  <p class=MsoNormal>Scrceen2.PressButton()</p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal style='margin-left:54.0pt'>&nbsp;</p>
+
+<p class=MsoNormal style='margin-left:54.0pt'>It should be formatted as:</p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:54.0pt;background:#D9D9D9;border-collapse:collapse'>
+ <tr>
+  <td width=154 valign=top style='width:115.7pt;border:solid black 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal>Scrceen1.SetActive()</p>
+  <p class=MsoNormal>Scrceen1.PressButton()</p>
+  <p class=MsoNormal>&nbsp;</p>
+  <p class=MsoNormal>Scrceen2.SetActive()</p>
+  <p class=MsoNormal>Scrceen2.PressButton()</p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoListParagraph style='margin-left:72.0pt'>&nbsp;</p>
+
+<div style='border:none;border-bottom:solid windowtext 1.0pt;padding:0cm 0cm 1.0pt 0cm'>
+
+<p class=MsoNormal style='border:none;padding:0cm'>&nbsp;</p>
+
+</div>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h1 style='margin-top:0cm'><a name="_Installations_and_local"></a>Installations
+and local versions</h1>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>In normal mode test are supposed to be working each day for
+local version at approximately 16:00.</p>
+
+<p class=MsoNormal>Each morning at 6:00-7:00 tests are run on the Acton
+installations.</p>
+
+<p class=MsoNormal>If you need to run tests on Minks installations instead of
+Acton installations next line should be changed in <b>START_UP.BAT:</b></p>
+
+<p class=MsoNormal><i><span style='color:red'>CALL
+&quot;%CD%\SUBS_THIS_SILK.BAT&quot;</span></i></p>
+
+<p class=MsoNormal>by</p>
+
+<p class=MsoNormal><i><span style='color:red'>CALL &quot;%CD%\SUBS_THIS_SILK_BEL.BAT”</span></i></p>
+
+<div style='border:none;border-bottom:solid windowtext 1.0pt;padding:0cm 0cm 1.0pt 0cm'>
+
+<p class=MsoNormal style='border:none;padding:0cm'>&nbsp;</p>
+
+</div>
+
+<p class=MsoNormal>&nbsp;</p>
+
+</div>
+
+</body>
+
+</html>

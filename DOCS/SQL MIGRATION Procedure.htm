@@ -1,0 +1,494 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1251">
+<meta name=Generator content="Microsoft Word 12 (filtered)">
+<title>DEMO DATABASE Creation Procedure</title>
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Cambria;
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+h1
+	{mso-style-link:"Heading 1 Char";
+	margin-top:24.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	font-family:"Cambria","serif";
+	color:#365F91;}
+h2
+	{mso-style-link:"Heading 2 Char";
+	margin-top:10.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:13.0pt;
+	font-family:"Cambria","serif";
+	color:#4F81BD;}
+h3
+	{mso-style-link:"Heading 3 Char";
+	margin-top:10.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:11.0pt;
+	font-family:"Cambria","serif";
+	color:#4F81BD;}
+h4
+	{mso-style-link:"Heading 4 Char";
+	margin-top:10.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:11.0pt;
+	font-family:"Cambria","serif";
+	color:#4F81BD;
+	font-style:italic;}
+p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText
+	{mso-style-link:"Footnote Text Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Calibri","sans-serif";}
+span.MsoFootnoteReference
+	{vertical-align:super;}
+p.MsoTitle, li.MsoTitle, div.MsoTitle
+	{mso-style-link:"Title Char";
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:15.0pt;
+	margin-left:0cm;
+	font-size:26.0pt;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;}
+p.MsoNoSpacing, li.MsoNoSpacing, div.MsoNoSpacing
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoQuote, li.MsoQuote, div.MsoQuote
+	{mso-style-link:"Quote Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	color:black;
+	font-style:italic;}
+span.MsoSubtleEmphasis
+	{color:gray;
+	font-style:italic;}
+span.MsoSubtleReference
+	{font-variant:small-caps;
+	color:#C0504D;
+	text-decoration:underline;}
+span.Heading1Char
+	{mso-style-name:"Heading 1 Char";
+	mso-style-link:"Heading 1";
+	font-family:"Cambria","serif";
+	color:#365F91;
+	font-weight:bold;}
+span.Heading2Char
+	{mso-style-name:"Heading 2 Char";
+	mso-style-link:"Heading 2";
+	font-family:"Cambria","serif";
+	color:#4F81BD;
+	font-weight:bold;}
+span.Heading3Char
+	{mso-style-name:"Heading 3 Char";
+	mso-style-link:"Heading 3";
+	font-family:"Cambria","serif";
+	color:#4F81BD;
+	font-weight:bold;}
+span.Heading4Char
+	{mso-style-name:"Heading 4 Char";
+	mso-style-link:"Heading 4";
+	font-family:"Cambria","serif";
+	color:#4F81BD;
+	font-weight:bold;
+	font-style:italic;}
+span.FootnoteTextChar
+	{mso-style-name:"Footnote Text Char";
+	mso-style-link:"Footnote Text";}
+span.TitleChar
+	{mso-style-name:"Title Char";
+	mso-style-link:Title;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+span.QuoteChar
+	{mso-style-name:"Quote Char";
+	mso-style-link:Quote;
+	color:black;
+	font-style:italic;}
+p.msotitlecxspfirst, li.msotitlecxspfirst, div.msotitlecxspfirst
+	{mso-style-name:msotitlecxspfirst;
+	mso-style-link:"Title Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:26.0pt;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+p.msotitlecxspmiddle, li.msotitlecxspmiddle, div.msotitlecxspmiddle
+	{mso-style-name:msotitlecxspmiddle;
+	mso-style-link:"Title Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:26.0pt;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+p.msotitlecxsplast, li.msotitlecxsplast, div.msotitlecxsplast
+	{mso-style-name:msotitlecxsplast;
+	mso-style-link:"Title Char";
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:15.0pt;
+	margin-left:0cm;
+	font-size:26.0pt;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+p.msolistparagraphcxspfirst, li.msolistparagraphcxspfirst, div.msolistparagraphcxspfirst
+	{mso-style-name:msolistparagraphcxspfirst;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.msolistparagraphcxspmiddle, li.msolistparagraphcxspmiddle, div.msolistparagraphcxspmiddle
+	{mso-style-name:msolistparagraphcxspmiddle;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.msolistparagraphcxsplast, li.msolistparagraphcxsplast, div.msolistparagraphcxsplast
+	{mso-style-name:msolistparagraphcxsplast;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.msopapdefault, li.msopapdefault, div.msopapdefault
+	{mso-style-name:msopapdefault;
+	margin-right:0cm;
+	margin-left:0cm;
+	line-height:115%;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.msochpdefault, li.msochpdefault, div.msochpdefault
+	{mso-style-name:msochpdefault;
+	margin-right:0cm;
+	margin-left:0cm;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+.MsoChpDefault
+	{font-size:10.0pt;}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:2.0cm 42.5pt 2.0cm 3.0cm;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple>
+
+<div class=Section1>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<div style='border:none;border-bottom:solid #4F81BD 1.0pt;padding:0cm 0cm 4.0pt 0cm'>
+
+<p class=MsoTitle align=center style='text-align:center'><a
+name="_Instruction_#1"></a>SQL MIGRATION Procedure</p>
+
+</div>
+
+<h2 align=center style='text-align:center'>Doc ID: {89BF1C53-5EEE-472a-8BDF-DCC53A995685}</h2>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>Before Migration FiP is launched and closed to be sure that
+it is properly installed.</p>
+
+<h1>Migration SQL db procedure:</h1>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoListParagraph style='margin-left:38.5pt;text-indent:-18.0pt'>1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Database
+is dropped if exists</p>
+
+<p class=MsoListParagraph style='margin-left:38.5pt;text-indent:-18.0pt'>2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Database
+is restored from corresponding file and all FIP users passwords are cleaned
+using corresponding SQL query</p>
+
+<p class=MsoListParagraph style='margin-left:38.5pt;text-indent:-18.0pt'>3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Fieldpro
+is launched</p>
+
+<p class=MsoListParagraph style='margin-left:38.5pt;text-indent:-18.0pt'>4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>If
+corresponding DSN name exists – it is deleted</p>
+
+<p class=MsoListParagraph style='margin-left:38.5pt;text-indent:-18.0pt'>5.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>New
+DSN name is created that connects to the database restored</p>
+
+<p class=MsoListParagraph style='margin-left:38.5pt;text-indent:-18.0pt'>6.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Corresponding
+DSN name is selected on login screen</p>
+
+<p class=MsoListParagraph style='margin-left:38.5pt;text-indent:-18.0pt'>7.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>User
+name is set to Administrator</p>
+
+<p class=MsoListParagraph style='margin-left:38.5pt;text-indent:-18.0pt'>8.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Launch
+button is pressed</p>
+
+<p class=MsoListParagraph style='margin-left:38.5pt;text-indent:-18.0pt'>9.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>On
+appearing migration screen “<b>Migrate</b>” button is pressed</p>
+
+<p class=MsoListParagraph style='margin-left:38.5pt;text-indent:-18.0pt'>10.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span>Waiting for migration
+process to be finished</p>
+
+<p class=MsoListParagraph style='margin-left:38.5pt;text-indent:-18.0pt'>11.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span>Entering FIP</p>
+
+<p class=MsoListParagraph style='margin-left:38.5pt;text-indent:-18.0pt'>12.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span>Checking system messages
+and if “DB Error” string can be found  - assuming error in migration</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>Path to Folder with DB can be indicated in command line</p>
+
+<p class=MsoNormal><span style='font-size:14.0pt;line-height:115%'>By default All
+DB should be located in</span> “<b>D:\BST_4_SQL_SERVER\MIGRATIONS\</b>”</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>For FIP_AGIP_ENI:</p>
+
+<p class=MsoNormal>                \\Dataserver\Latest_Clients_Databases\AGIP\fip_agip_eni.BAK</p>
+
+<p class=MsoNormal>                \\Dataserver\AllDatabases_MSSQL\FIP_AGIP_ENI\FIP_AGIP_ENI_v303_log.LDF</p>
+
+<p class=MsoNormal>                \\Dataserver\AllDatabases_MSSQL\FIP_AGIP_ENI\FIP_AGIP_ENI_v303.mdf</p>
+
+<p class=MsoNormal>For FIP_OMV_AUSTRALIA</p>
+
+<p class=MsoNormal>                \\Dataserver\Latest_Clients_Databases\OMV\fip_omv_australia.bak</p>
+
+<p class=MsoNormal>                \\Dataserver\AllDatabases_MSSQL\FIP_OMV_AUSTRALIA\FIP_OMV_AUSTRALIA_v301_log.LDF</p>
+
+<p class=MsoNormal>                \\Dataserver\AllDatabases_MSSQL\FIP_OMV_AUSTRALIA\FIP_OMV_AUSTRALIA_v301.mdf</p>
+
+<p class=MsoNormal>For FIP_OMV_AUSRTIA</p>
+
+<p class=MsoNormal>                \\Dataserver\Latest_Clients_Databases\OMV\fip_omv_austria.bak</p>
+
+<p class=MsoNormal>                \\Dataserver\AllDatabases_MSSQL\FIP_OMV_AUSTRIA\FIP_OMV_AUSTRIA_v301_log.LDF</p>
+
+<p class=MsoNormal>                \\Dataserver\AllDatabases_MSSQL\FIP_OMV_AUSTRIA\FIP_OMV_AUSTRIA_v301.mdf</p>
+
+<p class=MsoNormal>For FIP_OMV_LIBYA</p>
+
+<p class=MsoNormal>                <span style='color:black'>\\Dataserver\Latest_Clients_Databases\OMV\FIP_OMV_LIBYA.bak</span></p>
+
+<p class=MsoNormal>                \\Dataserver\AllDatabases_MSSQL\FIP_OMV_LIBYA\FIP_OMV_LIBYA_log.LDF</p>
+
+<p class=MsoNormal>                \\Dataserver\AllDatabases_MSSQL\FIP_OMV_LIBYA\FIP_OMV_LIBYA.mdf</p>
+
+<p class=MsoNormal>For FIP_OMV_NZ</p>
+
+<p class=MsoNormal>                \\Dataserver\Latest_Clients_Databases\OMV\fip_omv_nz.bak</p>
+
+<p class=MsoNormal>                \\Dataserver\AllDatabases_MSSQL\FIP_OMV_NZ\FIP_OMV_NZ_log.LDF</p>
+
+<p class=MsoNormal>                <span style='color:black'>\\Dataserver\AllDatabases_MSSQL\FIP_OMV_NZ\FIP_OMV_NZ.mdf</span></p>
+
+<p class=MsoNormal>For FIP_OMV_TUN</p>
+
+<p class=MsoNormal>                <span style='color:black'>\\Dataserver\Latest_Clients_Databases\OMV\fip_omv_tun.bak</span></p>
+
+<p class=MsoNormal>                \\Dataserver\AllDatabases_MSSQL\FIP_OMV_TUN\FIP_OMV_Tun_log.LDF</p>
+
+<p class=MsoNormal>                \\Dataserver\AllDatabases_MSSQL\FIP_OMV_TUN\FIP_OMV_Tun.mdf</p>
+
+<p class=MsoNormal>For FIP_OMV_UK</p>
+
+<p class=MsoNormal>                <span style='color:black'>\\Dataserver\Latest_Clients_Databases\OMV\FIP_OMV_UK.bak</span></p>
+
+<p class=MsoNormal><span style='color:black'>                \\Dataserver\AllDatabases_MSSQL\FIP_OMV_UK\FIP_OMV_UK_log.LDF</span></p>
+
+<p class=MsoNormal><span style='color:black'>                \\Dataserver\AllDatabases_MSSQL\FIP_OMV_UK\FIP_OMV_UK.mdf</span></p>
+
+<p class=MsoNormal><span style='color:black'>For FIP_PETROM_KZ</span></p>
+
+<p class=MsoNormal><span style='color:black'>                \\dataserver\Latest_Clients_Databases\PETROM\FIP_PETROM_KZ.BAK
+</span></p>
+
+<p class=MsoNormal><span style='color:black'>                \\Dataserver\AllDatabases_MSSQL\FIP_PETROM_KZ\FIP_PETROM_KZ_log.LDF</span></p>
+
+<p class=MsoNormal><span style='color:black'>                \\Dataserver\AllDatabases_MSSQL\FIP_PETROM_KZ\FIP_PETROM_KZ.mdf</span></p>
+
+<p class=MsoNormal>For FIP_PETROM_ROMANIA</p>
+
+<p class=MsoNormal>                <span style='color:black'>\\dataserver\Latest_Clients_Databases\PETROM\fip_petrom_romania.bak</span></p>
+
+<p class=MsoNormal style='text-indent:36.0pt;line-height:normal'><span
+style='color:black'>\\dataserver\AllDatabases_MSSQL\FIP_PETROM_ROMANIA\FIP_PETROM_ROMANIA_303_Log.LDF</span></p>
+
+<p class=MsoNormal>                \\dataserver\AllDatabases_MSSQL\FIP_PETROM_ROMANIA\FIP_PETROM_ROMANIA_303.MDF</p>
+
+<p class=MsoNormal>For FIP_RWE_DEA_EGYPT</p>
+
+<p class=MsoNormal>                <span style='color:black'>\\dataserver\Latest_Clients_Databases\RWE_DEA\fip_rwe_dea_egypt.bak</span></p>
+
+<p class=MsoNormal>                <span style='color:black'>\\dataserver\AllDatabases_MSSQL2005\FIP_RWE_DEA_EGYPT\FIP_RWE_DEA_EGYPT_v301_log.LDF</span></p>
+
+<p class=MsoNormal>                <span style='color:black'>\\dataserver\AllDatabases_MSSQL2005\FIP_RWE_DEA_EGYPT\FIP_RWE_DEA_EGYPT_v301.mdf</span></p>
+
+<p class=MsoNormal>For FIP_RWE_DEA_FBN</p>
+
+<p class=MsoNormal>                \\dataserver\Latest_Clients_Databases\RWE_DEA\fip_rwe_dea_fbn.bak</p>
+
+<p class=MsoNormal>                \\Dataserver\AllDatabases_MSSQL\FIP_RWE_DEA_FBN\FIP_RWE_DEA_FBN_v301_log.ldf</p>
+
+<p class=MsoNormal>                \\Dataserver\AllDatabases_MSSQL\FIP_RWE_DEA_FBN\FIP_RWE_DEA_FBN_v301.mdf</p>
+
+<p class=MsoNormal>For FIP_DEA_UK</p>
+
+<p class=MsoNormal>                <span style='color:black'>\\dataserver\Latest_Clients_Databases\RWE_DEA\FIP_RWE_DEA_UK.bak</span></p>
+
+<p class=MsoNormal>                \\Dataserver\AllDatabases_MSSQL\FIP_RWE_DEA_UK\FIP_RWE_DEA_UK_v301_log.LDF</p>
+
+<p class=MsoNormal>                \\Dataserver\AllDatabases_MSSQL\FIP_RWE_DEA_UK\FIP_RWE_DEA_UK_v301.mdf</p>
+
+<p class=MsoNormal>For FIP_SANDRIDGE_DB</p>
+
+<p class=MsoNormal>                <span style='color:black'>\\dataserver\Latest_Clients_Databases\SANDRIDGE\FIP_SANDRIDGE_DB.bak</span></p>
+
+<p class=MsoNormal>                <span style='color:black'>\\dataserver\AllDatabases_MSSQL2005\FIP_SANDRIDGE_DB\FIP_SANDRIDGE_DB_v303_log.LDF</span></p>
+
+<p class=MsoNormal>                \\dataserver\AllDatabases_MSSQL2005\FIP_SANDRIDGE_DB\FIP_SANDRIDGE_DB_v303.mdf</p>
+
+<p class=MsoNormal>For FIP_WILI_JAKHIRA</p>
+
+<p class=MsoNormal>                <span style='color:black'>\\dataserver\Latest_Clients_Databases\WILI\fip_wili_jakhira_v303.bak</span></p>
+
+<p class=MsoNormal>                <span style='color:black'>\\dataserver\AllDatabases_MSSQL\FIP_WILI_JAKHIRA\FIP_WILI_JAKHIRA_v303_log.LDF</span></p>
+
+<p class=MsoNormal>                \\dataserver\AllDatabases_MSSQL\FIP_WILI_JAKHIRA\FIP_WILI_JAKHIRA_v303.mdf</p>
+
+<p class=MsoNormal>For FIP_WILI_TIP</p>
+
+<p class=MsoNormal>                \\dataserver\Latest_Clients_Databases\WILI\fip_wili_tip_v303.BAK</p>
+
+<p class=MsoNormal>                <span style='color:black'>\\dataserver\AllDatabases_MSSQL\FIP_WILI_TIP\FIP_WILI_TIP_v303_log.LDF</span></p>
+
+<p class=MsoNormal>                \\dataserver\AllDatabases_MSSQL\FIP_WILI_TIP\FIP_WILI_TIP_v303.mdf</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+﻿.helpercontainer {
+	align-items: center;
+	display: flex;
+	padding: 0;
+	margin: 0;
+}
+
+td {
+	white-space: nowrap;
+}
+
+.table-hover tbody tr:hover td {
+	background-color: moccasin;
+}
+
+.pagetable > tbody > tr > td:nth-child(1) {
+	background-color: lightgray;
+	cursor: pointer;
+}
+
+.pagetable > tbody > tr > td:nth-child(1):hover {
+	outline-style: solid;
+	outline-color: red;
+	outline-width: thick;
+}
+
+.pagetable > thead > tr > th:nth-child(1) {
+	background-color: lightgray;
+	cursor: pointer;
+}
+
+.pagetable > thead > tr > th:nth-child(1):hover {
+	outline-style: solid;
+	outline-color: red;
+	outline-width: thick;
+}
+
+.bstselectedrow {
+	outline-style: solid;
+	outline-color: red;
+	outline-width: thick;
+}
+
+.imgpers {
+	width: 16px;
+	height: 16px;
+}
+
+#testactions {
+	display: none;
+	z-index: 999;
+	position: fixed;
+	left: 0;
+	top: 50%;
+	margin: 0;
+	padding: 0;
+}
+
+@media only screen and (max-width: 1600px) {
+	table {
+		font-size: 11px;
+		font-family: Arial;
+	}
+}

@@ -1,0 +1,29 @@
+﻿td {
+	white-space: nowrap;
+}
+
+.requestprogress {
+	-webkit-animation: requestprogressback 1s cubic-bezier(1,0,0,1) infinite;
+	animation: requestprogressback 1s cubic-bezier(1,0,0,1) infinite;
+}
+
+@-webkit-keyframes requestprogressback {
+	50% {background-color: white;}
+	100% {background-color: gray;}
+}
+
+@keyframes requestprogressback {
+	50% {background-color: white;}
+	100% {background-color: gray;}
+}
+
+@media only screen and (max-width: 1600px) {
+	table {
+		font-size: 11px;
+		font-family: Arial;
+	}
+}
+
+.rectst {
+	background-color: lightcyan;
+}

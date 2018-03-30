@@ -1,0 +1,19 @@
+﻿pre {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.container {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+table tr td {
+	border: 1px solid black;
+}
+
+table tr:hover {
+	background-color: yellow;
+}

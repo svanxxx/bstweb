@@ -1,0 +1,72 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Master.master.cs" Inherits="Master" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<link href="scripts/Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="css/common.css" rel="stylesheet" />
+	<script src="scripts/jquery-3.2.1.min.js"></script>
+	<script src="scripts/jquery.ui/jquery-ui.min.js"></script>
+	<script src="scripts/jquery.cookie.js"></script>
+	<script src="scripts/Bootstrap/js/bootstrap.min.js"></script>
+	<script src="scripts/common.js"></script>
+	<script src="scripts/bstSignal.js"></script>
+	<asp:ContentPlaceHolder ID="HeaddContent" runat="server">
+	</asp:ContentPlaceHolder>
+	<script>
+		$(function () {
+			$('#footerp').html("&copy; " + (new Date().getFullYear()) + " MPS quality control system");
+			$('a').each(function () {
+				if (window.location.href.toUpperCase().indexOf($(this).prop('href').toUpperCase()) != -1) {
+					$(this).addClass('active'); $(this).parents('li').addClass('active');
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#fullNavbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="http://mps.resnet.com">MPS</a>
+			</div>
+			<div class="collapse navbar-collapse" id="fullNavbar">
+				<ul class="nav navbar-nav">
+					<li><a href="machines.aspx">Machines</a></li>
+					<li><a href="hosts.aspx">Hosts</a></li>
+					<li><a href="vsummary.aspx">Versions</a></li>
+					<li><a href="tsummary.aspx">Tests</a></li>
+					<li><a href="activity.aspx">Activity</a></li>
+					<li><a href="log.aspx">BST Log</a></li>
+					<li><a href="runs.aspx">Runs</a></li>
+					<li><a id="requestsignal" href="requests.aspx">Requests</a></li>
+					<li><a href="batches.aspx">Batches</a></li>
+					<li><a href="commands.aspx">Commands</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a class="bstusername" id="logina" runat="server" href="login.aspx"><span style="padding-right: 5px" class="glyphicon glyphicon-log-in"></span>-Login-</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<form id="form1" runat="server">
+		<div class="container body-content">
+			<asp:ContentPlaceHolder ID="MainContent" runat="server">
+			</asp:ContentPlaceHolder>
+			<hr />
+			<footer>
+				<p id="footerp"></p>
+			</footer>
+		</div>
+	</form>
+</body>
+</html>
