@@ -226,7 +226,7 @@ public class CbstHelper : System.Web.UI.Page
 		{
 			bool valid = false;
 			string dispUserName = UserName;
-			using (PrincipalContext context = new PrincipalContext(ContextType.Domain))
+			using (PrincipalContext context = new PrincipalContext(ContextType.Domain, "mps"))
 			{
 				valid = context.ValidateCredentials(UserName, Password);
 				if (valid)
@@ -610,17 +610,16 @@ public class CbstHelper : System.Web.UI.Page
 	}
 	public static void RunBatch4Request(string user, string batchname, string requestGUID, string priority)
 	{
-		string[] Commands;
-		string[] arrGroup;
+		TestRequest tr = new TestRequest("", requestGUID);
+        string text = ParseChildBatches(strInput: (new Batch(batchname)).BATCH_DATA);
 
-		string RequestID = GetValue("SELECT ID FROM TESTREQUESTS WHERE GUID = '" + requestGUID + "'").ToString();
-		string text = ParseChildBatches(GetValue("SELECT BATCH_DATA FROM BATCHES WHERE BATCH_NAME = '" + batchname + "'").ToString());
-		string strUserID = GetValue("SELECT ID FROM PERSONS WHERE USER_LOGIN = '" + user + "'").ToString();
+        string[] Commands, arrGroup;
+        GetCommandsGroups(text, out Commands, out arrGroup);
+		ExecRequestSQL(Commands, arrGroup, tr.ID.ToString(), (new BSTUser("", user)).ID, priority);
 
-		GetCommandsGroups(text, out Commands, out arrGroup);
-		ExecRequestSQL(Commands, arrGroup, RequestID, strUserID, priority);
-		SQLExecute(string.Format("update TESTREQUESTS set REQUEST_PRIORITY = {0} where ID = {1}", priority, RequestID));
-		SQLExecute(string.Format("update TESTREQUESTS set UserID = (SELECT TOP 1 ID FROM PERSONS WHERE USER_LOGIN = 'bst') where ID = {0}", RequestID));
+        tr.REQUEST_PRIORITY = Convert.ToInt32(priority);
+        tr.USERID = (new BSTUser("", "bst")).ID;
+        tr.Store();
 	}
 	public static string ParseChildBatches(string strInput)
 	{

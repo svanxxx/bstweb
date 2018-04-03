@@ -1,4 +1,6 @@
-﻿public class TestRequest : IdBasedObject
+﻿using System;
+
+public class TestRequest : IdBasedObject
 {
 	public string USERID
 	{
@@ -40,8 +42,21 @@
 		get { return this["REQUESTDATETIME"].ToString(); }
 		set { this["REQUESTDATETIME"] = value; }
 	}
-	public TestRequest(string id)
-		: base("TESTREQUESTS", new string[] { "ID", "TTID", "GUID", "REQUESTDATETIME", "USERID", "PROGABB", "COMMENT", "VERSIONID", "IGNORE", "TESTED", "GITHASH", "REQUEST_PRIORITY" }, id)
+	public int ID
+	{
+		get { return Convert.ToInt32(this["ID"]); }
+		set { this["ID"] = value; }
+	}
+    public int REQUEST_PRIORITY
+    {
+        get { return Convert.ToInt32(this["REQUEST_PRIORITY"]); }
+        set { this["REQUEST_PRIORITY"] = value; }
+    }
+    public TestRequest(string id, string guid = "")
+		: base("TESTREQUESTS", new string[] { "ID", "TTID", "GUID", "REQUESTDATETIME", "USERID", "PROGABB", "COMMENT", "VERSIONID", "IGNORE", "TESTED", "GITHASH", "REQUEST_PRIORITY" }, 
+			string.IsNullOrEmpty(id) ?
+			string.Format("(SELECT ID FROM [TESTREQUESTS] WHERE [GUID] = '{0}')", guid) 
+			: id)
 	{
 	}
 }
