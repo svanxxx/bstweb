@@ -655,6 +655,7 @@ public class WebService : System.Web.Services.WebService
 		Batch b = new Batch(id);
 		b.BATCH_DATA = text;
 		b.Store();
+		CbstHelper.FeedLog("Batch script has been changed: " + id);
 		return "OK";
 	}
 }
