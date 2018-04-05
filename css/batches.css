@@ -1,19 +1,38 @@
 ﻿td textarea {
-	width: 50vw;
+	width: 100%;
+	height: 100%;
 }
 
 .modal {
 	display: none; /* Hidden by default */
 	position: fixed; /* Stay in place */
 	z-index: 1; /* Sit on top */
-	padding-top: 100px; /* Location of the box */
+	padding-top: 5%; /* Location of the box */
 	left: 0;
 	top: 0;
 	width: 100%; /* Full width */
 	height: 100%; /* Full height */
 	overflow: auto; /* Enable scroll if needed */
+	background-color: rgba(0,0,0,0.5);
 }
+
+.close {
+	font-size: 2vw;
+}
+
+.modal-content {
+	width: 100%;
+	height: 90%;
+}
+
 .modal-content textarea {
 	width: 100%;
 	height: 100%;
+}
+
+.body-content {
+	margin-left: 6%;
+	margin-right: 5%;
+	padding: 0;
+	width: 90%;
 }

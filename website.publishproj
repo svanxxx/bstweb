@@ -11,16 +11,16 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 ***********************************************************************************************
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
- <PropertyGroup>
+  <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	<ExcludeFoldersFromDeployment>.git;.vs</ExcludeFoldersFromDeployment>
-	<ExcludeFilesFromDeployment>.gitignore;*.sln</ExcludeFilesFromDeployment> 
+    <ExcludeFoldersFromDeployment>.git;.vs</ExcludeFoldersFromDeployment>
+    <ExcludeFilesFromDeployment>.gitignore;*.sln</ExcludeFilesFromDeployment>
     <ProductVersion>10.0.30319</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{ce902bb0-d182-4979-9d25-53e54047a816}</ProjectGuid>
     <SourceWebPhysicalPath>$(MSBuildThisFileDirectory)</SourceWebPhysicalPath>
-    <SourceWebVirtualPath>/WEB</SourceWebVirtualPath>
+    <SourceWebVirtualPath>/bstweb</SourceWebVirtualPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SourceWebProject>
     </SourceWebProject>
@@ -28,7 +28,6 @@ Copyright (C) Microsoft Corporation. All rights reserved.
     </SourceWebMetabasePath>
   </PropertyGroup>
   <PropertyGroup>
-  
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <!-- for VS2010 we need to use 10.5 but for VS2012+ we should use VisualStudioVersion -->
     <WebPublishTargetsVersion Condition=" '$(WebPublishTargetsVersion)' =='' and '$(VisualStudioVersion)' == 10.0 ">10.5</WebPublishTargetsVersion>

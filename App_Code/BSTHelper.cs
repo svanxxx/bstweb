@@ -611,7 +611,7 @@ public class CbstHelper : System.Web.UI.Page
 	public static void RunBatch4Request(string user, string batchname, string requestGUID, string priority)
 	{
 		TestRequest tr = new TestRequest("", requestGUID);
-        string text = ParseChildBatches(strInput: (new Batch(batchname)).BATCH_DATA);
+        string text = ParseChildBatches(strInput: (new Batch("", batchname)).BATCH_DATA);
 
         string[] Commands, arrGroup;
         GetCommandsGroups(text, out Commands, out arrGroup);

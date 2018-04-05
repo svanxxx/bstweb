@@ -649,4 +649,12 @@ public class WebService : System.Web.Services.WebService
 		TestRun tr = new TestRun(id);
 		return tr.TestURL;
 	}
+	[WebMethod(EnableSession = true)]
+	public string SetBatchData(string id, string text)
+	{
+		Batch b = new Batch(id);
+		b.BATCH_DATA = text;
+		b.Store();
+		return "OK";
+	}
 }
