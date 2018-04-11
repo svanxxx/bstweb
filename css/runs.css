@@ -18,21 +18,26 @@ td {
 	cursor: pointer;
 }
 
-.pagetable > tbody > tr > td:nth-child(1):hover {
-	outline-style: solid;
-	outline-color: red;
-	outline-width: thick;
-}
+	.pagetable > tbody > tr > td:nth-child(1):hover {
+		outline-style: solid;
+		outline-color: red;
+		outline-width: thick;
+	}
 
 .pagetable > thead > tr > th:nth-child(1) {
 	background-color: lightgray;
 	cursor: pointer;
 }
 
-.pagetable > thead > tr > th:nth-child(1):hover {
-	outline-style: solid;
-	outline-color: red;
-	outline-width: thick;
+	.pagetable > thead > tr > th:nth-child(1):hover {
+		outline-style: solid;
+		outline-color: red;
+		outline-width: thick;
+	}
+
+.pagetable > thead > tr > th:nth-child(18) {
+	cursor: pointer;
+	background: repeating-linear-gradient( -45deg, white, lightgray 10px);
 }
 
 .bstselectedrow {
@@ -44,6 +49,16 @@ td {
 .imgpers {
 	width: 16px;
 	height: 16px;
+}
+
+.hashspan {
+	width: 40px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.hashspanfull {
+	width: auto;
 }
 
 #testactions {

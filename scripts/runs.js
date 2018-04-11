@@ -184,6 +184,17 @@ $(function () {
 		}
 		CheckIgnoreEnable();
 	});
+	$(".pagetable thead tr th:nth-child(18)").click(function (event) {
+		var $rows = $(".hashspan");
+		if ($rows.length > 0) {
+			$rows.removeClass("hashspan");
+			$rows.addClass("hashspanfull");
+		} else {
+			$rows = $(".hashspanfull");
+			$rows.removeClass("hashspanfull");
+			$rows.addClass("hashspan");
+		}
+	});
 	$("#ignorebutton").click(function () {
 		ProcessSelected("IgnoreTests")
 	})

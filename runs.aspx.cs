@@ -126,6 +126,10 @@ public partial class Runs : PagedOutput
 					{
 						tc.Text = "<a href='ViewLog.aspx?log=" + txt + "&RUNID=" + dr[0].ToString() + "'>Link</a>";
 					}
+					else if (colname == "Hash")
+					{
+						tc.Text = "<div class='hashspan'>" + tc.Text + "</div>";
+					}
 					else if (colname == "RR")
 					{
 						tc.ToolTip = txt;
