@@ -753,26 +753,6 @@ public class CbstHelper : System.Web.UI.Page
 		TestRequest tr = new TestRequest(id){USERID = UserID,TESTED = ""};
 		tr.Store();
 	}
-	//files
-	public string ViewTextFile(string strFileName, bool bBR)
-	{
-		string strResult = "";
-		if (System.IO.File.Exists(strFileName))
-		{
-			System.IO.StreamReader strm = System.IO.File.OpenText(strFileName);
-			string strBR = bBR ? "<br/>" : Environment.NewLine;
-			while (strm.Peek() != -1)
-			{
-				strResult = strResult + strm.ReadLine() + strBR;
-			}
-			strm.Close();
-		}
-		else
-		{
-			strResult = "File not found!";
-		}
-		return strResult;
-	}
 	//helpers
 	public System.Web.UI.Control GetPostBackControl(Page page)
 	{
