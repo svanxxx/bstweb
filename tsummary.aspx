@@ -9,11 +9,11 @@
 	<div class="alert alert-info">
 		<strong>Info:</strong> Select a version in the list at the top of page and click on test link.
 	</div>
-	<asp:dropdownlist id="version" runat="server" class="versionlist form-control" enableviewstate="false">
-	</asp:dropdownlist>
+	<asp:DropDownList ID="version" runat="server" class="versionlist form-control" EnableViewState="false">
+	</asp:DropDownList>
 	<br />
-	<asp:table id="TTable" runat="server" class="pagetable table table-bordered table-responsive table-striped table-hover" enableviewstate="False">
-	</asp:table>
+	<asp:Table ID="TTable" runat="server" class="pagetable table table-bordered table-responsive table-striped table-hover" EnableViewState="False">
+	</asp:Table>
 	<div class="alert alert-info">
 		<h5 style="margin: 0">TT IDs should be entered in the form: TTxxxxx<span class="label label-default">(where xxxxx is the tt id)</span></h5>
 	</div>

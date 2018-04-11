@@ -6,6 +6,9 @@
 </asp:Content>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server" EnableViewState="false">
+	<div class="alert alert-info">
+		<strong>Info:</strong> Click on the batch data cell to edit the value.
+	</div>
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
