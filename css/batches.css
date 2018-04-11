@@ -16,8 +16,13 @@
 	background-color: rgba(0,0,0,0.5);
 }
 
-.close {
-	font-size: 2vw;
+#closeeditor {
+	float: right;
+	transform: translateY(-20%);
+}
+
+.modal-caption {
+	margin-bottom: 0;
 }
 
 .modal-content {
@@ -25,10 +30,10 @@
 	height: 90%;
 }
 
-.modal-content textarea {
-	width: 100%;
-	height: 100%;
-}
+	.modal-content textarea {
+		width: 100%;
+		height: 100%;
+	}
 
 .body-content {
 	margin-left: 6%;

@@ -23,7 +23,7 @@ $(function () {
 		batchid = $(this).parent().attr("rowid");
 		$("#editor").val(initText);
 	});
-	$(".close").click(function () {
+	$("#closeeditor").click(function () {
 		closeEditor();
 	});
 	$("#editor").keyup(function (event) {
