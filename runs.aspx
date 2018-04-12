@@ -6,19 +6,34 @@
 </asp:Content>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server" EnableViewState="false">
+	<div class="dropdown">
+		<button class="btn btn-xs btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+			Select Filters And Actions
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			<li><a href="#" id="grouptests"><span class="glyphicon glyphicon-filter"></span>&nbsp; <span id="grouptestslabel">Group Results (Now UNGrouped!)</span></a></li>
+			<li class="dropdown-submenu">
+				<a class="menuchild" tabindex="-1" href="#"><span class="glyphicon glyphicon-filter"></span>Verified Filter<span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="#" id="verified_yes">&nbsp; Show Only Verified</a></li>
+					<li><a href="#" id="verified_no">&nbsp; Show Only NOT Verified</a></li>
+					<li><a href="#" id="verified_all">&nbsp; Show ALL</a></li>
+				</ul>
+			</li>
+			<li><a href="#" id="performance"><span class="glyphicon glyphicon-signal"></span>&nbsp; Show Performance Graph</a></li>
+		</ul>
+	</div>
 	<div visible="false" runat="server" id="requestinfo" class="alert alert-danger">
 		<strong>Request:</strong> bububu.
 	</div>
 	<asp:Table ID="TTable" runat="server" class="renderhide pagetable table table-bordered table-responsive" EnableViewState="False">
 	</asp:Table>
 	<div class="row helpercontainer">
-		<div class="col-sm-10">
+		<div class="col-sm-11">
 			<div class="alert alert-info">
 				<strong>Info:</strong> Click on the row # cells to select / unselect rows.
 			</div>
-		</div>
-		<div class="col-sm-1">
-			<button id="performance" type="button" class="btn btn-danger">Performance</button>
 		</div>
 	</div>
 	<div id="testactions">
@@ -35,16 +50,13 @@
 			<div class="col-sm-3">
 				<label for="showby">Show by:</label>
 			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-6">
 				<select class="form-control" id="showby">
 					<option>30</option>
 					<option>60</option>
 					<option>150</option>
 					<option>300</option>
 				</select>
-			</div>
-			<div class="col-sm-3">
-				<button id="grouptests" type="button" class="btn btn-info">Group Results</button>
 			</div>
 		</div>
 	</div>

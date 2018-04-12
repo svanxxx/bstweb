@@ -24,7 +24,11 @@ public class RunsHelper
 			string filterval = QueryString[key];
 			if (key.Contains("."))
 			{
-				if (filterval.Contains("<>"))
+				if (filterval.ToUpper() == "NULL")
+				{
+					sqlfilter += string.Format(" AND {0} IS NULL ", key, filterval);
+				}
+				else if (filterval.Contains("<>"))
 				{
 					sqlfilter += string.Format(" AND {0}{1} ", key, filterval);
 				}

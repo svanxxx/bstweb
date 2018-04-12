@@ -84,7 +84,7 @@ function GetPageName() {
 	var p = GetPage();
 	return p.substring(p.lastIndexOf("/") + 1, p.lastIndexOf(".aspx") + 5);
 }
-function removeUrlParam(key, sourceURL) {
+function removeUrlParam(sourceURL, key) {
 	var rtn = sourceURL.split("?")[0],
 		param,
 		params_arr = [],

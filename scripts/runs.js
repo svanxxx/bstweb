@@ -1,4 +1,6 @@
 ﻿var selclass = "bstselectedrow";
+var _verParName = "R.VERIFIED_USER_ID";
+var _repParName = "R.REPEATED";
 
 function rerun(e) {
 	var user = $(".bstusername").text();
@@ -102,7 +104,7 @@ function ProcessTableData() {
 				var cell = $('.pagetable tbody tr:eq(' + r + ') td:eq(' + h + ')');
 				var text = cell.text();
 				cell.text("");
-				cell.append("<a href='?" + filter + "=" + text + "&R.REPEATED=<>2'>&lt;.&gt;</a>");
+				cell.append("<a href='?" + filter + "=" + text + "&" + _repParName + "=<>2'>&lt;.&gt;</a>");
 				var url = replaceUrlParam(location.href, filter, text);
 				cell.append("<a href='" + url + "'>" + text + "</a>");
 			}
@@ -121,7 +123,7 @@ function ProcessTableData() {
 				var h = $(event.target);
 				var filter = h.attr("filter");
 				if (location.href.indexOf(filter) != -1) {
-					window.location = removeUrlParam(filter, location.href);
+					window.location = removeUrlParam(location.href, filter);
 				} else {
 					window.location = replaceUrlParam(location.href, filter, "<>0");
 				}
@@ -141,13 +143,29 @@ $(function () {
 	leftmarg = Math.max((divw - tablew) / 2, 0);
 	$(".pagetable").parent().css("margin-left", leftmarg + "px");
 
-	var g = getParameterByName("R.REPEATED");
+	var g = getParameterByName(_repParName);
 	if (!g || g == "0") {
-		$('#grouptests').text("Ungroup Results");
+		$('#grouptestslabel').text("Ungroup Results (Now Grouped!)");
 	}
-	
-	$('#grouptests').click(function () {
-		var g = getParameterByName("R.REPEATED");
+
+	var v = getParameterByName(_verParName);
+	$check = $("<span class='glyphicon glyphicon-ok'></span>");
+	if (v == "NULL") {
+		$("#verified_no").prepend($check);
+	} else if (v == "<>0") {
+		$("#verified_yes").prepend($check);
+	} else {
+		$("#verified_all").prepend($check);
+	}
+
+	$('.dropdown-submenu a.menuchild').on("click", function (event) {
+		$(this).next('ul').toggle();
+		event.stopPropagation();
+		event.preventDefault();
+	});
+	$('#grouptests').click(function (event) {
+		event.stopPropagation();
+		var g = getParameterByName(_repParName);
 		if (!g) {
 			g = "0";
 		}
@@ -156,9 +174,20 @@ $(function () {
 		} else {
 			g = "0"
 		}
-		window.location = replaceUrlParam(location.href, "R.REPEATED", g);
+		window.location = replaceUrlParam(location.href, _repParName, g);
 	})
-
+	$('#verified_yes').click(function (event) {
+		window.location = replaceUrlParam(location.href, _verParName, "<>0");
+		event.preventDefault();
+	})
+	$('#verified_no').click(function (event) {
+		window.location = replaceUrlParam(location.href, _verParName, "NULL");
+		event.preventDefault();
+	})
+	$('#verified_all').click(function (event) {
+		window.location = removeUrlParam(location.href, _verParName);
+		event.preventDefault();
+	})
 	$(".pagetable thead tr th:first-child").click(function (event) {
 		if ($("." + selclass).length > 0) {
 			$(".pagetable tbody tr td:first-child").each(function () {
@@ -173,7 +202,6 @@ $(function () {
 		}
 		CheckIgnoreEnable();
 	});
-
 	$(".pagetable tbody tr td:first-child").click(function (event) {
 		var td = $(event.target);
 		var row = $(td.parent());
@@ -204,8 +232,9 @@ $(function () {
 	$("#verifybutton").click(function () {
 		ProcessSelected("VerifyTests")
 	})
-	$("#performance").click(function () {
+	$("#performance").click(function (event) {
 		var url = window.location.href;
-		window.location.href = url.replace(GetPageName(), "runsperformance.aspx");
+		window.location = url.replace(GetPageName(), "runsperformance.aspx");
+		event.preventDefault();
 	})
 })
