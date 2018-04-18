@@ -41,3 +41,7 @@
 	padding: 0;
 	width: 90%;
 }
+
+table tbody tr td:nth-child(1){
+	cursor: no-drop;
+}

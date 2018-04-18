@@ -7,7 +7,11 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server" EnableViewState="false">
 	<div class="alert alert-info">
-		<strong>Info:</strong> Click on the batch data cell to edit the value.
+		<button id="addnew" type="button" class="btn">
+			<span class="glyphicon glyphicon-plus"></span>
+			<strong>Add new batch</strong>
+		</button>
+		Click on the batch data cell to <strong>EDIT</strong> the value. Click on the # cell to <strong>DELETE</strong> the batch.
 	</div>
 	<div id="modal" class="modal">
 		<div class="modal-content">

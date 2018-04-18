@@ -655,7 +655,30 @@ public class WebService : System.Web.Services.WebService
 		Batch b = new Batch(id);
 		b.BATCH_DATA = text;
 		b.Store();
-		CbstHelper.FeedLog("Batch script has been changed: " + id);
+		CbstHelper.FeedLog("Batch script has been changed: " + b.BATCH_NAME);
+		return "OK";
+	}
+	[WebMethod(EnableSession = true)]
+	public string SetBatchName(string id, string text)
+	{
+		Batch b = new Batch(id);
+		b.BATCH_NAME = text;
+		b.Store();
+		CbstHelper.FeedLog("Batch script has been changed: " + b.BATCH_NAME);
+		return "OK";
+	}
+	[WebMethod(EnableSession = true)]
+	public string AddBatch(string name)
+	{
+		CbstHelper.FeedLog("Batch script has been added: " + name);
+		return Batch.AddBatch(name).ToString();
+	}
+	[WebMethod(EnableSession = true)]
+	public string DeleteBatch(string id)
+	{
+		Batch b = new Batch(id);
+		CbstHelper.FeedLog("Batch script has been deleted: " + b.BATCH_NAME);
+		Batch.DeleteBatch(id);
 		return "OK";
 	}
 }

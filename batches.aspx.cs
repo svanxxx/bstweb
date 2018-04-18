@@ -9,9 +9,18 @@ using BSTStatics;
 
 public partial class Batches : PagedOutput
 {
+	int BatchID
+	{
+		get
+		{
+			object o = Request.QueryString["id"];
+			return o == null ? -1 : Convert.ToInt32(o);
+		}
+	}
 	protected void Page_Load(object sender, EventArgs e)
 	{
-		CalcPages("SELECT COUNT(*) FROM [BATCHES]", TTable);
+		string filter = BatchID == -1 ? "" : ("ID = " + BatchID.ToString());
+		CalcPages(string.Format("SELECT COUNT(*) FROM [BATCHES] {0}", string.IsNullOrEmpty(filter) ? "" : " WHERE " + filter), TTable);
 
 		string sql = string.Format(@"
 			SELECT T.* FROM 
@@ -24,8 +33,8 @@ public partial class Batches : PagedOutput
 					,R.[PC_NAME]
 			  FROM [BATCHES] R
 			) T
-			WHERE T.[#] >= {0} AND T.[#] <= {1}
-		", ShowFrom, ShowTo);
+			WHERE T.[#] >= {0} AND T.[#] <= {1} {2}
+		", ShowFrom, ShowTo, string.IsNullOrEmpty(filter) ? "" : " AND " + filter);
 
 		int startcol = 1;
 		using (DataTable dt = GetDataTable(sql))

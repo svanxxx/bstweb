@@ -11,6 +11,36 @@ public class IdBasedObject
 	bool[] _modified;
 	DataRow _values;
 
+	protected static void DeleteObject(string table, string id)
+	{
+		CbstHelper.SQLExecute(string.Format("DELETE FROM {0} WHERE ID = {1}", table, id));
+	}
+	protected static int AddObject(string table, string[] columns, object[] values)
+	{
+		string scols = "";
+		for(int i = 0; i < columns.Length; i++)
+		{
+			scols += columns[i] + (i == columns.Length - 1 ? "" : ",");
+		}
+
+		string svals = "";
+		for (int i = 0; i < columns.Length; i++)
+		{
+			string v = "";
+			if (values[i] is string)
+			{
+				v = string.Format("'{0}'", values[i].ToString());
+			}
+			else
+			{
+				v = values[i].ToString();
+			}
+			svals += v + (i == columns.Length - 1 ? "" : ",");
+		}
+
+		string sql = string.Format("INSERT INTO {0} ({1}) OUTPUT INSERTED.ID VALUES({2})", table, scols, svals);
+		return Convert.ToInt32(CbstHelper.GetValue(sql));
+	}
 	public IdBasedObject(string table, string[] columns, string id)
 	{
 		_columns = new List<string>(columns);
