@@ -6,7 +6,6 @@
 <head runat="server">
 	<title>Show file</title>
 	<script src="/Scripts/jquery-1.11.3.min.js"></script>
-	<script src="/Scripts/jquery.ui/jquery-ui.min.js"></script>
 	<script src="/Scripts/common.js"></script>
 	<script>
 		$(function () {

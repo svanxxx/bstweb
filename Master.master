@@ -11,7 +11,7 @@
 	<link href="http://mps.resnet.com/cdn/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 	<link href="css/common.css" rel="stylesheet" />
 	<script src="scripts/jquery-3.2.1.min.js"></script>
-	<script src="scripts/jquery.ui/jquery-ui.min.js"></script>
+	<script src="http://mps.resnet.com/cdn/jquery.ui/jquery-ui.min.js"></script>
 	<script src="scripts/jquery.cookie.js"></script>
 	<script src="http://mps.resnet.com/cdn/bootstrap/js/bootstrap.min.js"></script>
 	<script src="scripts/common.js"></script>
