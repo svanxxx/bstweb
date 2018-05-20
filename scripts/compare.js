@@ -41,11 +41,11 @@ function Compare() {
 
 	var f1 = getParameterByName("file1");
 	$("#fslbl1").html(f1);
-	$("#fslbl1").attr("href", "ShowFile.aspx?file=" + f1);
+	$("#fslbl1").attr("href", "showfile.aspx?file=" + f1);
 	$("#fslbl1").attr("title", f1);
 	var f2 = getParameterByName("file2");
 	$("#fslbl2").html(f2);
-	$("#fslbl2").attr("href", "ShowFile.aspx?file=" + f2);
+	$("#fslbl2").attr("href", "showfile.aspx?file=" + f2);
 	$("#fslbl2").attr("title", f2);
 
 	var t1 = "";
@@ -90,12 +90,6 @@ function Compare() {
 $(function () {
 	$("#home").click(function () {
 		window.location = window.location.href.split("#")[0];
-	})
-	$("#gofile1").click(function () {
-		window.open("ShowFile.aspx?file=" + getParameterByName("file1"));
-	})
-	$("#gofile2").click(function () {
-		window.open("ShowFile.aspx?file=" + getParameterByName("file2"));
 	})
 	var file1 = getParameterByName("file1");
 	var file2 = getParameterByName("file2");
