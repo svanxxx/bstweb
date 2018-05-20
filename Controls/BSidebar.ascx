@@ -19,7 +19,7 @@
 				<br />
 				<asp:ImageButton ID="ImageButton3" runat="server" Height="30px"
 					ImageUrl="~/IMAGES/DB.ico" Width="30px"
-					PostBackUrl="http://<% =<%= BSTStat.mainAddress %> %>/bst/DEMO/" />
+					PostBackUrl="http://<% =<%= BSTStat.globalIPAddress %> %>/bst/DEMO/" />
 				<br />
 				<asp:HyperLink ID="HyperLink3" runat="server">DEMO DBs</asp:HyperLink>
 				<br />
@@ -59,10 +59,10 @@
 				<br />
 				<asp:ImageButton ID="ImageButton9" runat="server" Height="30px"
 					ImageUrl="~/IMAGES/gear.jpeg" Width="30px"
-					PostBackUrl="http://<% =BSTStat.mainAddress %>/tr/index.aspx" />
+					PostBackUrl="http://<% =BSTStat.globalIPAddress %>/tr/index.aspx" />
 				<br />
 				<asp:HyperLink ID="HyperLink9" runat="server"
-					NavigateUrl="http://<% =BSTStat.mainAddress %>/tr/index.aspx">WAYW Now?</asp:HyperLink>
+					NavigateUrl="http://<% =BSTStat.globalIPAddress %>/tr/index.aspx">WAYW Now?</asp:HyperLink>
 			</asp:Panel>
 		</asp:Panel>
 	</ContentTemplate>
