@@ -7,8 +7,12 @@
 			var cell = $('.pagetable tbody tr:eq(' + r + ') td:eq(' + h + ')');
 			var requestid = $(rows[r]).attr("requestid");
 			var column = th.text();
-			if (column == "D") {
+			if (column == "F") {
 				var download = "\\\\storage2\\ReleaseSocket\\Stack\\" + $(rows[r]).attr("guid") + "\\Release.zip";
+				cell.append("<a href='getfile.aspx?Path=" + download + "'><img title='" + download + "' src='images/save.GIF'></img></a>");
+			}
+			else if (column == "C") {
+				var download = "\\\\storage2\\ReleaseSocket\\Stack\\" + $(rows[r]).attr("guid") + "\\Modules.zip";
 				cell.append("<a href='getfile.aspx?Path=" + download + "'><img title='" + download + "' src='images/save.GIF'></img></a>");
 			}
 			else if (column == "VERSION") {

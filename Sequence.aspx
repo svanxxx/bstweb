@@ -3,10 +3,11 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 	<link href="CSS/Search.css" rel="stylesheet" type="text/css" />
+	<script src="http://mps.resnet.com/cdn/jquery/jquery-3.2.1.min.js"></script>
+	<script src="http://mps.resnet.com/cdn/mpshelper.js"></script>
 	<script src="scripts/Common.js"></script>
 	<script src="Scripts/Search.js" type="text/javascript"></script>
 	<script src="Scripts/RunTest.js" type="text/javascript"></script>
-
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 	<asp:Label ID="LabelError" runat="server" Visible="False" ForeColor="Red" Font-Size="Larger"></asp:Label>

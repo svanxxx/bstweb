@@ -5,8 +5,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 	<title>Show file</title>
-	<script src="/Scripts/jquery-1.11.3.min.js"></script>
-	<script src="/Scripts/common.js"></script>
+	<script src="http://mps.resnet.com/cdn/jquery/jquery-3.2.1.min.js"></script>
+	<script src="http://mps.resnet.com/cdn/mpshelper.js"></script>
 	<script>
 		$(function () {
 			var f1proc = StartProgress("Loading file...")

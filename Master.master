@@ -14,6 +14,7 @@
 	<script src="http://mps.resnet.com/cdn/jquery.ui/jquery-ui.min.js"></script>
 	<script src="http://mps.resnet.com/cdn/jquery/jquery.cookie.js"></script>
 	<script src="http://mps.resnet.com/cdn/bootstrap/js/bootstrap.min.js"></script>
+	<script src="http://mps.resnet.com/cdn/mpshelper.js"></script>
 	<script src="scripts/common.js"></script>
 	<script src="scripts/bstSignal.js"></script>
 	<asp:ContentPlaceHolder ID="HeaddContent" runat="server">
