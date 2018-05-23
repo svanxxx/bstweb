@@ -7,6 +7,7 @@
 	<title>Show file</title>
 	<script src="http://mps.resnet.com/cdn/jquery/jquery-3.2.1.min.js"></script>
 	<script src="http://mps.resnet.com/cdn/mpshelper.js"></script>
+	<script src="scripts/common.js"></script>
 	<script>
 		$(function () {
 			var f1proc = StartProgress("Loading file...")
