@@ -75,6 +75,24 @@
 					});
 				})
 			}
+			else if (th.text() == "TESTER") {
+				var t = cell.text();
+				if (!t) {
+					var $but = $("<button style='padding:0; width:100%' type='button' class='btn btn-danger btn-xs'>I will test!</button>");
+					cell.html("");
+					cell.append($but);
+					$but.click(function () {
+						var id = $($($(this).parent()).parent()).attr("requestid");
+						var answer = confirm("Are you sure you want to mark test request as handled manually by you?");
+						if (!answer) {
+							return;
+						}
+						getdata("TestRequestManually", JSON.stringify({ "id": id }), function () {
+							window.location.reload();
+						});
+					})
+				}
+			}
 			else if (th.text() == "TESTED") {
 				var t = cell.text();
 				var cap = (t) ? "untest" : "TESTED";

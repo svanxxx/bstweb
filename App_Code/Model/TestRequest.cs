@@ -2,6 +2,9 @@
 
 public class TestRequest : IdBasedObject
 {
+	static string _testerid = "TESTERID";
+	static string[] _allCols = new string[] { "ID", "TTID", "GUID", "REQUESTDATETIME", "USERID", "PROGABB", "COMMENT", "VERSIONID", "IGNORE", "TESTED", "GITHASH", "REQUEST_PRIORITY", _testerid };
+
 	public string USERID
 	{
 		get { return this["USERID"].ToString(); }
@@ -42,21 +45,36 @@ public class TestRequest : IdBasedObject
 		get { return this["REQUESTDATETIME"].ToString(); }
 		set { this["REQUESTDATETIME"] = value; }
 	}
+	public int TESTER
+	{
+		get { return this[_testerid] == DBNull.Value ? -1 : Convert.ToInt32(this[_testerid]); }
+		set
+		{
+			if (value == -1)
+			{
+				this[_testerid] = DBNull.Value;
+			}
+			else
+			{
+				this[_testerid] = value;
+			}
+		}
+	}
 	public int ID
 	{
 		get { return Convert.ToInt32(this["ID"]); }
 		set { this["ID"] = value; }
 	}
-    public int REQUEST_PRIORITY
-    {
-        get { return Convert.ToInt32(this["REQUEST_PRIORITY"]); }
-        set { this["REQUEST_PRIORITY"] = value; }
-    }
-    public TestRequest(string id, string guid = "")
-		: base("TESTREQUESTS", new string[] { "ID", "TTID", "GUID", "REQUESTDATETIME", "USERID", "PROGABB", "COMMENT", "VERSIONID", "IGNORE", "TESTED", "GITHASH", "REQUEST_PRIORITY" }, 
-			string.IsNullOrEmpty(id) ?
-			string.Format("(SELECT ID FROM [TESTREQUESTS] WHERE [GUID] = '{0}')", guid) 
-			: id)
+	public int REQUEST_PRIORITY
+	{
+		get { return Convert.ToInt32(this["REQUEST_PRIORITY"]); }
+		set { this["REQUEST_PRIORITY"] = value; }
+	}
+	public TestRequest(string id, string guid = "")
+	  : base("TESTREQUESTS", _allCols,
+		  string.IsNullOrEmpty(id) ?
+		  string.Format("(SELECT ID FROM [TESTREQUESTS] WHERE [GUID] = '{0}')", guid)
+		  : id)
 	{
 	}
 }

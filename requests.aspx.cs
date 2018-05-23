@@ -81,6 +81,7 @@ public partial class Requests : PagedOutput
 			,R.[COMMENT] [COMMENT]
 			,R.[IGNORE] [IGNORE]
 			,R.[TESTED] [TESTED]
+			,(SELECT P.[USER_LOGIN] FROM [PERSONS] P WHERE P.[ID] = R.[TESTERID]) [TESTER]
 			FROM 
 			[TESTREQUESTS] R
 			{0}

@@ -611,6 +611,13 @@ public class WebService : System.Web.Services.WebService
 		CbstHelper.UntestRequest(id);
 	}
 	[WebMethod(EnableSession = true)]
+	public void TestRequestManually(string id)
+	{
+		TestRequest r = new TestRequest(id);
+		r.TESTER = Convert.ToInt32(CbstHelper.UserID);
+		r.Store();
+	}
+	[WebMethod(EnableSession = true)]
 	public string GetCommands(string strSearch)
 	{
 		strSearch = strSearch.ToUpper();
