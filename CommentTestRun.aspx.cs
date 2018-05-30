@@ -361,7 +361,7 @@ ORDER BY $order,
 				else
 					TestRunIDs += "," + cb.Attributes["TEST_RUN_ID"];
 
-				TestsInMail += string.Format("<a href='http://{0}/bst/web/", BSTStat.globalIPAddress) + cb.Attributes["TEST_LINK"] + "'>" + cb.Attributes["CASE_NAME"] + "</a><br>";
+				TestsInMail += string.Format("<a href='http://{0}/", BSTStat.newBSTAddress) + cb.Attributes["TEST_LINK"] + "'>" + cb.Attributes["CASE_NAME"] + "</a><br>";
 			}
 		}
 
