@@ -48,7 +48,7 @@ public partial class Merge : System.Web.UI.Page
 
 		string strFormat = GetFormat(files[0]);
 
-		if (strFormat == ".TXT" || strFormat == "LAS" || strFormat == ".CMG" || strFormat == ".HTML" || strFormat == ".LOG" || strFormat == ".FPX")
+		if (strFormat == ".TXT" || strFormat == "LAS" || strFormat == ".CMG" || strFormat == ".HTML" || strFormat == ".LOG" || strFormat == ".FPX" || strFormat == ".XML")
 			Response.Redirect(string.Format("compare.aspx?file1={0}&file2={1}", files[0], files[1]));
 
 		if (strFormat == ".PNG" || strFormat == ".JPG" || strFormat == ".BMP")
