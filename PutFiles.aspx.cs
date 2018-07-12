@@ -122,8 +122,15 @@ public partial class PutFiles : CbstHelper
 
 			if (strTestName != null)
 			{
-				TextAreaMessage.Text = strTestName + ", etalon update ";
-			}
+                		if (GetGitBranchName() != "master")
+      	       			{
+                    			TextAreaMessage.Text = strTestName + ", etalon update " + GetGitBranchName();
+        			}
+                		else
+                		{
+                    			TextAreaMessage.Text = strTestName + ", etalon update ";
+                		}
+            		}
 			TextAreaMessage.Focus();
 		}
 	}
