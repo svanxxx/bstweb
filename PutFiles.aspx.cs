@@ -122,8 +122,15 @@ public partial class PutFiles : CbstHelper
 
 			if (strTestName != null)
 			{
-				TextAreaMessage.Text = strTestName + ", etalon update ";
-			}
+                		if (Branch.Text != "master")
+      	       			{
+                    			TextAreaMessage.Text = strTestName + ", etalon update " + Branch.Text;
+        			}
+                		else
+                		{
+                    			TextAreaMessage.Text = strTestName + ", etalon update ";
+                		}
+            		}
 			TextAreaMessage.Focus();
 		}
 	}
