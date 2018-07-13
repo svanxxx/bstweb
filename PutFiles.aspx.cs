@@ -122,9 +122,9 @@ public partial class PutFiles : CbstHelper
 
 			if (strTestName != null)
 			{
-                		if (GetGitBranchName() != "master")
+                		if (Branch.Text != "master")
       	       			{
-                    			TextAreaMessage.Text = strTestName + ", etalon update " + GetGitBranchName();
+                    			TextAreaMessage.Text = strTestName + ", etalon update " + Branch.Text;
         			}
                 		else
                 		{
