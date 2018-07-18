@@ -348,7 +348,6 @@ public partial class Sequence : CbstHelper
 					}
 				}
 			}
-			lsSequence[lsSequence.Count - 1] = lsSequence[lsSequence.Count - 1].Substring(0, lsSequence[lsSequence.Count - 1].Length - 1); // Remove space in the end of sequence
 			FileTextBox.Text = String.Join("\n", lsSequence.ToArray());
 		}
 	}
