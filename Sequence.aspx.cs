@@ -312,6 +312,44 @@ public partial class Sequence : CbstHelper
 			}
 			string srtFullBatch = ds.Tables[0].Rows[0][0].ToString();
 			FileTextBox.Text += ParseChildBatches(srtFullBatch);
+			FileTextBox.Text = FileTextBox.Text.ToUpper();
+			List<string> lsSequence = new List<string>(FileTextBox.Text.Split('\n'));
+			Boolean isBatch = false;
+			for (int i = 0; i < lsSequence.Count; i++) // Remove spaces between tests and after test name
+			{
+				if (lsSequence[i] == "")
+				{
+					lsSequence.RemoveAt(i);
+					continue;
+				}
+				while (lsSequence[i].EndsWith(" \r"))
+				{
+					lsSequence[i] = lsSequence[i].Substring(0, lsSequence[i].Length - 2);
+					lsSequence[i] += "\r";
+				}
+			}
+			for (int i = 0; i < lsSequence.Count; i++)
+			{
+				for (int j = i + 1; j < lsSequence.Count; j++)
+				{
+					if (lsSequence[j] == "{\r") // Ignore tests in batches
+					{
+						isBatch = true;
+						continue;
+					}
+					else if (lsSequence[j] == "}\r")
+					{
+						isBatch = false;
+						continue;
+					}
+					if (!isBatch && lsSequence[i] == lsSequence[j]) // Remove duplicate test, if it's not in batch
+					{
+						lsSequence.RemoveAt(j);
+					}
+				}
+			}
+			lsSequence[lsSequence.Count - 1] = lsSequence[lsSequence.Count - 1].Substring(0, lsSequence[lsSequence.Count - 1].Length - 1); // Remove space in the end of sequence
+			FileTextBox.Text = String.Join("\n", lsSequence.ToArray());
 		}
 	}
 
@@ -430,5 +468,4 @@ public partial class Sequence : CbstHelper
 		SQLExecute("update PCS set ACTIONFLAG = 2 where REQUEST_ID = " + RequestID);
 		Response.Redirect(Request.RawUrl);
 	}
-
 }
