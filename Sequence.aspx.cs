@@ -334,12 +334,12 @@ public partial class Sequence : CbstHelper
                 {
                     for (int j = i + 1; j < lsSequence.Count; j++)
                     {
-                        if (lsSequence[j] == "{\r") // Ignore tests in batches
+                        if (lsSequence[j].IndexOf("{") >= 0) // Ignore tests in batches
                         {
                             isGroupOfTests = true;
                             continue;
                         }
-                        else if (lsSequence[j] == "}\r")
+                        else if (lsSequence[j].IndexOf("}") >= 0)
                         {
                             isGroupOfTests = false;
                             continue;
@@ -356,35 +356,35 @@ public partial class Sequence : CbstHelper
             {
                 for (int i = 0; i < lsSequence.Count; i++)
                 {
-                    if (lsSequence[i] == "{\r")
+                    if (lsSequence[i].IndexOf("{") >= 0)
                     {
                         isGroupOfTests = true;
-                        List<string> lsBatch = new List<string>();
+                        List<string> lsGroupOfTests = new List<string>();
                         while (isGroupOfTests)
                         {
                             i++;
-                            if (lsSequence[i] == "}\r")
+                            if (lsSequence[i].IndexOf("}") >= 0)
                             {
                                 isGroupOfTests = false;
                                 break;
                             }
-                            lsBatch.Add(lsSequence[i]);
+                            lsGroupOfTests.Add(lsSequence[i]);
                         }
                         for (int j = i + 1; j < lsSequence.Count; j++)
                         {
-                            if (lsSequence[j] == "{\r")
+                            if (lsSequence[j].IndexOf("{") >= 0)
                             {
                                 int equalElements = 0;
                                 j++;
-                                while (lsSequence[j] != "}\r")
+                                while (lsSequence[j].IndexOf("}") < 0)
                                 {
-                                    if (lsBatch.IndexOf(lsSequence[j]) >= 0)
+                                    if (lsGroupOfTests.IndexOf(lsSequence[j]) >= 0)
                                     {
                                         equalElements++;
                                     }
                                     j++;
                                 }
-                                if (equalElements == lsBatch.Count)
+                                if (equalElements == lsGroupOfTests.Count)
                                 {
                                     lsSequence.RemoveRange(j - equalElements - 1, equalElements + 2);
                                     j -= equalElements + 2;
