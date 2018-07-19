@@ -122,15 +122,15 @@ public partial class PutFiles : CbstHelper
 
 			if (strTestName != null)
 			{
-                		if (Branch.Text != "master")
-      	       			{
-                    			TextAreaMessage.Text = strTestName + ", etalon update " + Branch.Text;
-        			}
-                		else
-                		{
-                    			TextAreaMessage.Text = strTestName + ", etalon update ";
-                		}
-            		}
+				if (Branch.Text != "master")
+				{
+					TextAreaMessage.Text = strTestName + ", etalon update " + Branch.Text;
+				}
+				else
+				{
+					TextAreaMessage.Text = strTestName + ", etalon update ";
+				}
+			}
 			TextAreaMessage.Focus();
 		}
 	}
@@ -326,7 +326,7 @@ public partial class PutFiles : CbstHelper
 		else
 			LabelError.Visible = false;
 
-        FeedLog("Etalon files have been committed to git repository: " + TextAreaMessage.Text);
+		FeedLog("Etalon files have been committed to git repository: " + TextAreaMessage.Text);
 	}
 
 	void SwitchGitBranch(string branchName)
