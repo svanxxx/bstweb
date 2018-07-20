@@ -315,6 +315,8 @@ public partial class Sequence : CbstHelper
 			FileTextBox.Text = FileTextBox.Text.ToUpper();
             List<string> lsSequence = new List<string>(FileTextBox.Text.Split('\n'));
             Boolean isGroupOfTests = false;
+            Boolean isDBTypeMSSQL = false;
+            Boolean isDBTypeORACLE = false;
             for (int i = 0; i < lsSequence.Count; i++) // Remove spaces between tests and after test name
             {
                 if (lsSequence[i] == "")
@@ -359,12 +361,22 @@ public partial class Sequence : CbstHelper
                     if (lsSequence[i].IndexOf("{") >= 0)
                     {
                         isGroupOfTests = true;
+                        isDBTypeMSSQL = false;
+                        isDBTypeORACLE = false;
                         List<string> lsGroupOfTests = new List<string>();
                         while (isGroupOfTests)
                         {
                             i++;
                             if (lsSequence[i].IndexOf("}") >= 0)
                             {
+                                if (lsSequence[i].IndexOf("DBTYPE:MSSQL") >= 0)
+                                {
+                                    isDBTypeMSSQL = true;
+                                }
+                                else if (lsSequence[i].IndexOf("DBTYPE:ORACLE") >= 0)
+                                {
+                                    isDBTypeORACLE = true;
+                                }
                                 isGroupOfTests = false;
                                 break;
                             }
@@ -376,18 +388,28 @@ public partial class Sequence : CbstHelper
                             {
                                 int equalElements = 0;
                                 j++;
-                                while (lsSequence[j].IndexOf("}") < 0)
+                                while (true)
                                 {
                                     if (lsGroupOfTests.IndexOf(lsSequence[j]) >= 0)
                                     {
                                         equalElements++;
                                     }
                                     j++;
-                                }
-                                if (equalElements == lsGroupOfTests.Count)
-                                {
-                                    lsSequence.RemoveRange(j - equalElements - 1, equalElements + 2);
-                                    j -= equalElements + 2;
+                                    if (lsSequence[j].IndexOf("}") >= 0)
+                                    {
+                                        if ((lsSequence[j].IndexOf("DBTYPE:MSSQL") >= 0 && isDBTypeMSSQL) || (lsSequence[j].IndexOf("DBTYPE:MSSQL") < 0 && !isDBTypeMSSQL))
+                                        {
+                                            if ((lsSequence[j].IndexOf("DBTYPE:ORACLE") >= 0 && isDBTypeORACLE) || (lsSequence[j].IndexOf("DBTYPE:ORACLE") < 0 && !isDBTypeORACLE))
+                                            {
+                                                if (equalElements == lsGroupOfTests.Count)
+                                                {
+                                                    lsSequence.RemoveRange(j - equalElements - 1, equalElements + 2);
+                                                    j -= equalElements + 2;
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    }
                                 }
                             }
                         }
