@@ -313,42 +313,88 @@ public partial class Sequence : CbstHelper
 			string srtFullBatch = ds.Tables[0].Rows[0][0].ToString();
 			FileTextBox.Text += ParseChildBatches(srtFullBatch);
 			FileTextBox.Text = FileTextBox.Text.ToUpper();
-			List<string> lsSequence = new List<string>(FileTextBox.Text.Split('\n'));
-			Boolean isBatch = false;
-			for (int i = 0; i < lsSequence.Count; i++) // Remove spaces between tests and after test name
-			{
-				if (lsSequence[i] == "")
-				{
-					lsSequence.RemoveAt(i);
-					continue;
-				}
-				while (lsSequence[i].EndsWith(" \r"))
-				{
-					lsSequence[i] = lsSequence[i].Substring(0, lsSequence[i].Length - 2);
-					lsSequence[i] += "\r";
-				}
-			}
-			for (int i = 0; i < lsSequence.Count; i++)
-			{
-				for (int j = i + 1; j < lsSequence.Count; j++)
-				{
-					if (lsSequence[j] == "{\r") // Ignore tests in batches
-					{
-						isBatch = true;
-						continue;
-					}
-					else if (lsSequence[j] == "}\r")
-					{
-						isBatch = false;
-						continue;
-					}
-					if (!isBatch && lsSequence[i] == lsSequence[j]) // Remove duplicate test, if it's not in batch
-					{
-						lsSequence.RemoveAt(j);
-					}
-				}
-			}
-			FileTextBox.Text = String.Join("\n", lsSequence.ToArray());
+            List<string> lsSequence = new List<string>(FileTextBox.Text.Split('\n'));
+            Boolean isGroupOfTests = false;
+            for (int i = 0; i < lsSequence.Count; i++) // Remove spaces between tests and after test name
+            {
+                if (lsSequence[i] == "")
+                {
+                    lsSequence.RemoveAt(i);
+                    continue;
+                }
+                while (lsSequence[i].EndsWith(" \r"))
+                {
+                    lsSequence[i] = lsSequence[i].Substring(0, lsSequence[i].Length - 2);
+                    lsSequence[i] += "\r";
+                }
+            }
+			if (RemoveIdenticalTests.Checked)
+            {
+                for (int i = 0; i < lsSequence.Count; i++)
+                {
+                    for (int j = i + 1; j < lsSequence.Count; j++)
+                    {
+                        if (lsSequence[j].IndexOf("{") >= 0) // Ignore tests in batches
+                        {
+                            isGroupOfTests = true;
+                            continue;
+                        }
+                        else if (lsSequence[j].IndexOf("}") >= 0)
+                        {
+                            isGroupOfTests = false;
+                            continue;
+                        }
+                        if (!isGroupOfTests && lsSequence[i] == lsSequence[j]) // Remove duplicate test, if it's not in batch
+                        {
+                            lsSequence.RemoveAt(j);
+                            j--;
+                        }
+                    }
+                }
+            }
+            if (RemoveIdenticalGroupsOfTests.Checked)
+            {
+                for (int i = 0; i < lsSequence.Count; i++)
+                {
+                    if (lsSequence[i].IndexOf("{") >= 0)
+                    {
+                        isGroupOfTests = true;
+                        List<string> lsGroupOfTests = new List<string>();
+                        while (isGroupOfTests)
+                        {
+                            i++;
+                            if (lsSequence[i].IndexOf("}") >= 0)
+                            {
+                                isGroupOfTests = false;
+                                break;
+                            }
+                            lsGroupOfTests.Add(lsSequence[i]);
+                        }
+                        for (int j = i + 1; j < lsSequence.Count; j++)
+                        {
+                            if (lsSequence[j].IndexOf("{") >= 0)
+                            {
+                                int equalElements = 0;
+                                j++;
+                                while (lsSequence[j].IndexOf("}") < 0)
+                                {
+                                    if (lsGroupOfTests.IndexOf(lsSequence[j]) >= 0)
+                                    {
+                                        equalElements++;
+                                    }
+                                    j++;
+                                }
+                                if (equalElements == lsGroupOfTests.Count)
+                                {
+                                    lsSequence.RemoveRange(j - equalElements - 1, equalElements + 2);
+                                    j -= equalElements + 2;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            FileTextBox.Text = String.Join("\n", lsSequence.ToArray());
 		}
 	}
 
