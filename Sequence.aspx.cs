@@ -319,10 +319,19 @@ public partial class Sequence : CbstHelper
             Boolean isDBTypeORACLE = false;
             for (int i = 0; i < lsSequence.Count; i++) // Remove spaces between tests and after test name
             {
-                if (lsSequence[i] == "")
+                if (lsSequence[i] == "\r")
                 {
                     lsSequence.RemoveAt(i);
+                    i--;
                     continue;
+                }
+                for (int j = 0; j < lsSequence[i].Length; j++)
+                {
+                    if (lsSequence[i][j] == ' ' && lsSequence[i][j + 1] == ' ')
+                    {
+                        lsSequence[i] = lsSequence[i].Remove(j + 1, 1);
+                        j--;
+                    }
                 }
                 while (lsSequence[i].EndsWith(" \r"))
                 {
