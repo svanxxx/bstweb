@@ -83,6 +83,9 @@
                             <td>
                                 <asp:CheckBox ID="RemoveIdenticalGroupsOfTests" runat="server" Checked="true" Text="Remove Identical Groups Of Tests" Font-Bold="true" />
                             </td>
+                            <td>
+                                <asp:CheckBox ID="UseLowerCaseForUsernamesAndPasswords" runat="server" Checked="true" Text="Use Lower Case For Usernames And Passwords" Font-Bold="true" />
+                            </td>
                         </tr>
 						<tr>
 							<asp:GridView ID="DataGridView" runat="server" DataSourc="SqlDataSource1" Width="100%"

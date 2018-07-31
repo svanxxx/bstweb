@@ -338,6 +338,30 @@ public partial class Sequence : CbstHelper
                     lsSequence[i] = lsSequence[i].Substring(0, lsSequence[i].Length - 2);
                     lsSequence[i] += "\r";
                 }
+                if (UseLowerCaseForUsernamesAndPasswords.Checked)
+                {
+                    string[] commands = { "USER:", "PASS:" };
+                    string command;
+                    int pos;
+                    for (int j = 0; j < commands.Length; j++)
+                    {
+                        command = commands[j];
+                        pos = lsSequence[i].IndexOf(command);
+                        if (pos >= 0)
+                        {
+                            for (int k = pos + command.Length; k < lsSequence[i].Length; k++)
+                            {
+                                command = command.Insert(command.Length, lsSequence[i][k].ToString().ToLower());
+                                if (lsSequence[i][k] == '\"')
+                                {
+                                    lsSequence[i] = lsSequence[i].Remove(pos, command.Length);
+                                    lsSequence[i] = lsSequence[i].Insert(pos, command);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
             }
 			if (RemoveIdenticalTests.Checked)
             {
