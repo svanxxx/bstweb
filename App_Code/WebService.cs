@@ -201,7 +201,7 @@ public class WebService : System.Web.Services.WebService
 	}
 	private static string TTEvaluator(Match match)
 	{
-		return string.Format("<a href='http://{0}/tr/ShowTT.aspx?ttid=", BSTStat.globalIPAddress) +
+		return string.Format("<a href='http://{0}/taskmanagerbeta/showtask.aspx?ttid=", BSTStat.globalIPAddress) +
 		 (Convert.ToInt32(match.Groups[0].Value.Replace("TT", ""))).ToString() +
 			"'>" + match.Groups[0].Value + "</a>";
 	}
