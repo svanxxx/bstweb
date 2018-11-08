@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public partial class Merge : System.Web.UI.Page
 {
-	static List<string> _txtFormats = new List<string>(new string[] { ".TXT", ".LAS", ".CMG", ".HTML", ".LOG", ".FPX", ".XML", ".FPA", ".IPT", ".HTML", ".HTM" });
+	static List<string> _txtFormats = new List<string>(new string[] { ".TXT", ".LAS", ".CMG", ".HTML", ".LOG", ".FPX", ".XML", ".FPA", ".IPT", ".HTML", ".HTM", ".ACQ" });
 	static List<string> _imgFormats = new List<string>(new string[] { ".PNG", ".JPG", ".BMP" });
 	public List<String> GetParam(string strParam)
 	{
