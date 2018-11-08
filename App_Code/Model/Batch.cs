@@ -1,11 +1,12 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Data;
 
 public class Batch : IdBasedObject
 {
 	static readonly string _btable = "BATCHES";
 	static readonly string _bname = "BATCH_NAME";
 	static readonly string _bdata = "BATCH_DATA";
-	
+
 	public string BATCH_DATA
 	{
 		get { return this[_bdata].ToString(); }
@@ -18,7 +19,7 @@ public class Batch : IdBasedObject
 	}
 	public static int AddBatch(string name)
 	{
-		return AddObject(_btable, new string[] {_bname, _bdata}, new string[] {name, "put your commands here..."});
+		return AddObject(_btable, new string[] { _bname, _bdata }, new string[] { name, "put your commands here..." });
 	}
 	public static void DeleteBatch(string id)
 	{
@@ -32,5 +33,22 @@ public class Batch : IdBasedObject
 				: id
 			)
 	{
+	}
+
+	static object _lockobj = new object();
+	static List<string> _Batches = new List<string>();
+	public static List<string> Enum()
+	{
+		lock(_lockobj)
+		{
+			if (_Batches.Count < 1)
+			{
+				foreach (DataRow r in DBHelper.GetRows(string.Format("SELECT {0} FROM {1} ORDER BY {0}", _bname, _btable)))
+				{
+					_Batches.Add(r[0].ToString());
+				}
+			}
+			return new List<string>(_Batches);
+		}
 	}
 }

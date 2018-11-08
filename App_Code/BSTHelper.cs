@@ -611,15 +611,15 @@ public class CbstHelper : System.Web.UI.Page
 	public static void RunBatch4Request(string user, string batchname, string requestGUID, string priority)
 	{
 		TestRequest tr = new TestRequest("", requestGUID);
-        string text = ParseChildBatches(strInput: (new Batch("", batchname)).BATCH_DATA);
+		string text = ParseChildBatches(strInput: (new Batch("", batchname)).BATCH_DATA);
 
-        string[] Commands, arrGroup;
-        GetCommandsGroups(text, out Commands, out arrGroup);
+		string[] Commands, arrGroup;
+		GetCommandsGroups(text, out Commands, out arrGroup);
 		ExecRequestSQL(Commands, arrGroup, tr.ID.ToString(), (new BSTUser("", user)).ID, priority);
 
-        tr.REQUEST_PRIORITY = Convert.ToInt32(priority);
-        tr.USERID = (new BSTUser("", "bst")).ID;
-        tr.Store();
+		tr.REQUEST_PRIORITY = Convert.ToInt32(priority);
+		tr.USERID = (new BSTUser("", "bst")).ID;
+		tr.Store();
 	}
 	public static string ParseChildBatches(string strInput)
 	{
@@ -687,7 +687,7 @@ public class CbstHelper : System.Web.UI.Page
 				cmd.ExecuteNonQuery();
 		}
 	}
-	
+
 	public static void IgnoreTestRun(string ids)
 	{
 		string[] sids = ids.Split(',');
@@ -744,13 +744,13 @@ public class CbstHelper : System.Web.UI.Page
 		", vers, UserName, BSTStat.newBSTAddress, id, ttid, comm);
 		AddEmail(
 				emal
-				,string.Format("Your request to test version({0}) was processed by {1}", vers, UserName)
-				,body
-				,IgnoreTT);
+				, string.Format("Your request to test version({0}) was processed by {1}", vers, UserName)
+				, body
+				, IgnoreTT);
 	}
 	public static void UntestRequest(string id)
 	{
-		TestRequest tr = new TestRequest(id){USERID = UserID,TESTED = ""};
+		TestRequest tr = new TestRequest(id) { USERID = UserID, TESTED = "" };
 		tr.Store();
 	}
 	//helpers
@@ -951,7 +951,7 @@ public class CbstHelper : System.Web.UI.Page
 		smtp.Timeout = 10000;
 		smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
 		smtp.UseDefaultCredentials = false;
-		smtp.Credentials = new NetworkCredential("resfieldpro@Gmail.com", "mentor2000");
+		smtp.Credentials = new NetworkCredential("resfieldpro@Gmail.com", "mentor2018");
 
 		string strError = "";
 		try

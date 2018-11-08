@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Services;
 using System.Data;
@@ -9,9 +8,6 @@ using System.Text.RegularExpressions;
 using System.IO;
 using BSTStatics;
 
-/// <summary>
-/// Summary description for WebService
-/// </summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [System.Web.Script.Services.ScriptService]
@@ -20,7 +16,7 @@ public class WebService : System.Web.Services.WebService
 	public WebService()
 	{
 	}
-	protected void _UpdateAppRequestInfo(String strCount, String strID, int iNotAnswerRequestCount, String idSchedules)
+	protected void _UpdateAppRequestInfo(string strCount, string strID, int iNotAnswerRequestCount, string idSchedules)
 	{
 		double dCDate = Convert.ToDouble(DateTime.Now.ToOADate());
 		Application.Lock();
@@ -115,9 +111,9 @@ public class WebService : System.Web.Services.WebService
 		string aaa = GetLastTestID(strVersion1) + " " + GetLastTestID(strVersion2);
 		return aaa;
 	}
-	protected string GetParam(String strCommand, string strSearch)
+	protected string GetParam(string strCommand, string strSearch)
 	{
-		String strReturn = "";
+		string strReturn = "";
 		strCommand += " ";
 
 		int index = strCommand.ToUpper().IndexOf(strSearch.ToUpper());
@@ -164,14 +160,14 @@ public class WebService : System.Web.Services.WebService
 		strCommandName = (strCommandName.Replace('`', '"').Replace('~', '\\'));
 
 		// get db type from strCommandName
-		String dbtype = GetParam(strCommandName, "dbtype:");
+		string dbtype = GetParam(strCommandName, "dbtype:");
 		dbtype = (dbtype == "" ? "NULL" : "'" + dbtype + "'");
 
-		String y3dv = GetParam(strCommandName, "special:");
+		string y3dv = GetParam(strCommandName, "special:");
 		y3dv = (y3dv.Contains("3DV") ? "1" : "NULL");
 
 		// get PCName from strCommandName
-		String strSQLPCName = "", sPCName = GetParam(strCommandName, "PCName:");
+		string strSQLPCName = "", sPCName = GetParam(strCommandName, "PCName:");
 		if (sPCName == "") strSQLPCName = "NULL";
 		else
 		{
@@ -181,10 +177,10 @@ public class WebService : System.Web.Services.WebService
 			else sPCName = " \"PCName:" + sPCName + "\"";
 
 		}
-		String strGuid = Guid.NewGuid().ToString();
-		String strPRIORITY = "4";
+		string strGuid = Guid.NewGuid().ToString();
+		string strPRIORITY = "4";
 
-		String strSetSQL =
+		string strSetSQL =
 			@"INSERT INTO SCHEDULE (COMMAND, REQUESTID, PCID, USERID, PRIORITY, SEQUENCENUMBER, SEQUENCEGUID, DBTYPE, Y3DV) VALUES" +
 			" ('" + strCommandName + "', " + strReqestID + "," + strSQLPCName + ",(select T2.ID from PERSONS T2 where T2.USER_LOGIN = '" + UserName + "'), " + strPRIORITY + ",2, '" + strGuid + "', " + dbtype + ", " + y3dv + ")";
 
@@ -687,5 +683,10 @@ public class WebService : System.Web.Services.WebService
 		CbstHelper.FeedLog("Batch script has been deleted: " + b.BATCH_NAME);
 		Batch.DeleteBatch(id);
 		return "OK";
+	}
+	[WebMethod]
+	public string[] EnumBatches()
+	{
+		return Batch.Enum().ToArray();
 	}
 }
