@@ -695,4 +695,13 @@ public class WebService : System.Web.Services.WebService
 		TestRequest tr = new TestRequest("", guid);
 		return tr.ID;
 	}
+	[WebMethod]
+	public void StartTest(string guid, string commaseparatedbatches)
+	{
+		string[] batches = commaseparatedbatches.Split(',');
+		foreach (string batch in batches)
+		{
+			CbstHelper.RunBatch4Request("bst", batch, guid, "4");
+		}
+	}
 }
