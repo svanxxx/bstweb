@@ -689,4 +689,10 @@ public class WebService : System.Web.Services.WebService
 	{
 		return Batch.Enum().ToArray();
 	}
+	[WebMethod]
+	public int GetTestID(string guid)
+	{
+		TestRequest tr = new TestRequest("", guid);
+		return tr.ID;
+	}
 }
