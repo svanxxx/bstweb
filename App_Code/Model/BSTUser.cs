@@ -25,7 +25,7 @@ public class BSTUser : IdBasedObject
 	}
 	public int ID
 	{
-		get { return GetAsInt(_adm); }
+		get { return GetAsInt(_pid); }
 		set { this[_pid] = value; }
 	}
 	public bool ISADMIN

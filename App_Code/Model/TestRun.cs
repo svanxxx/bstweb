@@ -55,4 +55,14 @@ public class TestRun : IdBasedObject
 		: base("TESTRUNS", new string[] { "COMMENT", "USERID", "IGNORE", "VERIFIED_USER_ID", "DOCLINK" }, id)
 	{
 	}
+	public static void CommentTestRuns(string ids, string comment)
+	{
+		string[] sids = ids.Split(',');
+		foreach (string id in sids)
+		{
+			TestRun tr = new TestRun(id) { USERID = CurrentContext.UserID.ToString(), COMMENT = comment };
+			tr.Store();
+		}
+		CbstHelper.FeedLog("Following tests where commented: " + ids);
+	}
 }

@@ -290,7 +290,7 @@ public partial class PutFiles : CbstHelper
 		String strSQLExecute = "UPDATE TESTRUNS SET TTID=" + strTTs + ", USERID = (select T2.ID from PERSONS T2 where T2.USER_LOGIN = '" + CurrentContext.UserLogin() + "')  WHERE ID = " + TestID.ToString();
 		SQLExecute(strSQLExecute);
 
-		CommentTestRun(TestID.ToString(), TextAreaMessage.Text);
+		TestRun.CommentTestRuns(TestID.ToString(), TextAreaMessage.Text);
 
 		if ((TestID != 0) && (strTTids != ""))
 		{

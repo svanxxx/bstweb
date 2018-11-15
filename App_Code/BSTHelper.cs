@@ -632,16 +632,6 @@ public class CbstHelper : System.Web.UI.Page
 		}
 		CbstHelper.FeedLog("Following tests where marked as ignored: " + ids);
 	}
-	public static void CommentTestRun(string ids, string comment)
-	{
-		string[] sids = ids.Split(',');
-		foreach (string id in sids)
-		{
-			TestRun tr = new TestRun(id) { USERID = CurrentContext.UserID.ToString(), COMMENT = comment };
-			tr.Store();
-		}
-		CbstHelper.FeedLog("Following tests where commented: " + ids);
-	}
 	public static void VerifyTestRun(string ids)
 	{
 		string[] sids = ids.Split(',');

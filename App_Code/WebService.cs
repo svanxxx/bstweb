@@ -187,7 +187,7 @@ public class WebService : System.Web.Services.WebService
 		strSetSQL = strSetSQL.ToUpper();
 		CbstHelper.SQLExecute(strSetSQL);
 
-		CbstHelper.CommentTestRun(TestRunID, "Rerun");
+		TestRun.CommentTestRuns(TestRunID, "Rerun");
 		FeedLog("Next command has been rerun: " + strCommandName);
 		return "OK";
 	}
@@ -565,7 +565,7 @@ public class WebService : System.Web.Services.WebService
 	{
 		try
 		{
-			CbstHelper.CommentTestRun(commaSeparatedIDs, mess);
+			TestRun.CommentTestRuns(commaSeparatedIDs, mess);
 		}
 		catch (Exception e)
 		{
