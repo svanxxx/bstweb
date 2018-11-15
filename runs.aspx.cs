@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using BSTStatics;
 
@@ -19,11 +15,11 @@ public partial class Runs : PagedOutput
 		if (!string.IsNullOrEmpty(rh.REQUESTID))
 		{
 			TestRequest tr = new TestRequest(rh.REQUESTID);
-			requestinfo.InnerHtml = string.Format("<strong><a href='requests.aspx?PROGABB={0}'>{0}</a>:</strong>{1}", tr.PROGABB, ReplaceTT(tr.TTID));
+			requestinfo.InnerHtml = string.Format("<strong><a href='requests.aspx?PROGABB={0}'>{0}</a>:</strong>{1}", tr.PROGABB, BSTStat.ReplaceTT(tr.TTID));
 			requestinfo.Visible = true;
 		}
 
-		object opages = GetValue(rh.sqlCounter);
+		object opages = DBHelper.GetValue(rh.sqlCounter);
 
 		int pages = (int)Math.Ceiling((double)Convert.ToInt32(opages) / ShowBy);
 		TTable.Attributes["pages"] = pages.ToString();
@@ -31,7 +27,7 @@ public partial class Runs : PagedOutput
 		int numOfInternalCols = 2;
 
 		int index = start;
-		using (DataTable dt = GetDataTable(rh.sql))
+		using (DataTable dt = DBHelper.GetDataTable(rh.sql))
 		{
 			int colcount = dt.Columns.Count;
 

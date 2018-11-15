@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Text.RegularExpressions;
 
 namespace BSTStatics
 {
@@ -13,5 +11,15 @@ namespace BSTStatics
 		public const string returnurl = "returnurl";
 		public const string defDateFormat = "MM-dd-yyyy";
 		public const string SQLDateFormat = "yyyy-MM-dd HH:mm:ss";
+		public static string ReplaceTT(string strTT)
+		{
+			return Regex.Replace(strTT, "TT\\d+", TTEvaluator);
+		}
+		private static string TTEvaluator(Match match)
+		{
+			string res = match.Groups[0].Value;
+			string id = Convert.ToInt32(res.Replace("TT", "")).ToString();
+			return string.Format("<a href='http://{0}/taskmanagerbeta/showtask.aspx?ttid={1}'>{2}</a>", BSTStat.mainName, id, res);
+		}
 	}
 }

@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Data;
 using System.Data.OleDb;
 using System.Globalization;
-using System.Windows.Forms;
 using System.Drawing;
-using System.Collections.Specialized;
 using System.Configuration;
-using System.Web.UI.HtmlControls;
 using System.Security.Cryptography;
 using System.Text;
 using System.IO;
@@ -18,7 +14,6 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Net.Mail;
 using System.Web.UI.WebControls;
-using System.Data.SqlClient;
 using System.Net;
 using BSTStatics;
 using System.DirectoryServices.AccountManagement;
@@ -90,24 +85,7 @@ public class CbstHelper : System.Web.UI.Page
 //		Header.Controls.Add(link);
 //		UpdateControls(Page.Controls);
 	}
-	public string ReplaceTT(string strTT)
-	{
-		return Regex.Replace(strTT, "TT\\d+", TTEvaluator);
-	}
-	private static string TTEvaluator(Match match)
-	{
-		string res = match.Groups[0].Value;
-		string id = Convert.ToInt32(res.Replace("TT", "")).ToString();
-		return string.Format("<a href='http://{0}/taskmanagerbeta/showtask.aspx?ttid={1}'>{2}</a>", BSTStat.mainName, id, res);
-	}
-
-	//security
-	private string m_LoginwerrMsg;
-	public string LoginErrorMsg
-	{
-		get { return m_LoginwerrMsg; }
-		set { m_LoginwerrMsg = value; }
-	}
+	public string LoginErrorMsg { get; set; }
 	private string UserKey
 	{
 		get
@@ -133,36 +111,10 @@ public class CbstHelper : System.Web.UI.Page
 	}
 	private void InitSecurityCheck(object sender, EventArgs e)
 	{
-		if (IsUserActive)
-			return;
-
-		string strURL = Request.ServerVariables["URL"];
-		if (strURL.Contains(LoginPage))
-			return;
-
-		HttpCookie cookieUser = Request.Cookies[UserKey];
-		HttpCookie cookiePass = Request.Cookies[PassKey];
-		string strUser = cookieUser == null ? "" : cookieUser.Value;
-		string strPass = cookiePass == null ? "" : cookiePass.Value;
-
-		if (string.IsNullOrEmpty(strUser) || string.IsNullOrEmpty(strPass))
-		{
-			Response.Redirect(ResolveClientUrl(LoginPage) + "?" + BSTStat.returnurl + "=" + strURL, false);
-			Context.ApplicationInstance.CompleteRequest();
-			return;
-		}
-		strUser = Decrypt(strUser);
-		strPass = Decrypt(strPass);
-		if (!Login(strUser, strPass, true))
-		{
-			Response.Redirect(ResolveClientUrl(LoginPage) + "?" + BSTStat.returnurl + "=" + strURL, false);
-			Context.ApplicationInstance.CompleteRequest();
-			return;
-		}
+		SecurityPage.Static_Page_PreInit();
 	}
 	public bool Login(string sUserName, string Password, bool bStoreUserPass)
 	{
-		BackgroundWorker.Init();
 		bool bRes = false;
 		Application.Lock();
 		try

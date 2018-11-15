@@ -7,17 +7,17 @@ public class SecurityPage : System.Web.UI.Page
 	public static string returl = "ReturnUrl";
 	public static string loginpage = "login.aspx";
 
-	void CheckRetired()
+	static void CheckRetired()
 	{
 		if (CurrentContext.Valid && CurrentContext.User.RETIRED)
 		{
-			Response.Redirect(string.Format("{0}?{1}=1", loginpage, CurrentContext.retiredURL), false);
-			Context.ApplicationInstance.CompleteRequest();
+			HttpContext.Current.Response.Redirect(string.Format("{0}?{1}=1", loginpage, CurrentContext.retiredURL), false);
+			HttpContext.Current.ApplicationInstance.CompleteRequest();
 		}
 	}
-	protected void Page_PreInit(object sender, EventArgs e)
+	static public void Static_Page_PreInit()
 	{
-		if (Request.Url.Segments.Last().ToUpper() == loginpage.ToUpper())
+		if (HttpContext.Current.Request.Url.Segments.Last().ToUpper() == loginpage.ToUpper())
 		{
 			return;
 		}
@@ -28,11 +28,15 @@ public class SecurityPage : System.Web.UI.Page
 		}
 		else
 		{
-			Response.Redirect(loginpage + "?" + returl + "=" + Request.Url.PathAndQuery, false);
-			Context.ApplicationInstance.CompleteRequest();
+			HttpContext.Current.Response.Redirect(loginpage + "?" + returl + "=" + HttpContext.Current.Request.Url.PathAndQuery, false);
+			HttpContext.Current.ApplicationInstance.CompleteRequest();
 		}
 		CheckRetired();
 		return;
+	}
+	protected void Page_PreInit(object sender, EventArgs e)
+	{
+		Static_Page_PreInit();
 	}
 
 	public static string GetPageOgName()

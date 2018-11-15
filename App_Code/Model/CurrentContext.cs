@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web;
+﻿using System.Web;
 
 public static class CurrentContext
 {
@@ -90,6 +89,14 @@ public static class CurrentContext
 				HttpContext.Current.Session[_us] = ous;
 			}
 			return (ous as BSTUser);
+		}
+	}
+	public static string CurrentPageName
+	{
+		get
+		{
+			System.IO.FileInfo oInfo = new System.IO.FileInfo(HttpContext.Current.Request.Url.AbsolutePath);
+			return oInfo.Name;
 		}
 	}
 }

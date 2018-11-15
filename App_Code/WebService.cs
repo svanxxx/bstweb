@@ -191,16 +191,6 @@ public class WebService : System.Web.Services.WebService
 		FeedLog("Next command has been rerun: " + strCommandName);
 		return "OK";
 	}
-	public string ReplaceTT(string strTT)
-	{
-		return Regex.Replace(strTT, "TT\\d+", TTEvaluator);
-	}
-	private static string TTEvaluator(Match match)
-	{
-		return string.Format("<a href='http://{0}/taskmanagerbeta/showtask.aspx?ttid=", BSTStat.globalIPAddress) +
-		 (Convert.ToInt32(match.Groups[0].Value.Replace("TT", ""))).ToString() +
-			"'>" + match.Groups[0].Value + "</a>";
-	}
 	// WhatBetweenVersions '{strVersionNew:"' + strVer1 + '",strRequest:"' + strRequest + '",strVersionOld:"' + strVer2 + '" }',
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
 	[WebMethod()]
@@ -258,7 +248,7 @@ public class WebService : System.Web.Services.WebService
 		else
 		{
 			stdout_str = "<table border='1' Width = '100%'>" + stdout_str + "</table>";
-			stdout_str = ReplaceTT(stdout_str);
+			stdout_str = BSTStat.ReplaceTT(stdout_str);
 			stdout_str = stdout_str.Replace(" +0300", "");
 		}
 

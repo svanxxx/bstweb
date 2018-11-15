@@ -85,4 +85,19 @@ public class DBHelper
 	{
 		return GetDataSet(strSQL).Tables[0].Rows;
 	}
+	public static DataTable GetDataTable(string strSQL)
+	{
+		using (DataSet ds = new DataSet())
+		{
+			using (OleDbConnection conn = NewConnection)
+			{
+				conn.Open();
+				using (OleDbDataAdapter adapter = new OleDbDataAdapter(strSQL, conn))
+				{
+					adapter.Fill(ds);
+				}
+			}
+			return ds.Tables[0];
+		}
+	}
 }

@@ -3,6 +3,8 @@
 <script RunAt="server">
 	void Application_Start(object sender, EventArgs e)
 	{
+		BackgroundWorker.Init();
+
 		System.Web.Optimization.BundleTable.EnableOptimizations = true;
 		string[] files = new string[] { "settings" };
 		foreach (string file in files)

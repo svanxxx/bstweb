@@ -29,12 +29,12 @@ public partial class VSummary : PagedOutput
 			ORDER BY T.TEST_FIPVERSIONID DESC
 			", start, end);
 
-		object opages = GetValue(string.Format("SELECT COUNT(*) FROM FIPVERSION"));
+		object opages = DBHelper.GetValue(string.Format("SELECT COUNT(*) FROM FIPVERSION"));
 		int pages = (int)Math.Ceiling((double)Convert.ToInt32(opages) / ShowBy);
 		TTable.Attributes["pages"] = pages.ToString();
 
 		int index = start;
-		using (DataTable dt = GetDataTable(sql))
+		using (DataTable dt = DBHelper.GetDataTable(sql))
 		{
 			int colcount = dt.Columns.Count;
 
