@@ -287,7 +287,7 @@ public partial class PutFiles : CbstHelper
 
 		// Update TTs list
 		String strTTs = strNew_TTids == "" ? "NULL" : "'" + strNew_TTids + "'";
-		String strSQLExecute = "UPDATE TESTRUNS SET TTID=" + strTTs + ", USERID = (select T2.ID from PERSONS T2 where T2.USER_LOGIN = '" + UserName + "')  WHERE ID = " + TestID.ToString();
+		String strSQLExecute = "UPDATE TESTRUNS SET TTID=" + strTTs + ", USERID = (select T2.ID from PERSONS T2 where T2.USER_LOGIN = '" + CurrentContext.UserLogin() + "')  WHERE ID = " + TestID.ToString();
 		SQLExecute(strSQLExecute);
 
 		CommentTestRun(TestID.ToString(), TextAreaMessage.Text);

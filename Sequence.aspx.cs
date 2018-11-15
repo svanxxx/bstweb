@@ -458,7 +458,7 @@ public partial class Sequence : CbstHelper
 	{
 		string errorMail = "";
 
-		if (!IsUserAdmin)
+		if (!CurrentContext.Admin)
 		{
 			ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Access denied')", true);
 			return;
@@ -509,7 +509,7 @@ public partial class Sequence : CbstHelper
 
 		// get user id
 
-		DataSet DS = GetDataSet(@"select T2.ID from PERSONS T2 where T2.USER_LOGIN = '" + UserName + "'");
+		DataSet DS = GetDataSet(@"select T2.ID from PERSONS T2 where T2.USER_LOGIN = '" + CurrentContext.UserLogin() + "'");
 		string strUserID = DS.Tables[0].Rows[0][0].ToString();
 		ExecRequestSQL(Commands, arrGroup, RequestID, strUserID, strPRIORITY);
 
@@ -529,7 +529,7 @@ public partial class Sequence : CbstHelper
 
 			if (r.USERID == "")
 			{
-				r.USERID = UserID;
+				r.USERID = CurrentContext.UserID.ToString();
 				r.Store();
 
 				string body = string.Format(@"
@@ -542,11 +542,11 @@ public partial class Sequence : CbstHelper
 				<br>Person responsible: <b>{1}</b>
 				<br>Best regards, <b>{1}</b>
 				",
-				v.VERSION, UserName, r.REQUESTDATETIME, Settings.CurrentSettings.BSTADDRESS, RequestID, r.TTID, r.COMMENT);
+				v.VERSION, CurrentContext.UserName(), r.REQUESTDATETIME, Settings.CurrentSettings.BSTADDRESS, RequestID, r.TTID, r.COMMENT);
 
 				AddEmail(
 					r.PROGABB
-					,string.Format("Your request for version ({0}) test was processed by: {1}", v.VERSION, UserName)
+					,string.Format("Your request for version ({0}) test was processed by: {1}", v.VERSION, CurrentContext.UserName())
 					,body
 					,"#FEFCFF");
 			}

@@ -393,7 +393,7 @@ public class WebService : System.Web.Services.WebService
 	            PAUSEDBY = CASE WHEN PAUSEDBY IS NULL THEN (SELECT ID FROM PERSONS WHERE USER_LOGIN = '{0}') ELSE NULL END
             WHERE 
             PCNAME = '{1}'
-        ", CbstHelper.UserName, machine);
+        ", CurrentContext.UserLogin(), machine);
 		CbstHelper.SQLExecute(update);
 
 		object o = CbstHelper.GetValue(string.Format("SELECT PAUSEDBY FROM PCS WHERE PCNAME = '{0}'", machine));
@@ -600,7 +600,7 @@ public class WebService : System.Web.Services.WebService
 	public void TestRequestManually(string id)
 	{
 		TestRequest r = new TestRequest(id);
-		r.TESTER = Convert.ToInt32(CbstHelper.UserID);
+		r.TESTER = CurrentContext.UserID;
 		r.Store();
 	}
 	[WebMethod(EnableSession = true)]

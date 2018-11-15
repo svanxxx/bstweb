@@ -120,7 +120,6 @@ public class CbstHelper : System.Web.UI.Page
 		try
 		{
 			bRes = FLogin(sUserName, Password, bStoreUserPass);
-			UserName = sUserName;
 		}
 		finally
 		{
@@ -130,21 +129,11 @@ public class CbstHelper : System.Web.UI.Page
 	}
 	public static bool IsConnected
 	{
-		get { return HttpContext.Current.Session["UserName"] != null; }
+		get { return CurrentContext.Valid; }
 	}
 	public static string GitUser
 	{
-		get { return UserName.Split('@')[0]; }
-	}
-	public static string UserName
-	{
-		get { return HttpContext.Current.Session["UserName"].ToString(); }
-		set { HttpContext.Current.Session["UserName"] = value; }
-	}
-	public static string UserID
-	{
-		get { return HttpContext.Current.Session["UserID"].ToString(); }
-		set { HttpContext.Current.Session["UserID"] = value; }
+		get { return CurrentContext.UserName().Split('@')[0]; }
 	}
 	public string UserPass
 	{
@@ -155,11 +144,6 @@ public class CbstHelper : System.Web.UI.Page
 	{
 		get { return Session["UserLabel"].ToString(); }
 		set { Session["UserLabel"] = value; }
-	}
-	public bool IsUserAdmin
-	{
-		get { return Session["IsUserAdmin"] != null; }
-		set { if (value) Session["IsUserAdmin"] = value; }
 	}
 	public bool IsUserGuest
 	{
@@ -217,12 +201,10 @@ public class CbstHelper : System.Web.UI.Page
 						Response.Cookies.Add(cookieUser);
 					}
 
-					IsUserAdmin = rowCur.Field<System.Boolean>(2);
 					IsUserGuest = rowCur.Field<System.Boolean>(3);
 					UserLabel = rowCur[4].ToString();
-					UserID = rowCur[5].ToString();
 
-					if (!IsInternalIP() && !IsUserAdmin)
+					if (!IsInternalIP() && !CurrentContext.Admin)
 						LoginErrorMsg = "Only Administrators can login using external IP";
 					else
 						IsUserActive = true;
@@ -404,7 +386,7 @@ public class CbstHelper : System.Web.UI.Page
 			return;
 
 		str = str.Replace('\'', '\"');
-		string sql = string.Format("INSERT INTO BSTLOG ([TEXT],[USERID]) VALUES ('{0}', (SELECT P.ID FROM PERSONS P WHERE P.USER_LOGIN = '{1}'))", str, UserName);
+		string sql = string.Format("INSERT INTO BSTLOG ([TEXT],[USERID]) VALUES ('{0}', (SELECT P.ID FROM PERSONS P WHERE P.USER_LOGIN = '{1}'))", str, CurrentContext.UserLogin());
 		SQLExecute(sql);
 	}
 	protected double GetRepDelay()
@@ -645,7 +627,7 @@ public class CbstHelper : System.Web.UI.Page
 		string[] sids = ids.Split(',');
 		foreach (string id in sids)
 		{
-			TestRun tr = new TestRun(id) { USERID = UserID, COMMENT = "ignored", IGNORE = true.ToString() };
+			TestRun tr = new TestRun(id) { USERID = CurrentContext.UserID.ToString(), COMMENT = "ignored", IGNORE = true.ToString() };
 			tr.Store();
 		}
 		CbstHelper.FeedLog("Following tests where marked as ignored: " + ids);
@@ -655,7 +637,7 @@ public class CbstHelper : System.Web.UI.Page
 		string[] sids = ids.Split(',');
 		foreach (string id in sids)
 		{
-			TestRun tr = new TestRun(id) { USERID = UserID, COMMENT = comment };
+			TestRun tr = new TestRun(id) { USERID = CurrentContext.UserID.ToString(), COMMENT = comment };
 			tr.Store();
 		}
 		CbstHelper.FeedLog("Following tests where commented: " + ids);
@@ -665,7 +647,7 @@ public class CbstHelper : System.Web.UI.Page
 		string[] sids = ids.Split(',');
 		foreach (string id in sids)
 		{
-			TestRun tr = new TestRun(id) { USERID = UserID, COMMENT = "verified", VERIFIED_USER_ID = UserID };
+			TestRun tr = new TestRun(id) { USERID = CurrentContext.UserID.ToString(), COMMENT = "verified", VERIFIED_USER_ID = CurrentContext.UserID.ToString() };
 			tr.Store();
 		}
 		CbstHelper.FeedLog("Following tests where marked as verified: " + ids);
@@ -673,7 +655,7 @@ public class CbstHelper : System.Web.UI.Page
 	public static void IgnoreRequest(string id, string str1or0)
 	{
 		bool ignore = str1or0 == "1";
-		TestRequest tr = new TestRequest(id) { USERID = UserID, IGNORE = ignore ? "true" : "" };
+		TestRequest tr = new TestRequest(id) { USERID = CurrentContext.UserID.ToString(), IGNORE = ignore ? "true" : "" };
 		tr.Store();
 
 		if (!ignore)
@@ -693,16 +675,16 @@ public class CbstHelper : System.Web.UI.Page
 		{5}<br><br>
 		Person responsible: <b>{1}</b><br><br>
 		Best regards, {1}
-		", vers, UserName, Settings.CurrentSettings.BSTADDRESS, id, ttid, comm);
+		", vers, CurrentContext.UserName(), Settings.CurrentSettings.BSTADDRESS, id, ttid, comm);
 		AddEmail(
 				emal
-				, string.Format("Your request to test version({0}) was processed by {1}", vers, UserName)
+				, string.Format("Your request to test version({0}) was processed by {1}", vers, CurrentContext.UserName())
 				, body
 				, IgnoreTT);
 	}
 	public static void UntestRequest(string id)
 	{
-		TestRequest tr = new TestRequest(id) { USERID = UserID, TESTED = "" };
+		TestRequest tr = new TestRequest(id) { USERID = CurrentContext.UserID.ToString(), TESTED = "" };
 		tr.Store();
 	}
 	//helpers

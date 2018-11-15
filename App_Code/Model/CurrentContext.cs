@@ -2,7 +2,7 @@
 
 public static class CurrentContext
 {
-	public static string ucook = "userid";
+	public static string ucook = "BSTuserid";
 	public static string retiredURL = "retired";
 	static string _id = "userid";
 	static string _us = "currentuser";
