@@ -133,17 +133,7 @@ public class CbstHelper : System.Web.UI.Page
 	}
 	public static string GitUser
 	{
-		get { return CurrentContext.UserName().Split('@')[0]; }
-	}
-	public string UserPass
-	{
-		get { return Session["UserPass"].ToString(); }
-		set { Session["UserPass"] = value; }
-	}
-	public string UserLabel
-	{
-		get { return Session["UserLabel"].ToString(); }
-		set { Session["UserLabel"] = value; }
+		get { return CurrentContext.UserLogin().Split('@')[0]; }
 	}
 	public bool IsUserGuest
 	{
@@ -202,7 +192,6 @@ public class CbstHelper : System.Web.UI.Page
 					}
 
 					IsUserGuest = rowCur.Field<System.Boolean>(3);
-					UserLabel = rowCur[4].ToString();
 
 					if (!IsInternalIP() && !CurrentContext.Admin)
 						LoginErrorMsg = "Only Administrators can login using external IP";

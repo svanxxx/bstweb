@@ -14,7 +14,6 @@ public partial class Controls_BstFooterControl : System.Web.UI.UserControl
 		 TableRow tr = new TableRow();
 		 TableCell tc = new TableCell();
 		 tc.Font.CopyFrom(UserTable.Font);
-		 //tc.Text = Session["UserLabel"].ToString();
 		 tr.Cells.Add(tc);
 
 		 tc = new TableCell();
