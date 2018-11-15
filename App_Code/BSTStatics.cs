@@ -8,7 +8,6 @@ namespace BSTStatics
 	public static class BSTStat
 	{
 		public const string networkBSTMachine = "192.168.0.8";
-		public const string newBSTAddress = "mps.resnet.com:2222";
 		public const string globalIPAddress = "213.184.249.150";
 		public const string mainName = "mps.resnet.com";
 		public const string returnurl = "returnurl";

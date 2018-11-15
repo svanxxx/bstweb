@@ -45,7 +45,7 @@ public partial class ViewLog : CbstHelper
 		Response.Clear();
 
 		string output = text.Replace("http://mps.resnet.com/bst/web/", "").
-			Replace(BSTStat.globalIPAddress, BSTStat.newBSTAddress);
+			Replace(BSTStat.globalIPAddress, Settings.CurrentSettings.BSTADDRESS);
 		Response.Write(output);
 		Response.End();
 	}

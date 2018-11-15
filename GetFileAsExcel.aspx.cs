@@ -18,7 +18,7 @@ public partial class GetFileAsExcel : CbstHelper
 
 		if (strFilePath == null) return;
 
-		string str1 = string.Format("http://{0}", BSTStat.newBSTAddress);
+		string str1 = string.Format("http://{0}", Settings.CurrentSettings.BSTADDRESS);
 		if (strFilePath.IndexOf(str1) == 0)
 		{
 			strFilePath = strFilePath.Replace(str1, @"//192.168.0.8/public");

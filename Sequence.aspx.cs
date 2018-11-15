@@ -542,7 +542,7 @@ public partial class Sequence : CbstHelper
 				<br>Person responsible: <b>{1}</b>
 				<br>Best regards, <b>{1}</b>
 				",
-				v.VERSION, UserName, r.REQUESTDATETIME, BSTStat.newBSTAddress, RequestID, r.TTID, r.COMMENT);
+				v.VERSION, UserName, r.REQUESTDATETIME, Settings.CurrentSettings.BSTADDRESS, RequestID, r.TTID, r.COMMENT);
 
 				AddEmail(
 					r.PROGABB

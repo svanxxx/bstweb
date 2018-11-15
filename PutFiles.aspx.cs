@@ -104,7 +104,7 @@ public partial class PutFiles : CbstHelper
 			HttpContext.Current.Application.Remove(strGuid);
 			lstParams = GetParam(GlobalObject.unescape(lstFile));
 			Branch.Text = GetGitBranchName();
-			UserMess.Text = UserLabel + " (" + GitUser + "@resnet.com)";
+			UserMess.Text = UserLabel + " (" + GitUser + "@"+ Settings.CurrentSettings.TEAMDOMAIN + ")";
 			LabelFile.Text = "File :";
 			if (lstParams.Count > 1 * 2) { LabelFile.Text = "Files(" + (lstParams.Count / 2).ToString() + "):"; }
 

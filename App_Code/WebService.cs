@@ -704,4 +704,19 @@ public class WebService : System.Web.Services.WebService
 			CbstHelper.RunBatch4Request("bst", batch, guid, "4");
 		}
 	}
+	//================================
+	[WebMethod(EnableSession = true)]
+	public RawSettings getSettings()
+	{
+		return RawSettings.CurrentRawSettings;
+	}
+	[WebMethod(EnableSession = true)]
+	public void setSettings(RawSettings s)
+	{
+		if (!CurrentContext.Valid || !CurrentContext.Admin)
+		{
+			return;
+		}
+		s.Store();
+	}
 }

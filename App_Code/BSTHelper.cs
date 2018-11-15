@@ -83,12 +83,12 @@ public class CbstHelper : System.Web.UI.Page
 	}
 	protected void MPage_Load(object sender, EventArgs e)
 	{
-		var link = new HtmlLink();
-		link.Attributes.Add("type", "text/css");
-		link.Attributes.Add("rel", "stylesheet");
-		link.Href = ResolveClientUrl("CSS/BST.css");
-		Header.Controls.Add(link);
-		UpdateControls(Page.Controls);
+//		var link = new HtmlLink();
+//		link.Attributes.Add("type", "text/css");
+//		link.Attributes.Add("rel", "stylesheet");
+//		link.Href = ResolveClientUrl("CSS/BST.css");
+//		Header.Controls.Add(link);
+//		UpdateControls(Page.Controls);
 	}
 	public string ReplaceTT(string strTT)
 	{
@@ -615,10 +615,10 @@ public class CbstHelper : System.Web.UI.Page
 
 		string[] Commands, arrGroup;
 		GetCommandsGroups(text, out Commands, out arrGroup);
-		ExecRequestSQL(Commands, arrGroup, tr.ID.ToString(), (new BSTUser("", user)).ID, priority);
+		ExecRequestSQL(Commands, arrGroup, tr.ID.ToString(), (new BSTUser("", user)).ID.ToString(), priority);
 
 		tr.REQUEST_PRIORITY = Convert.ToInt32(priority);
-		tr.USERID = (new BSTUser("", "bst")).ID;
+		tr.USERID = (new BSTUser("", "bst")).ID.ToString();
 		tr.Store();
 	}
 	public static string ParseChildBatches(string strInput)
@@ -741,7 +741,7 @@ public class CbstHelper : System.Web.UI.Page
 		{5}<br><br>
 		Person responsible: <b>{1}</b><br><br>
 		Best regards, {1}
-		", vers, UserName, BSTStat.newBSTAddress, id, ttid, comm);
+		", vers, UserName, Settings.CurrentSettings.BSTADDRESS, id, ttid, comm);
 		AddEmail(
 				emal
 				, string.Format("Your request to test version({0}) was processed by {1}", vers, UserName)
@@ -929,10 +929,10 @@ public class CbstHelper : System.Web.UI.Page
 	{
 		MailMessage mail = new MailMessage();
 		if (!strProgrammer.Contains("@"))
-			strProgrammer += "@resnet.com";
+			strProgrammer += "@" + Settings.CurrentSettings.TEAMDOMAIN;
 		mail.To.Add(new MailAddress(strProgrammer));
-		mail.To.Add(new MailAddress("BST@resnet.com"));
-		mail.From = new MailAddress("bst_tester@resnet.com");
+		mail.To.Add(new MailAddress("BST@" + Settings.CurrentSettings.TEAMDOMAIN));
+		mail.From = new MailAddress("bst_tester@" + Settings.CurrentSettings.TEAMDOMAIN);
 		mail.Subject = Subject;
 		mail.IsBodyHtml = true;
 
@@ -945,13 +945,13 @@ public class CbstHelper : System.Web.UI.Page
 		mail.AlternateViews.Add(alternate);
 
 		SmtpClient smtp = new SmtpClient();
-		smtp.Host = "Smtp.Gmail.com";
-		smtp.Port = 587;
-		smtp.EnableSsl = true;
-		smtp.Timeout = 10000;
+		smtp.Host = Settings.CurrentSettings.SMTPHOST;
+		smtp.Port = int.Parse(Settings.CurrentSettings.SMTPPORT);
+		smtp.EnableSsl = bool.Parse(Settings.CurrentSettings.SMTPENABLESSL);
+		smtp.Timeout = int.Parse(Settings.CurrentSettings.SMTPTIMEOUT);
 		smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
 		smtp.UseDefaultCredentials = false;
-		smtp.Credentials = new NetworkCredential("resfieldpro@Gmail.com", "mentor2018");
+		smtp.Credentials = new NetworkCredential(Settings.CurrentSettings.CREDENTIALS1, Settings.CurrentSettings.CREDENTIALS2);
 
 		string strError = "";
 		try
