@@ -371,9 +371,9 @@ public class IdBasedObject
 	{
 		return this[column] == DBNull.Value ? defDate : Convert.ToDateTime(this[column]).ToString(defDateTimeFormat, CultureInfo.InvariantCulture);
 	}
-	protected int GetAsInt(string column)
+	protected int GetAsInt(string column, int defVal = -1)
 	{
-		return this[column] == DBNull.Value ? -1 : Convert.ToInt32(this[column]);
+		return this[column] == DBNull.Value ? defVal : Convert.ToInt32(this[column]);
 	}
 	protected void SetAsDate(string column, string value)
 	{

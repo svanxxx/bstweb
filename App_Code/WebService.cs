@@ -686,12 +686,12 @@ public class WebService : System.Web.Services.WebService
 		return tr.ID;
 	}
 	[WebMethod]
-	public void StartTest(string guid, string commaseparatedbatches)
+	public void StartTest(string guid, string commaseparatedbatches, string priority)
 	{
 		string[] batches = commaseparatedbatches.Split(',');
 		foreach (string batch in batches)
 		{
-			CbstHelper.RunBatch4Request("bst", batch, guid, "4");
+			CbstHelper.RunBatch4Request("bst", batch, guid, priority);
 		}
 	}
 	//================================
