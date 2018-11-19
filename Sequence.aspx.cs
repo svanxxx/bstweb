@@ -476,7 +476,7 @@ public partial class Sequence : CbstHelper
 
 		string[] Commands;
 		string[] arrGroup;
-		GetCommandsGroups(FileTextBox.Text, out Commands, out arrGroup);
+		TestRequest.GetCommandsGroups(FileTextBox.Text, out Commands, out arrGroup);
 
 		SQLExecute("DELETE FROM REQUESTADDITIONALCOMMANDS WHERE REQUESTID = " + RequestID);
 		SQLExecute("DELETE FROM SCHEDULE WHERE REQUESTID = " + RequestID + " AND LOCKEDBY is NULL");
@@ -511,7 +511,7 @@ public partial class Sequence : CbstHelper
 
 		DataSet DS = GetDataSet(@"select T2.ID from PERSONS T2 where T2.USER_LOGIN = '" + CurrentContext.UserLogin() + "'");
 		string strUserID = DS.Tables[0].Rows[0][0].ToString();
-		ExecRequestSQL(Commands, arrGroup, RequestID, strUserID, strPRIORITY);
+		Schedule.ExecRequestSQL(Commands, arrGroup, RequestID, strUserID, strPRIORITY);
 
 		ImageButtonRun.Enabled = false;
 		FileTextBox.Enabled = false;

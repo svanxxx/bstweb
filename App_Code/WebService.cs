@@ -130,7 +130,7 @@ public class WebService : System.Web.Services.WebService
 	{
 		try
 		{
-			CbstHelper.RunBatch4Request(user, batchname, requestGUID, priority);
+			TestRequest.RunBatch4Request(user, batchname, requestGUID, priority);
 		}
 		catch (Exception e)
 		{
@@ -691,7 +691,7 @@ public class WebService : System.Web.Services.WebService
 		string[] batches = commaseparatedbatches.Split(',');
 		foreach (string batch in batches)
 		{
-			CbstHelper.RunBatch4Request("bst", batch, guid, priority);
+			TestRequest.RunBatch4Request("bst", batch, guid, priority);
 		}
 	}
 	//================================
