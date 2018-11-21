@@ -682,7 +682,13 @@ public class WebService : System.Web.Services.WebService
 	[WebMethod]
 	public string[] getBatchData(string name)
 	{
-		return new Batch("", name).BATCH_DATA.Split('\n');
+		string data = new Batch("", name).BATCH_DATA;
+		string[] res = data.Split(new string[] { "\n", "\n\r" }, StringSplitOptions.RemoveEmptyEntries);
+		for (int i = 0; i < res.Length; i++)
+		{
+			res[i] = res[i].Trim();
+		}
+		return res;
 	}
 	[WebMethod]
 	public int GetTestID(string guid)
@@ -691,12 +697,23 @@ public class WebService : System.Web.Services.WebService
 		return tr.ID;
 	}
 	[WebMethod]
-	public void StartTest(string guid, string commaseparatedbatches, string priority)
+	public void StartTest(string guid, string commaseparatedbatches, string commaseparatedcommands, string priority)
 	{
-		string[] batches = commaseparatedbatches.Split(',');
+		BSTUser bu = new BSTUser("", "bst");
+
+		string[] batches = commaseparatedbatches.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 		foreach (string batch in batches)
 		{
-			TestRequest.RunBatch4Request("bst", batch, guid, priority);
+			TestRequest.RunBatch4Request(bu.LOGIN, batch, guid, priority);
+		}
+		if (!string.IsNullOrEmpty(commaseparatedcommands))
+		{
+			TestRequest tr = new TestRequest("", guid);
+			string txtcommands = string.Join("\r\n", commaseparatedcommands.Split(','));
+			string[] Commands;
+			string[] arrGroup;
+			TestRequest.GetCommandsGroups(txtcommands, out Commands, out arrGroup);
+			Schedule.AddCommands(Commands, arrGroup, tr.ID.ToString(), bu.ID.ToString(), priority);
 		}
 	}
 	//================================

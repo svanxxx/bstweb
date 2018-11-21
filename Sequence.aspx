@@ -76,17 +76,17 @@
 								<asp:ListItem Text="5 (High)" Value="5"> </asp:ListItem>
 							</asp:DropDownList>
 						</tr>
-                        <tr>
-                            <td>
-                                <asp:CheckBox ID="RemoveIdenticalTests" runat="server" Checked="true" Text="Remove Identical Tests" Font-Bold="true" />
-                            </td>
-                            <td>
-                                <asp:CheckBox ID="RemoveIdenticalGroupsOfTests" runat="server" Checked="true" Text="Remove Identical Groups Of Tests" Font-Bold="true" />
-                            </td>
-                            <td>
-                                <asp:CheckBox ID="UseLowerCaseForUsernamesAndPasswords" runat="server" Checked="true" Text="Use Lower Case For Usernames And Passwords" Font-Bold="true" />
-                            </td>
-                        </tr>
+						<tr>
+							<td>
+								<asp:CheckBox ID="RemoveIdenticalTests" runat="server" Checked="true" Text="Remove Identical Tests" Font-Bold="true" />
+							</td>
+							<td>
+								<asp:CheckBox ID="RemoveIdenticalGroupsOfTests" runat="server" Checked="true" Text="Remove Identical Groups Of Tests" Font-Bold="true" />
+							</td>
+							<td>
+								<asp:CheckBox ID="UseLowerCaseForUsernamesAndPasswords" runat="server" Checked="true" Text="Use Lower Case For Usernames And Passwords" Font-Bold="true" />
+							</td>
+						</tr>
 						<tr>
 							<asp:GridView ID="DataGridView" runat="server" DataSourc="SqlDataSource1" Width="100%"
 								AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataSourceID="SqlDataSource1"

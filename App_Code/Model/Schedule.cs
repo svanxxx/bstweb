@@ -19,7 +19,7 @@ public class Schedule
 		return strReturn;
 	}
 
-	public static void ExecRequestSQL(string[] Commands, string[] arrGroup, string RequestID, string strUserID, string priority)
+	public static void AddCommands(string[] Commands, string[] arrGroup, string RequestID, string strUserID, string priority)
 	{
 		int i = -1;
 		int K = -1;

@@ -168,7 +168,7 @@ public class TestRequest : IdBasedObject
 
 		string[] Commands, arrGroup;
 		GetCommandsGroups(text, out Commands, out arrGroup);
-		Schedule.ExecRequestSQL(Commands, arrGroup, tr.ID.ToString(), (new BSTUser("", user)).ID.ToString(), priority);
+		Schedule.AddCommands(Commands, arrGroup, tr.ID.ToString(), (new BSTUser("", user)).ID.ToString(), priority);
 
 		tr.REQUEST_PRIORITY = Convert.ToInt32(priority);
 		tr.USERID = (new BSTUser("", "bst")).ID.ToString();

@@ -313,143 +313,143 @@ public partial class Sequence : CbstHelper
 			string srtFullBatch = ds.Tables[0].Rows[0][0].ToString();
 			FileTextBox.Text += ParseChildBatches(srtFullBatch);
 			FileTextBox.Text = FileTextBox.Text.ToUpper();
-            List<string> lsSequence = new List<string>(FileTextBox.Text.Split('\n'));
-            Boolean isGroupOfTests = false;
-            Boolean isDBTypeMSSQL = false;
-            Boolean isDBTypeORACLE = false;
-            for (int i = 0; i < lsSequence.Count; i++) // Remove spaces between tests and after test name
-            {
-                if (lsSequence[i] == "\r")
-                {
-                    lsSequence.RemoveAt(i);
-                    i--;
-                    continue;
-                }
-                for (int j = 0; j < lsSequence[i].Length; j++)
-                {
-                    if (lsSequence[i][j] == ' ' && lsSequence[i][j + 1] == ' ')
-                    {
-                        lsSequence[i] = lsSequence[i].Remove(j + 1, 1);
-                        j--;
-                    }
-                }
-                while (lsSequence[i].EndsWith(" \r"))
-                {
-                    lsSequence[i] = lsSequence[i].Substring(0, lsSequence[i].Length - 2);
-                    lsSequence[i] += "\r";
-                }
-                if (UseLowerCaseForUsernamesAndPasswords.Checked)
-                {
-                    string[] commands = { "USER:", "PASS:" };
-                    string command;
-                    int pos;
-                    for (int j = 0; j < commands.Length; j++)
-                    {
-                        command = commands[j];
-                        pos = lsSequence[i].IndexOf(command);
-                        if (pos >= 0)
-                        {
-                            for (int k = pos + command.Length; k < lsSequence[i].Length; k++)
-                            {
-                                command = command.Insert(command.Length, lsSequence[i][k].ToString().ToLower());
-                                if (lsSequence[i][k] == '\"')
-                                {
-                                    lsSequence[i] = lsSequence[i].Remove(pos, command.Length);
-                                    lsSequence[i] = lsSequence[i].Insert(pos, command);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+			List<string> lsSequence = new List<string>(FileTextBox.Text.Split('\n'));
+			Boolean isGroupOfTests = false;
+			Boolean isDBTypeMSSQL = false;
+			Boolean isDBTypeORACLE = false;
+			for (int i = 0; i < lsSequence.Count; i++) // Remove spaces between tests and after test name
+			{
+				if (lsSequence[i] == "\r")
+				{
+					lsSequence.RemoveAt(i);
+					i--;
+					continue;
+				}
+				for (int j = 0; j < lsSequence[i].Length; j++)
+				{
+					if (lsSequence[i][j] == ' ' && lsSequence[i][j + 1] == ' ')
+					{
+						lsSequence[i] = lsSequence[i].Remove(j + 1, 1);
+						j--;
+					}
+				}
+				while (lsSequence[i].EndsWith(" \r"))
+				{
+					lsSequence[i] = lsSequence[i].Substring(0, lsSequence[i].Length - 2);
+					lsSequence[i] += "\r";
+				}
+				if (UseLowerCaseForUsernamesAndPasswords.Checked)
+				{
+					string[] commands = { "USER:", "PASS:" };
+					string command;
+					int pos;
+					for (int j = 0; j < commands.Length; j++)
+					{
+						command = commands[j];
+						pos = lsSequence[i].IndexOf(command);
+						if (pos >= 0)
+						{
+							for (int k = pos + command.Length; k < lsSequence[i].Length; k++)
+							{
+								command = command.Insert(command.Length, lsSequence[i][k].ToString().ToLower());
+								if (lsSequence[i][k] == '\"')
+								{
+									lsSequence[i] = lsSequence[i].Remove(pos, command.Length);
+									lsSequence[i] = lsSequence[i].Insert(pos, command);
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
 			if (RemoveIdenticalTests.Checked)
-            {
-                for (int i = 0; i < lsSequence.Count; i++)
-                {
-                    for (int j = i + 1; j < lsSequence.Count; j++)
-                    {
-                        if (lsSequence[j].IndexOf("{") >= 0) // Ignore tests in batches
-                        {
-                            isGroupOfTests = true;
-                            continue;
-                        }
-                        else if (lsSequence[j].IndexOf("}") >= 0)
-                        {
-                            isGroupOfTests = false;
-                            continue;
-                        }
-                        if (!isGroupOfTests && lsSequence[i] == lsSequence[j]) // Remove duplicate test, if it's not in batch
-                        {
-                            lsSequence.RemoveAt(j);
-                            j--;
-                        }
-                    }
-                }
-            }
-            if (RemoveIdenticalGroupsOfTests.Checked)
-            {
-                for (int i = 0; i < lsSequence.Count; i++)
-                {
-                    if (lsSequence[i].IndexOf("{") >= 0)
-                    {
-                        isGroupOfTests = true;
-                        isDBTypeMSSQL = false;
-                        isDBTypeORACLE = false;
-                        List<string> lsGroupOfTests = new List<string>();
-                        while (isGroupOfTests)
-                        {
-                            i++;
-                            if (lsSequence[i].IndexOf("}") >= 0)
-                            {
-                                if (lsSequence[i].IndexOf("DBTYPE:MSSQL") >= 0)
-                                {
-                                    isDBTypeMSSQL = true;
-                                }
-                                else if (lsSequence[i].IndexOf("DBTYPE:ORACLE") >= 0)
-                                {
-                                    isDBTypeORACLE = true;
-                                }
-                                isGroupOfTests = false;
-                                break;
-                            }
-                            lsGroupOfTests.Add(lsSequence[i]);
-                        }
-                        for (int j = i + 1; j < lsSequence.Count; j++)
-                        {
-                            if (lsSequence[j].IndexOf("{") >= 0)
-                            {
-                                int equalElements = 0;
-                                j++;
-                                while (true)
-                                {
-                                    if (lsGroupOfTests.IndexOf(lsSequence[j]) >= 0)
-                                    {
-                                        equalElements++;
-                                    }
-                                    j++;
-                                    if (lsSequence[j].IndexOf("}") >= 0)
-                                    {
-                                        if ((lsSequence[j].IndexOf("DBTYPE:MSSQL") >= 0 && isDBTypeMSSQL) || (lsSequence[j].IndexOf("DBTYPE:MSSQL") < 0 && !isDBTypeMSSQL))
-                                        {
-                                            if ((lsSequence[j].IndexOf("DBTYPE:ORACLE") >= 0 && isDBTypeORACLE) || (lsSequence[j].IndexOf("DBTYPE:ORACLE") < 0 && !isDBTypeORACLE))
-                                            {
-                                                if (equalElements == lsGroupOfTests.Count)
-                                                {
-                                                    lsSequence.RemoveRange(j - equalElements - 1, equalElements + 2);
-                                                    j -= equalElements + 2;
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            FileTextBox.Text = String.Join("\n", lsSequence.ToArray());
+			{
+				for (int i = 0; i < lsSequence.Count; i++)
+				{
+					for (int j = i + 1; j < lsSequence.Count; j++)
+					{
+						if (lsSequence[j].IndexOf("{") >= 0) // Ignore tests in batches
+						{
+							isGroupOfTests = true;
+							continue;
+						}
+						else if (lsSequence[j].IndexOf("}") >= 0)
+						{
+							isGroupOfTests = false;
+							continue;
+						}
+						if (!isGroupOfTests && lsSequence[i] == lsSequence[j]) // Remove duplicate test, if it's not in batch
+						{
+							lsSequence.RemoveAt(j);
+							j--;
+						}
+					}
+				}
+			}
+			if (RemoveIdenticalGroupsOfTests.Checked)
+			{
+				for (int i = 0; i < lsSequence.Count; i++)
+				{
+					if (lsSequence[i].IndexOf("{") >= 0)
+					{
+						isGroupOfTests = true;
+						isDBTypeMSSQL = false;
+						isDBTypeORACLE = false;
+						List<string> lsGroupOfTests = new List<string>();
+						while (isGroupOfTests)
+						{
+							i++;
+							if (lsSequence[i].IndexOf("}") >= 0)
+							{
+								if (lsSequence[i].IndexOf("DBTYPE:MSSQL") >= 0)
+								{
+									isDBTypeMSSQL = true;
+								}
+								else if (lsSequence[i].IndexOf("DBTYPE:ORACLE") >= 0)
+								{
+									isDBTypeORACLE = true;
+								}
+								isGroupOfTests = false;
+								break;
+							}
+							lsGroupOfTests.Add(lsSequence[i]);
+						}
+						for (int j = i + 1; j < lsSequence.Count; j++)
+						{
+							if (lsSequence[j].IndexOf("{") >= 0)
+							{
+								int equalElements = 0;
+								j++;
+								while (true)
+								{
+									if (lsGroupOfTests.IndexOf(lsSequence[j]) >= 0)
+									{
+										equalElements++;
+									}
+									j++;
+									if (lsSequence[j].IndexOf("}") >= 0)
+									{
+										if ((lsSequence[j].IndexOf("DBTYPE:MSSQL") >= 0 && isDBTypeMSSQL) || (lsSequence[j].IndexOf("DBTYPE:MSSQL") < 0 && !isDBTypeMSSQL))
+										{
+											if ((lsSequence[j].IndexOf("DBTYPE:ORACLE") >= 0 && isDBTypeORACLE) || (lsSequence[j].IndexOf("DBTYPE:ORACLE") < 0 && !isDBTypeORACLE))
+											{
+												if (equalElements == lsGroupOfTests.Count)
+												{
+													lsSequence.RemoveRange(j - equalElements - 1, equalElements + 2);
+													j -= equalElements + 2;
+												}
+											}
+										}
+										break;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			FileTextBox.Text = String.Join("\n", lsSequence.ToArray());
 		}
 	}
 
@@ -464,15 +464,15 @@ public partial class Sequence : CbstHelper
 			return;
 		}
 
-        string RequestID = Request.Params["RequestID"];
+		string RequestID = Request.Params["RequestID"];
 		if (string.IsNullOrEmpty(RequestID))
 			RequestID = "NULL";
-        else
-        {
-            FeedLog("Test request has been changed. Task: " + GetValue("SELECT T.TTID FROM TESTREQUESTS T WHERE ID = " + RequestID));
-        }
+		else
+		{
+			FeedLog("Test request has been changed. Task: " + GetValue("SELECT T.TTID FROM TESTREQUESTS T WHERE ID = " + RequestID));
+		}
 
-        string strPRIORITY = PriorityList.SelectedItem.Value;
+		string strPRIORITY = PriorityList.SelectedItem.Value;
 
 		string[] Commands;
 		string[] arrGroup;
@@ -511,7 +511,7 @@ public partial class Sequence : CbstHelper
 
 		DataSet DS = GetDataSet(@"select T2.ID from PERSONS T2 where T2.USER_LOGIN = '" + CurrentContext.UserLogin() + "'");
 		string strUserID = DS.Tables[0].Rows[0][0].ToString();
-		Schedule.ExecRequestSQL(Commands, arrGroup, RequestID, strUserID, strPRIORITY);
+		Schedule.AddCommands(Commands, arrGroup, RequestID, strUserID, strPRIORITY);
 
 		ImageButtonRun.Enabled = false;
 		FileTextBox.Enabled = false;
@@ -546,9 +546,9 @@ public partial class Sequence : CbstHelper
 
 				AddEmail(
 					r.PROGABB
-					,string.Format("Your request for version ({0}) test was processed by: {1}", v.VERSION, CurrentContext.UserName())
-					,body
-					,"#FEFCFF");
+					, string.Format("Your request for version ({0}) test was processed by: {1}", v.VERSION, CurrentContext.UserName())
+					, body
+					, "#FEFCFF");
 			}
 		}
 
