@@ -174,5 +174,4 @@ public class TestRequest : IdBasedObject
 		tr.USERID = (new BSTUser("", "bst")).ID.ToString();
 		tr.Store();
 	}
-
 }

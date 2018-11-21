@@ -680,6 +680,11 @@ public class WebService : System.Web.Services.WebService
 		return Batch.Enum().ToArray();
 	}
 	[WebMethod]
+	public string[] getBatchData(string name)
+	{
+		return new Batch("", name).BATCH_DATA.Split('\n');
+	}
+	[WebMethod]
 	public int GetTestID(string guid)
 	{
 		TestRequest tr = new TestRequest("", guid);
