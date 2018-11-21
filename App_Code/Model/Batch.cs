@@ -46,7 +46,7 @@ public class Batch : IdBasedObject
 	static List<string> _Batches = new List<string>();
 	public static List<string> Enum()
 	{
-		lock(_lockobj)
+		lock (_lockobj)
 		{
 			if (_Batches.Count < 1)
 			{
@@ -60,11 +60,10 @@ public class Batch : IdBasedObject
 	}
 	public static Batch Find(string name)
 	{
-		object o = GetRecdata(_Tabl, _pid, _bname, name);
-		if (o == DBNull.Value)
+		foreach (var i in EnumRecords(_Tabl, _pid, new string[] { _bname }, new object[] { name }))
 		{
-			return null;
+			return new Batch(i.ToString());
 		}
-		return new Batch(o.ToString());
+		return null;
 	}
 }
