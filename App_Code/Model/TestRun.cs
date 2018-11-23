@@ -18,7 +18,7 @@ public class TestRun : IdBasedObject
 			{
 				BSTUser bu = new BSTUser(USERID);
 				string UserName = bu.USER_NAME;
-				newcomment = oldcomm + value + string.Format("<br>by: {0} at {1}<br>", UserName, DateTime.Now.ToString());
+				newcomment = value + string.Format("<br>by: {0} at {1}<br>", UserName, DateTime.Now.ToString()) + oldcomm;
 				newcomment = newcomment.Replace("'", "\"");
 			}
 			this["COMMENT"] = newcomment;
