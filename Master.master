@@ -4,17 +4,18 @@
 
 <html lang="en">
 <head runat="server">
+	<title>MPS testing system</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-	
-	<link href="http://mps.resnet.com/cdn/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	<link <%= "href='" + Settings.CurrentSettings.BOOTCSSCDN.ToString() + "bootstrap.min.css'"%> rel="stylesheet" />
+	<link <%= "href='" + Settings.CurrentSettings.MPSCDN.ToString() + "mpshelper.css'"%> rel="stylesheet" />
 	<link href="css/common.css" rel="stylesheet" />
-	<script src="http://mps.resnet.com/cdn/jquery/jquery-3.2.1.min.js"></script>
+	<script <%="src='" + Settings.CurrentSettings.JQUERYCDN.ToString() + "jquery-3.2.1.min.js'"%>></script>
+	<script <%="src='" + Settings.CurrentSettings.JQUERYCDN.ToString() + "jquery.cookie.js'"%>></script>
 	<script src="http://mps.resnet.com/cdn/jquery.ui/jquery-ui.min.js"></script>
-	<script src="http://mps.resnet.com/cdn/jquery/jquery.cookie.js"></script>
-	<script src="http://mps.resnet.com/cdn/bootstrap/js/bootstrap.min.js"></script>
-	<script src="http://mps.resnet.com/cdn/mpshelper.js"></script>
+	<script <%="src='" + Settings.CurrentSettings.BOOTSTRAPCDN.ToString() + "bootstrap.min.js'"%>></script>
+	<script <%="src='" + Settings.CurrentSettings.MPSCDN.ToString() + "mpshelper.js'" %>></script>
 	<script src="scripts/common.js"></script>
 	<script src="scripts/bstSignal.js"></script>
 	<asp:ContentPlaceHolder ID="HeaddContent" runat="server">
@@ -31,6 +32,8 @@
 	</script>
 </head>
 <body>
+	<input type="hidden" id="isadmin" value="<%=CurrentContext.Admin.ToString()%>" />
+	<input type="hidden" id="userid" value="<%=CurrentContext.UserID.ToString()%>" />
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -39,7 +42,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="http://mps.resnet.com">MPS</a>
+				<a class="navbar-brand" href="<%= Settings.CurrentSettings.COMPANYSITE.ToString()%>"><%= Settings.CurrentSettings.COMPANYNAME.ToString()%></a>
 			</div>
 			<div class="collapse navbar-collapse" id="fullNavbar">
 				<ul class="nav navbar-nav">
@@ -53,9 +56,10 @@
 					<li><a id="requestsignal" href="requests.aspx">Requests</a></li>
 					<li><a href="batches.aspx">Batches</a></li>
 					<li><a href="commands.aspx">Commands</a></li>
+					<li><a href="settings.aspx">Settings</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a class="bstusername" id="logina" runat="server" href="login.aspx"><span style="padding-right: 5px" class="glyphicon glyphicon-log-in"></span>-Login-</a></li>
+					<li><a class="bstusername" id="logina" runat="server" href="login.aspx"><span style="padding-right: 5px" class="glyphicon glyphicon-log-in"></span><%=CurrentContext.UserName()%></a></li>
 				</ul>
 			</div>
 		</div>

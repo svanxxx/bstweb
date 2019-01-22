@@ -18,7 +18,7 @@ public class TestRun : IdBasedObject
 			{
 				BSTUser bu = new BSTUser(USERID);
 				string UserName = bu.USER_NAME;
-				newcomment = oldcomm + value + string.Format("<br>by: {0} at {1}<br>", UserName, DateTime.Now.ToString());
+				newcomment = value + string.Format("<br>by: {0} at {1}<br>", UserName, DateTime.Now.ToString()) + oldcomm;
 				newcomment = newcomment.Replace("'", "\"");
 			}
 			this["COMMENT"] = newcomment;
@@ -54,5 +54,15 @@ public class TestRun : IdBasedObject
 	public TestRun(string id)
 		: base("TESTRUNS", new string[] { "COMMENT", "USERID", "IGNORE", "VERIFIED_USER_ID", "DOCLINK" }, id)
 	{
+	}
+	public static void CommentTestRuns(string ids, string comment)
+	{
+		string[] sids = ids.Split(',');
+		foreach (string id in sids)
+		{
+			TestRun tr = new TestRun(id) { USERID = CurrentContext.UserID.ToString(), COMMENT = comment };
+			tr.Store();
+		}
+		CbstHelper.FeedLog("Following tests where commented: " + ids);
 	}
 }

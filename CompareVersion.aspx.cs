@@ -675,7 +675,7 @@ ORDER BY $order,
 			imw.ImageUrl = "~/Images/Sign_rerun_green.png";
 			imw.ToolTip = TEST_RUN_COMMAND;
 			//  imw.Attributes["ondblclick"] = "Rerun(this,'" + drv["RequestID"].ToString() + "','" + TEST_RUN_COMMAND.Replace('"', '`') + "','" + UserName + "')";
-			imw.Attributes["onClick"] = "ChangeRerun(this,'" + drv["RequestID"].ToString() + "','" + TEST_RUN_COMMAND.Replace('"', '`') + "','" + UserName + "','" + drv["TEST_RUN_ID1"].ToString() + "')";
+			imw.Attributes["onClick"] = "ChangeRerun(this,'" + drv["RequestID"].ToString() + "','" + TEST_RUN_COMMAND.Replace('"', '`') + "','" + CurrentContext.UserName() + "','" + drv["TEST_RUN_ID1"].ToString() + "')";
 			e.Row.Cells[iRow].Controls.Add(imw);
 
 

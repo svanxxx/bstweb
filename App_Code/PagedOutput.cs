@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI.WebControls;
 
-public class PagedOutput : CbstHelper
+public class PagedOutput : SecurityPage
 {
 	public int CurrentPage
 	{
@@ -32,7 +30,7 @@ public class PagedOutput : CbstHelper
 			}
 			else
 			{
-				HttpCookie c = Request.Cookies["showby%40" + CurrentPageName];
+				HttpCookie c = Request.Cookies["showby%40" + CurrentContext.CurrentPageName];
 				if (c != null)
 				{
 					lines = Convert.ToInt32(c.Value);
@@ -51,7 +49,7 @@ public class PagedOutput : CbstHelper
 	}
 	public void CalcPages(string sql, WebControl c)
 	{
-		object opages = GetValue(sql);
+		object opages = DBHelper.GetValue(sql);
 		_Pages = (int)Math.Ceiling((double)Convert.ToInt32(opages) / ShowBy);
 		c.Attributes["pages"] = Pages.ToString();
 	}

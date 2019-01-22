@@ -30,10 +30,10 @@ function link_down() {
 function Compare() {
 	if (txt1 == null || txt2 == null)
 		return;
-	if (txt1.startsWith("<!DOCTYPE html"))
-		txt1 = txt1.replace(/</g, "&lt;").replace(/>/g, "&gt;")
-	if (txt2.startsWith("<!DOCTYPE html"))
-		txt2 = txt2.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+	if (txt1.startsWith("<!DOCTYPE"))
+		txt1 = txt1.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+	if (txt2.startsWith("<!DOCTYPE"))
+		txt2 = txt2.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 	ShowWaitDlg(true);
 	var d = comparer.diff_main(txt1, txt2);

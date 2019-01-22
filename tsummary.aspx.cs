@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
-using BSTStatics;
 
 public partial class TSummary : CbstHelper
 {
@@ -57,7 +52,7 @@ public partial class TSummary : CbstHelper
 			foreach (DataRow dr in dt.Rows)
 			{
 				ListItem li = new ListItem(dr[0].ToString());
-				if (!setsel && char.IsNumber(li.Text[li.Text.Length - 1]))
+				if (!setsel && li.Text.ToUpper().EndsWith("ADMIN"))
 				{
 					li.Selected = setsel = true;
 				}

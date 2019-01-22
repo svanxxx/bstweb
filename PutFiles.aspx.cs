@@ -104,7 +104,7 @@ public partial class PutFiles : CbstHelper
 			HttpContext.Current.Application.Remove(strGuid);
 			lstParams = GetParam(GlobalObject.unescape(lstFile));
 			Branch.Text = GetGitBranchName();
-			UserMess.Text = UserLabel + " (" + GitUser + "@resnet.com)";
+			UserMess.Text = CurrentContext.UserName() + " (" + GitUser + "@"+ Settings.CurrentSettings.TEAMDOMAIN + ")";
 			LabelFile.Text = "File :";
 			if (lstParams.Count > 1 * 2) { LabelFile.Text = "Files(" + (lstParams.Count / 2).ToString() + "):"; }
 
@@ -287,10 +287,10 @@ public partial class PutFiles : CbstHelper
 
 		// Update TTs list
 		String strTTs = strNew_TTids == "" ? "NULL" : "'" + strNew_TTids + "'";
-		String strSQLExecute = "UPDATE TESTRUNS SET TTID=" + strTTs + ", USERID = (select T2.ID from PERSONS T2 where T2.USER_LOGIN = '" + UserName + "')  WHERE ID = " + TestID.ToString();
+		String strSQLExecute = "UPDATE TESTRUNS SET TTID=" + strTTs + ", USERID = (select T2.ID from PERSONS T2 where T2.USER_LOGIN = '" + CurrentContext.UserLogin() + "')  WHERE ID = " + TestID.ToString();
 		SQLExecute(strSQLExecute);
 
-		CommentTestRun(TestID.ToString(), TextAreaMessage.Text);
+		TestRun.CommentTestRuns(TestID.ToString(), TextAreaMessage.Text);
 
 		if ((TestID != 0) && (strTTids != ""))
 		{

@@ -37,7 +37,7 @@ public partial class Batches : PagedOutput
 		", ShowFrom, ShowTo, string.IsNullOrEmpty(filter) ? "" : " AND " + filter);
 
 		int startcol = 1;
-		using (DataTable dt = GetDataTable(sql))
+		using (DataTable dt = DBHelper.GetDataTable(sql))
 		{
 			int colcount = dt.Columns.Count;
 			TableHeaderRow th = new TableHeaderRow();

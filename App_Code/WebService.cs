@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Services;
 using System.Data;
@@ -9,9 +8,6 @@ using System.Text.RegularExpressions;
 using System.IO;
 using BSTStatics;
 
-/// <summary>
-/// Summary description for WebService
-/// </summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [System.Web.Script.Services.ScriptService]
@@ -20,7 +16,7 @@ public class WebService : System.Web.Services.WebService
 	public WebService()
 	{
 	}
-	protected void _UpdateAppRequestInfo(String strCount, String strID, int iNotAnswerRequestCount, String idSchedules)
+	protected void _UpdateAppRequestInfo(string strCount, string strID, int iNotAnswerRequestCount, string idSchedules)
 	{
 		double dCDate = Convert.ToDouble(DateTime.Now.ToOADate());
 		Application.Lock();
@@ -115,9 +111,9 @@ public class WebService : System.Web.Services.WebService
 		string aaa = GetLastTestID(strVersion1) + " " + GetLastTestID(strVersion2);
 		return aaa;
 	}
-	protected string GetParam(String strCommand, string strSearch)
+	protected string GetParam(string strCommand, string strSearch)
 	{
-		String strReturn = "";
+		string strReturn = "";
 		strCommand += " ";
 
 		int index = strCommand.ToUpper().IndexOf(strSearch.ToUpper());
@@ -134,7 +130,7 @@ public class WebService : System.Web.Services.WebService
 	{
 		try
 		{
-			CbstHelper.RunBatch4Request(user, batchname, requestGUID, priority);
+			TestRequest.RunBatch4Request(user, batchname, requestGUID, priority);
 		}
 		catch (Exception e)
 		{
@@ -164,14 +160,14 @@ public class WebService : System.Web.Services.WebService
 		strCommandName = (strCommandName.Replace('`', '"').Replace('~', '\\'));
 
 		// get db type from strCommandName
-		String dbtype = GetParam(strCommandName, "dbtype:");
+		string dbtype = GetParam(strCommandName, "dbtype:");
 		dbtype = (dbtype == "" ? "NULL" : "'" + dbtype + "'");
 
-		String y3dv = GetParam(strCommandName, "special:");
+		string y3dv = GetParam(strCommandName, "special:");
 		y3dv = (y3dv.Contains("3DV") ? "1" : "NULL");
 
 		// get PCName from strCommandName
-		String strSQLPCName = "", sPCName = GetParam(strCommandName, "PCName:");
+		string strSQLPCName = "", sPCName = GetParam(strCommandName, "PCName:");
 		if (sPCName == "") strSQLPCName = "NULL";
 		else
 		{
@@ -181,29 +177,19 @@ public class WebService : System.Web.Services.WebService
 			else sPCName = " \"PCName:" + sPCName + "\"";
 
 		}
-		String strGuid = Guid.NewGuid().ToString();
-		String strPRIORITY = "4";
+		string strGuid = Guid.NewGuid().ToString();
+		string strPRIORITY = "4";
 
-		String strSetSQL =
+		string strSetSQL =
 			@"INSERT INTO SCHEDULE (COMMAND, REQUESTID, PCID, USERID, PRIORITY, SEQUENCENUMBER, SEQUENCEGUID, DBTYPE, Y3DV) VALUES" +
 			" ('" + strCommandName + "', " + strReqestID + "," + strSQLPCName + ",(select T2.ID from PERSONS T2 where T2.USER_LOGIN = '" + UserName + "'), " + strPRIORITY + ",2, '" + strGuid + "', " + dbtype + ", " + y3dv + ")";
 
 		strSetSQL = strSetSQL.ToUpper();
 		CbstHelper.SQLExecute(strSetSQL);
 
-		CbstHelper.CommentTestRun(TestRunID, "Rerun");
+		TestRun.CommentTestRuns(TestRunID, "Rerun");
 		FeedLog("Next command has been rerun: " + strCommandName);
 		return "OK";
-	}
-	public string ReplaceTT(string strTT)
-	{
-		return Regex.Replace(strTT, "TT\\d+", TTEvaluator);
-	}
-	private static string TTEvaluator(Match match)
-	{
-		return string.Format("<a href='http://{0}/taskmanagerbeta/showtask.aspx?ttid=", BSTStat.globalIPAddress) +
-		 (Convert.ToInt32(match.Groups[0].Value.Replace("TT", ""))).ToString() +
-			"'>" + match.Groups[0].Value + "</a>";
 	}
 	// WhatBetweenVersions '{strVersionNew:"' + strVer1 + '",strRequest:"' + strRequest + '",strVersionOld:"' + strVer2 + '" }',
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
@@ -262,7 +248,7 @@ public class WebService : System.Web.Services.WebService
 		else
 		{
 			stdout_str = "<table border='1' Width = '100%'>" + stdout_str + "</table>";
-			stdout_str = ReplaceTT(stdout_str);
+			stdout_str = BSTStat.ReplaceTT(stdout_str);
 			stdout_str = stdout_str.Replace(" +0300", "");
 		}
 
@@ -407,7 +393,7 @@ public class WebService : System.Web.Services.WebService
 	            PAUSEDBY = CASE WHEN PAUSEDBY IS NULL THEN (SELECT ID FROM PERSONS WHERE USER_LOGIN = '{0}') ELSE NULL END
             WHERE 
             PCNAME = '{1}'
-        ", CbstHelper.UserName, machine);
+        ", CurrentContext.UserLogin(), machine);
 		CbstHelper.SQLExecute(update);
 
 		object o = CbstHelper.GetValue(string.Format("SELECT PAUSEDBY FROM PCS WHERE PCNAME = '{0}'", machine));
@@ -579,7 +565,7 @@ public class WebService : System.Web.Services.WebService
 	{
 		try
 		{
-			CbstHelper.CommentTestRun(commaSeparatedIDs, mess);
+			TestRun.CommentTestRuns(commaSeparatedIDs, mess);
 		}
 		catch (Exception e)
 		{
@@ -614,7 +600,7 @@ public class WebService : System.Web.Services.WebService
 	public void TestRequestManually(string id)
 	{
 		TestRequest r = new TestRequest(id);
-		r.TESTER = Convert.ToInt32(CbstHelper.UserID);
+		r.TESTER = CurrentContext.UserID;
 		r.Store();
 	}
 	[WebMethod(EnableSession = true)]
@@ -687,5 +673,62 @@ public class WebService : System.Web.Services.WebService
 		CbstHelper.FeedLog("Batch script has been deleted: " + b.BATCH_NAME);
 		Batch.DeleteBatch(id);
 		return "OK";
+	}
+	[WebMethod]
+	public string[] EnumBatches()
+	{
+		return Batch.Enum().ToArray();
+	}
+	[WebMethod]
+	public string[] getBatchData(string name)
+	{
+		string data = new Batch("", name).BATCH_DATA;
+		string[] res = data.Split(new string[] { "\n", "\n\r" }, StringSplitOptions.RemoveEmptyEntries);
+		for (int i = 0; i < res.Length; i++)
+		{
+			res[i] = res[i].Trim();
+		}
+		return res;
+	}
+	[WebMethod]
+	public int GetTestID(string guid)
+	{
+		TestRequest tr = new TestRequest("", guid);
+		return tr.ID;
+	}
+	[WebMethod]
+	public void StartTest(string guid, string commaseparatedbatches, string commaseparatedcommands, string priority)
+	{
+		BSTUser bu = new BSTUser("", "bst");
+
+		string[] batches = commaseparatedbatches.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+		foreach (string batch in batches)
+		{
+			TestRequest.RunBatch4Request(bu.LOGIN, batch, guid, priority);
+		}
+		if (!string.IsNullOrEmpty(commaseparatedcommands))
+		{
+			TestRequest tr = new TestRequest("", guid);
+			string txtcommands = string.Join("\r\n", commaseparatedcommands.Split(','));
+			string[] Commands;
+			string[] arrGroup;
+			TestRequest.GetCommandsGroups(txtcommands, out Commands, out arrGroup);
+			Schedule.AddCommands(Commands, arrGroup, tr.ID.ToString(), bu.ID.ToString(), priority);
+		}
+	}
+	//================================
+	[WebMethod(EnableSession = true)]
+	public RawSettings getSettings()
+	{
+		return RawSettings.CurrentRawSettings;
+	}
+	[WebMethod(EnableSession = true)]
+	public void setSettings(RawSettings s)
+	{
+		if (!CurrentContext.Valid || !CurrentContext.Admin)
+		{
+			return;
+		}
+		s.Store();
 	}
 }

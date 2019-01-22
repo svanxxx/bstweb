@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Threading;
-using BSTStatics;
 
 public partial class Merge : System.Web.UI.Page
 {
+	static List<string> _txtFormats = new List<string>(new string[] { ".TXT", ".LAS", ".CMG", ".HTML", ".LOG", ".FPX", ".XML", ".FPA", ".IPT", ".HTML", ".HTM", ".ACQ" });
+	static List<string> _imgFormats = new List<string>(new string[] { ".PNG", ".JPG", ".BMP" });
 	public List<String> GetParam(string strParam)
 	{
 		int iPos, i, k;
@@ -48,11 +42,15 @@ public partial class Merge : System.Web.UI.Page
 
 		string strFormat = GetFormat(files[0]);
 
-        if (strFormat == ".TXT" || strFormat == "LAS" || strFormat == ".CMG" || strFormat == ".HTML" || strFormat == ".LOG" || strFormat == ".FPX" || strFormat == ".XML" || strFormat == ".FPA" || strFormat == ".IPT" || strFormat == ".ASC" || strFormat == ".ACQ" || strFormat == ".AQL")
+		if (_txtFormats.Contains(strFormat))
+		{
 			Response.Redirect(string.Format("compare.aspx?file1={0}&file2={1}", files[0], files[1]));
+		}
 
-		if (strFormat == ".PNG" || strFormat == ".JPG" || strFormat == ".BMP")
+		if (_imgFormats.Contains(strFormat))
+		{
 			Response.Redirect(string.Format("compareimg.aspx?file1={0}&file2={1}", files[0], files[1]));
+		}
 
 		Response.Clear();
 		Response.Write("Error: unsupported file format");

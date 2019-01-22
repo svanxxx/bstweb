@@ -27,12 +27,12 @@ public partial class Activity: PagedOutput
 			WHERE T.[#] >= {0} AND T.[#] <= {1}
 		", start, end);
 
-		object opages = GetValue(string.Format("SELECT COUNT(*) FROM BSTLOG"));
+		object opages = DBHelper.GetValue(string.Format("SELECT COUNT(*) FROM BSTLOG"));
 		int pages = (int)Math.Ceiling((double)Convert.ToInt32(opages) / ShowBy);
 		TTable.Attributes["pages"] = pages.ToString();
 
 		int index = start;
-		using (DataTable dt = GetDataTable(sql))
+		using (DataTable dt = DBHelper.GetDataTable(sql))
 		{
 			int colcount = dt.Columns.Count;
 

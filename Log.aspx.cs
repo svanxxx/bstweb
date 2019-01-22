@@ -15,7 +15,7 @@ public partial class Log : PagedOutput
 		object t = Request.QueryString["thoster"];
 		if (t == null)
 		{
-			t = GetValue("SELECT TOP 1 P.PCNAME FROM PCS P WHERE P.UNUSED = 0 ORDER BY P.PCNAME");
+			t = DBHelper.GetValue("SELECT TOP 1 P.PCNAME FROM PCS P WHERE P.UNUSED = 0 ORDER BY P.PCNAME");
 		}
 		string sThoster = t.ToString();
 
@@ -32,7 +32,7 @@ public partial class Log : PagedOutput
 		DateTime dat = Convert.ToDateTime(d);
 		string sDate = dat.ToString(BSTStat.SQLDateFormat);
 
-		object opages = GetValue(string.Format("SELECT COUNT(*) FROM LOGS WHERE PC_ID = (SELECT PCS.ID FROM PCS WHERE PCS.PCNAME = '{0}') AND CONVERT(DATE, ACTION_DATE) = '{1}'", sThoster, sDate));
+		object opages = DBHelper.GetValue(string.Format("SELECT COUNT(*) FROM LOGS WHERE PC_ID = (SELECT PCS.ID FROM PCS WHERE PCS.PCNAME = '{0}') AND CONVERT(DATE, ACTION_DATE) = '{1}'", sThoster, sDate));
 		int pages = (int)Math.Ceiling((double)Convert.ToInt32(opages) / ShowBy);
 		TTable.Attributes["pages"] = pages.ToString();
 
@@ -58,7 +58,7 @@ public partial class Log : PagedOutput
 			ORDER BY T.[#]
 		", start, end, sThoster, sDate);
 		int index = start;
-		using (DataTable dt = GetDataTable(sql))
+		using (DataTable dt = DBHelper.GetDataTable(sql))
 		{
 			int colcount = dt.Columns.Count;
 
@@ -97,7 +97,7 @@ public partial class Log : PagedOutput
 			}
 		}
 		bool setsel = false;
-		using (DataTable dt = GetDataTable("SELECT P.PCNAME FROM PCS P WHERE P.UNUSED = 0 ORDER BY P.PCNAME"))
+		using (DataTable dt = DBHelper.GetDataTable("SELECT P.PCNAME FROM PCS P WHERE P.UNUSED = 0 ORDER BY P.PCNAME"))
 		{
 			foreach (DataRow dr in dt.Rows)
 			{

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Threading;
-using System.Web;
 
 public class BackgroundWorker
 {
@@ -45,7 +42,7 @@ public class BackgroundWorker
 						}
 						catch (Exception e)
 						{
-							
+
 						}
 					}
 				}

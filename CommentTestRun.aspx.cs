@@ -361,7 +361,7 @@ ORDER BY $order,
 				else
 					TestRunIDs += "," + cb.Attributes["TEST_RUN_ID"];
 
-				TestsInMail += string.Format("<a href='http://{0}/", BSTStat.newBSTAddress) + cb.Attributes["TEST_LINK"] + "'>" + cb.Attributes["CASE_NAME"] + "</a><br>";
+				TestsInMail += string.Format("<a href='http://{0}/", Settings.CurrentSettings.BSTADDRESS) + cb.Attributes["TEST_LINK"] + "'>" + cb.Attributes["CASE_NAME"] + "</a><br>";
 			}
 		}
 
@@ -370,7 +370,7 @@ ORDER BY $order,
 
 		DB_PutDependentFilesFromTT(TestRunIDs, arrfiles);
 
-		TestRequest tr = new TestRequest(RequestID) { USERID = UserID, TESTED = strPutColor == GoodTT ? "true" : "false" };
+		TestRequest tr = new TestRequest(RequestID) { USERID = CurrentContext.UserID.ToString(), TESTED = strPutColor == GoodTT ? "true" : "false" };
 		tr.Store();
 
 		//----update TestTrack DB
@@ -402,7 +402,7 @@ ORDER BY $order,
 			<br>{9}
 			<br>
 			<br>Best regards, <b>{10}</b>"
-		, strDT, BSTStat.newBSTAddress, RequestID, strFiPVersion, strTTID, strComment, strText, strFiPVersionBase, strCommentTest, TestsInMail, UserName);
+		, strDT, Settings.CurrentSettings.BSTADDRESS, RequestID, strFiPVersion, strTTID, strComment, strText, strFiPVersionBase, strCommentTest, TestsInMail, CurrentContext.UserName());
 		AddEmail(
 			strProgrammer
 			, string.Format("Your request for version ({0}) was tested. Request info: ({1})", strFiPVersion, strTTID)

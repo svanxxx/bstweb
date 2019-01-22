@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Data;
 using System.Data.OleDb;
 using System.Globalization;
-using System.Windows.Forms;
 using System.Drawing;
-using System.Collections.Specialized;
 using System.Configuration;
-using System.Web.UI.HtmlControls;
 using System.Security.Cryptography;
 using System.Text;
 using System.IO;
@@ -18,7 +14,6 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Net.Mail;
 using System.Web.UI.WebControls;
-using System.Data.SqlClient;
 using System.Net;
 using BSTStatics;
 using System.DirectoryServices.AccountManagement;
@@ -83,31 +78,14 @@ public class CbstHelper : System.Web.UI.Page
 	}
 	protected void MPage_Load(object sender, EventArgs e)
 	{
-		var link = new HtmlLink();
-		link.Attributes.Add("type", "text/css");
-		link.Attributes.Add("rel", "stylesheet");
-		link.Href = ResolveClientUrl("CSS/BST.css");
-		Header.Controls.Add(link);
-		UpdateControls(Page.Controls);
+//		var link = new HtmlLink();
+//		link.Attributes.Add("type", "text/css");
+//		link.Attributes.Add("rel", "stylesheet");
+//		link.Href = ResolveClientUrl("CSS/BST.css");
+//		Header.Controls.Add(link);
+//		UpdateControls(Page.Controls);
 	}
-	public string ReplaceTT(string strTT)
-	{
-		return Regex.Replace(strTT, "TT\\d+", TTEvaluator);
-	}
-	private static string TTEvaluator(Match match)
-	{
-		string res = match.Groups[0].Value;
-		string id = Convert.ToInt32(res.Replace("TT", "")).ToString();
-		return string.Format("<a href='http://{0}/taskmanagerbeta/showtask.aspx?ttid={1}'>{2}</a>", BSTStat.mainName, id, res);
-	}
-
-	//security
-	private string m_LoginwerrMsg;
-	public string LoginErrorMsg
-	{
-		get { return m_LoginwerrMsg; }
-		set { m_LoginwerrMsg = value; }
-	}
+	public string LoginErrorMsg { get; set; }
 	private string UserKey
 	{
 		get
@@ -133,42 +111,15 @@ public class CbstHelper : System.Web.UI.Page
 	}
 	private void InitSecurityCheck(object sender, EventArgs e)
 	{
-		if (IsUserActive)
-			return;
-
-		string strURL = Request.ServerVariables["URL"];
-		if (strURL.Contains(LoginPage))
-			return;
-
-		HttpCookie cookieUser = Request.Cookies[UserKey];
-		HttpCookie cookiePass = Request.Cookies[PassKey];
-		string strUser = cookieUser == null ? "" : cookieUser.Value;
-		string strPass = cookiePass == null ? "" : cookiePass.Value;
-
-		if (string.IsNullOrEmpty(strUser) || string.IsNullOrEmpty(strPass))
-		{
-			Response.Redirect(ResolveClientUrl(LoginPage) + "?" + BSTStat.returnurl + "=" + strURL, false);
-			Context.ApplicationInstance.CompleteRequest();
-			return;
-		}
-		strUser = Decrypt(strUser);
-		strPass = Decrypt(strPass);
-		if (!Login(strUser, strPass, true))
-		{
-			Response.Redirect(ResolveClientUrl(LoginPage) + "?" + BSTStat.returnurl + "=" + strURL, false);
-			Context.ApplicationInstance.CompleteRequest();
-			return;
-		}
+		SecurityPage.Static_Page_PreInit();
 	}
 	public bool Login(string sUserName, string Password, bool bStoreUserPass)
 	{
-		BackgroundWorker.Init();
 		bool bRes = false;
 		Application.Lock();
 		try
 		{
 			bRes = FLogin(sUserName, Password, bStoreUserPass);
-			UserName = sUserName;
 		}
 		finally
 		{
@@ -178,36 +129,11 @@ public class CbstHelper : System.Web.UI.Page
 	}
 	public static bool IsConnected
 	{
-		get { return HttpContext.Current.Session["UserName"] != null; }
+		get { return CurrentContext.Valid; }
 	}
 	public static string GitUser
 	{
-		get { return UserName.Split('@')[0]; }
-	}
-	public static string UserName
-	{
-		get { return HttpContext.Current.Session["UserName"].ToString(); }
-		set { HttpContext.Current.Session["UserName"] = value; }
-	}
-	public static string UserID
-	{
-		get { return HttpContext.Current.Session["UserID"].ToString(); }
-		set { HttpContext.Current.Session["UserID"] = value; }
-	}
-	public string UserPass
-	{
-		get { return Session["UserPass"].ToString(); }
-		set { Session["UserPass"] = value; }
-	}
-	public string UserLabel
-	{
-		get { return Session["UserLabel"].ToString(); }
-		set { Session["UserLabel"] = value; }
-	}
-	public bool IsUserAdmin
-	{
-		get { return Session["IsUserAdmin"] != null; }
-		set { if (value) Session["IsUserAdmin"] = value; }
+		get { return CurrentContext.UserLogin().Split('@')[0]; }
 	}
 	public bool IsUserGuest
 	{
@@ -265,12 +191,9 @@ public class CbstHelper : System.Web.UI.Page
 						Response.Cookies.Add(cookieUser);
 					}
 
-					IsUserAdmin = rowCur.Field<System.Boolean>(2);
 					IsUserGuest = rowCur.Field<System.Boolean>(3);
-					UserLabel = rowCur[4].ToString();
-					UserID = rowCur[5].ToString();
 
-					if (!IsInternalIP() && !IsUserAdmin)
+					if (!IsInternalIP() && !CurrentContext.Admin)
 						LoginErrorMsg = "Only Administrators can login using external IP";
 					else
 						IsUserActive = true;
@@ -452,7 +375,7 @@ public class CbstHelper : System.Web.UI.Page
 			return;
 
 		str = str.Replace('\'', '\"');
-		string sql = string.Format("INSERT INTO BSTLOG ([TEXT],[USERID]) VALUES ('{0}', (SELECT P.ID FROM PERSONS P WHERE P.USER_LOGIN = '{1}'))", str, UserName);
+		string sql = string.Format("INSERT INTO BSTLOG ([TEXT],[USERID]) VALUES ('{0}', (SELECT P.ID FROM PERSONS P WHERE P.USER_LOGIN = '{1}'))", str, CurrentContext.UserLogin());
 		SQLExecute(sql);
 	}
 	protected double GetRepDelay()
@@ -513,113 +436,6 @@ public class CbstHelper : System.Web.UI.Page
 	{
 		CultureInfo cultures = CultureInfo.CreateSpecificCulture("en-US");
 		return "'" + dt.ToString("yyyy/MM/dd", cultures) + "'";
-	}
-	public static void GetCommandsGroups(string text, out string[] Commands, out string[] arrGroup)
-	{
-		Commands = Regex.Split(text.Replace("'", "''"), "\r\n");
-		arrGroup = new string[Commands.Length];
-
-		for (int i = 0; i < Commands.Length; i++) // Loop through List with for
-		{
-			if (Commands[i].IndexOf('{') != -1)
-			{
-				Commands[i] = Commands[i].Replace("{", "");
-				string StrGuid = Guid.NewGuid().ToString();
-				int j;
-
-				for (j = i; (j < Commands.Length) && (Commands[j].IndexOf('}') == -1); j++) // Loop through List with for
-				{
-					arrGroup[j] = StrGuid;
-				}
-
-				String strComandPlus = "";
-
-				if (j < Commands.Length)
-				{
-					arrGroup[j] = StrGuid;
-
-					int index = Commands[j].IndexOf("}");
-					if ((index > -1) && (index + 1 < Commands[j].Length))
-					{
-						strComandPlus = Commands[j].Substring(index + 1, Commands[j].Length - index - 1);
-					}
-					Commands[j] = Commands[j].Replace("}" + strComandPlus, "");
-				}
-
-				if (strComandPlus != "")
-					for (int k = i; k <= j; k++)
-						if (!(string.IsNullOrEmpty(Commands[k]))) Commands[k] += " " + strComandPlus;
-				i = j;
-			}
-		}
-	}
-	public static string GetParam(String strCommand, string strSearch)
-	{
-		String strReturn = "";
-		strCommand += " ";
-
-		int index = strCommand.ToUpper().IndexOf(strSearch.ToUpper());
-		if (index > -1)
-		{
-			int indexEnd = Math.Min(strCommand.IndexOf("\"", index) > 0 ? strCommand.IndexOf("\"", index) : strCommand.Length, strCommand.IndexOf(" ", index) > 0 ? strCommand.IndexOf(" ", index) : strCommand.Length);
-			strReturn = strCommand.Substring(index + strSearch.Length, indexEnd - index - strSearch.Length).ToUpper();
-		}
-
-		return strReturn;
-	}
-	public static void ExecRequestSQL(string[] Commands, string[] arrGroup, string RequestID, string strUserID, string priority)
-	{
-		int i = -1;
-		int K = -1;
-		string strSearch = "PCNAME:";
-		String strSetSQL = @"INSERT INTO SCHEDULE (COMMAND, REQUESTID, PCID, USERID, PRIORITY, SEQUENCENUMBER, SEQUENCEGUID, DBTYPE, Y3DV) VALUES ";
-
-		foreach (string strCommand in Commands)
-		{
-			i++;
-
-			if (string.IsNullOrEmpty(strCommand))
-				continue;
-			K++;
-
-			String dbtype = GetParam(strCommand, "dbtype:");
-			dbtype = (dbtype == "" ? "NULL" : "'" + dbtype + "'");
-
-			String y3dv = GetParam(strCommand, "special:");
-			y3dv = (y3dv.Contains("3DV") ? "1" : "NULL");
-
-			// Find PCName Substring
-			string sPCName = "NULL";
-			int index = strCommand.ToUpper().IndexOf(strSearch.ToUpper());
-			if (index > -1)
-			{
-				int indexEnd = Math.Min(strCommand.IndexOf("\"", index) > 0 ? strCommand.IndexOf("\"", index) : strCommand.Length, strCommand.IndexOf(" ", index) > 0 ? strCommand.IndexOf(" ", index) : strCommand.Length);
-				sPCName = strCommand.Substring(index + strSearch.Length, indexEnd - index - strSearch.Length).ToUpper();
-			}
-
-			// Get SQL PCName
-			String strSQLPCName = "";
-			if (sPCName == "NULL") strSQLPCName = sPCName;
-			else strSQLPCName = "(select T1.ID from PCS T1 where T1.PCNAME = '" + sPCName + "')";
-			String strGuid = (string.IsNullOrEmpty(arrGroup[i]) ? Guid.NewGuid().ToString() : arrGroup[i]);
-
-			strSetSQL += (K != 0 ? "," : "") + "('" + strCommand + "', " + RequestID + "," + strSQLPCName + "," + strUserID + ", " + priority + "," + i.ToString() + ", '" + strGuid + "', " + dbtype + ", " + y3dv + ")";
-		}
-		if (K != -1)
-			SQLExecute(strSetSQL);
-	}
-	public static void RunBatch4Request(string user, string batchname, string requestGUID, string priority)
-	{
-		TestRequest tr = new TestRequest("", requestGUID);
-        string text = ParseChildBatches(strInput: (new Batch("", batchname)).BATCH_DATA);
-
-        string[] Commands, arrGroup;
-        GetCommandsGroups(text, out Commands, out arrGroup);
-		ExecRequestSQL(Commands, arrGroup, tr.ID.ToString(), (new BSTUser("", user)).ID, priority);
-
-        tr.REQUEST_PRIORITY = Convert.ToInt32(priority);
-        tr.USERID = (new BSTUser("", "bst")).ID;
-        tr.Store();
 	}
 	public static string ParseChildBatches(string strInput)
 	{
@@ -687,33 +503,23 @@ public class CbstHelper : System.Web.UI.Page
 				cmd.ExecuteNonQuery();
 		}
 	}
-	
+
 	public static void IgnoreTestRun(string ids)
 	{
 		string[] sids = ids.Split(',');
 		foreach (string id in sids)
 		{
-			TestRun tr = new TestRun(id) { USERID = UserID, COMMENT = "ignored", IGNORE = true.ToString() };
+			TestRun tr = new TestRun(id) { USERID = CurrentContext.UserID.ToString(), COMMENT = "ignored", IGNORE = true.ToString() };
 			tr.Store();
 		}
 		CbstHelper.FeedLog("Following tests where marked as ignored: " + ids);
-	}
-	public static void CommentTestRun(string ids, string comment)
-	{
-		string[] sids = ids.Split(',');
-		foreach (string id in sids)
-		{
-			TestRun tr = new TestRun(id) { USERID = UserID, COMMENT = comment };
-			tr.Store();
-		}
-		CbstHelper.FeedLog("Following tests where commented: " + ids);
 	}
 	public static void VerifyTestRun(string ids)
 	{
 		string[] sids = ids.Split(',');
 		foreach (string id in sids)
 		{
-			TestRun tr = new TestRun(id) { USERID = UserID, COMMENT = "verified", VERIFIED_USER_ID = UserID };
+			TestRun tr = new TestRun(id) { USERID = CurrentContext.UserID.ToString(), COMMENT = "verified", VERIFIED_USER_ID = CurrentContext.UserID.ToString() };
 			tr.Store();
 		}
 		CbstHelper.FeedLog("Following tests where marked as verified: " + ids);
@@ -721,7 +527,7 @@ public class CbstHelper : System.Web.UI.Page
 	public static void IgnoreRequest(string id, string str1or0)
 	{
 		bool ignore = str1or0 == "1";
-		TestRequest tr = new TestRequest(id) { USERID = UserID, IGNORE = ignore ? "true" : "" };
+		TestRequest tr = new TestRequest(id) { USERID = CurrentContext.UserID.ToString(), IGNORE = ignore ? "true" : "" };
 		tr.Store();
 
 		if (!ignore)
@@ -741,16 +547,16 @@ public class CbstHelper : System.Web.UI.Page
 		{5}<br><br>
 		Person responsible: <b>{1}</b><br><br>
 		Best regards, {1}
-		", vers, UserName, BSTStat.newBSTAddress, id, ttid, comm);
+		", vers, CurrentContext.UserName(), Settings.CurrentSettings.BSTADDRESS, id, ttid, comm);
 		AddEmail(
 				emal
-				,string.Format("Your request to test version({0}) was processed by {1}", vers, UserName)
-				,body
-				,IgnoreTT);
+				, string.Format("Your request to test version({0}) was processed by {1}", vers, CurrentContext.UserName())
+				, body
+				, IgnoreTT);
 	}
 	public static void UntestRequest(string id)
 	{
-		TestRequest tr = new TestRequest(id){USERID = UserID,TESTED = ""};
+		TestRequest tr = new TestRequest(id) { USERID = CurrentContext.UserID.ToString(), TESTED = "" };
 		tr.Store();
 	}
 	//helpers
@@ -929,10 +735,10 @@ public class CbstHelper : System.Web.UI.Page
 	{
 		MailMessage mail = new MailMessage();
 		if (!strProgrammer.Contains("@"))
-			strProgrammer += "@resnet.com";
+			strProgrammer += "@" + Settings.CurrentSettings.TEAMDOMAIN;
 		mail.To.Add(new MailAddress(strProgrammer));
-		mail.To.Add(new MailAddress("BST@resnet.com"));
-		mail.From = new MailAddress("bst_tester@resnet.com");
+		mail.To.Add(new MailAddress("BST@" + Settings.CurrentSettings.TEAMDOMAIN));
+		mail.From = new MailAddress("bst_tester@" + Settings.CurrentSettings.TEAMDOMAIN);
 		mail.Subject = Subject;
 		mail.IsBodyHtml = true;
 
@@ -945,13 +751,13 @@ public class CbstHelper : System.Web.UI.Page
 		mail.AlternateViews.Add(alternate);
 
 		SmtpClient smtp = new SmtpClient();
-		smtp.Host = "Smtp.Gmail.com";
-		smtp.Port = 587;
-		smtp.EnableSsl = true;
-		smtp.Timeout = 10000;
+		smtp.Host = Settings.CurrentSettings.SMTPHOST;
+		smtp.Port = int.Parse(Settings.CurrentSettings.SMTPPORT);
+		smtp.EnableSsl = bool.Parse(Settings.CurrentSettings.SMTPENABLESSL);
+		smtp.Timeout = int.Parse(Settings.CurrentSettings.SMTPTIMEOUT);
 		smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
 		smtp.UseDefaultCredentials = false;
-		smtp.Credentials = new NetworkCredential("resfieldpro@Gmail.com", "mentor2000");
+		smtp.Credentials = new NetworkCredential(Settings.CurrentSettings.CREDENTIALS1, Settings.CurrentSettings.CREDENTIALS2);
 
 		string strError = "";
 		try
