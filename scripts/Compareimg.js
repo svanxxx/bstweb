@@ -121,8 +121,8 @@ $(function () {
 	})
 
 	var $getfile2but = $("#getfile2but");
-	$getfile2but.attr("title", f1);
-	$getfile2but.text(f1);
+	$getfile2but.attr("title", f2);
+	$getfile2but.text(f2);
 	var $draw2but = $("#draw2but");
 	$draw2but.click(function () {
 		showDiff(this);
