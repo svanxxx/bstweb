@@ -27,6 +27,17 @@ public static class CurrentContext
 			return User != null ? User.ID : -1;
 		}
 	}
+	public static string GitUser
+	{
+		get
+		{
+			if (!Valid)
+			{
+				return "";
+			}
+			return UserLogin().Split('@')[0];
+		}
+	}
 	public static string UserName()
 	{
 		if (!Valid)

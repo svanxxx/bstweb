@@ -8,6 +8,9 @@ function IsAdmin() {
 function userID() {
 	return parseInt(document.getElementById("userid").value);
 }
+function userName() {
+	return document.getElementById("username").value;
+}
 function reActivateTooltips() {
 	setTimeout(function () { $('[data-toggle="tooltip"]').tooltip(); }, 2000);//when data loaded - activate tooltip.
 }

@@ -731,4 +731,42 @@ public class WebService : System.Web.Services.WebService
 		}
 		s.Store();
 	}
+	[WebMethod(EnableSession = true)]
+	public string ProcessNewEtalons(List<FileChange> files, string branch)
+	{
+		string fx = Settings.CurrentSettings.BSTADDRESS;
+		string sh = Settings.CurrentSettings.BSTSHARE;
+		foreach (FileChange fc in files)
+		{
+			//legacy dir fixes
+			int pos = fc.ETA.IndexOf(fx);
+			if (pos > -1)
+			{
+				fc.ETA = sh + fc.ETA.Remove(0, pos + fx.Length).Replace("/", "\\");
+			}
+		}
+		return ChangesContainer.Add(new ListOfChanges(files, branch));
+	}
+	[WebMethod(EnableSession = true)]
+	public ListOfChanges getChangedFiles(string key)
+	{
+		return ChangesContainer.Get(key);
+	}
+	[WebMethod(EnableSession = true)]
+	public List<string> commitChangedFiles(string key, List<int> indexes, string comment, int runID)
+	{
+		if (!CurrentContext.Admin)
+		{
+			return new List<string>(new string[] { "Access Denied" });
+		}
+
+		List<string> output = ChangesContainer.Commit(key, indexes, comment, CurrentContext.GitUser);
+
+		TestRun tr = new TestRun(runID.ToString()) { USERID = CurrentContext.UserID.ToString(), COMMENT = comment };
+		tr.AddTTID(CbstHelper.GetTTfromText(comment));
+		tr.Store();
+
+		CbstHelper.FeedLog("Etalon files have been committed to git repository: " + comment);
+		return output;
+	}
 }

@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Net;
 using System.IO;
 using BSTStatics;
 
@@ -41,7 +35,7 @@ public partial class ViewLog : CbstHelper
 			return;
 		}
 
-		String text = System.IO.File.ReadAllText(filename);
+		string text = File.ReadAllText(filename);
 		Response.Clear();
 
 		string output = text.Replace("http://mps.resnet.com/bst/web/", "").

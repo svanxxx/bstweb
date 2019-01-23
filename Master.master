@@ -34,6 +34,7 @@
 <body>
 	<input type="hidden" id="isadmin" value="<%=CurrentContext.Admin.ToString()%>" />
 	<input type="hidden" id="userid" value="<%=CurrentContext.UserID.ToString()%>" />
+	<input type="hidden" id="username" value="<%=CurrentContext.UserName()%>" />
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<div class="navbar-header">
