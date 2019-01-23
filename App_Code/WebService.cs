@@ -212,7 +212,7 @@ public class WebService : System.Web.Services.WebService
                 strSetSQL = strSetSQL.ToUpper();
                 CbstHelper.SQLExecute(strSetSQL);
 
-                git.Checkout("MASTER");
+                git.Checkout("master");
             }
         }
 
