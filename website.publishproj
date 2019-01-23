@@ -14,7 +14,7 @@ Copyright (C) Microsoft Corporation. All rights reserved.
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ExcludeFoldersFromDeployment>.git;.vs;GitHelper</ExcludeFoldersFromDeployment>
+    <ExcludeFoldersFromDeployment>.git;.vs;GitHelper;packages</ExcludeFoldersFromDeployment>
     <ExcludeFilesFromDeployment>.gitignore;*.sln</ExcludeFilesFromDeployment>
     <ProductVersion>10.0.30319</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
