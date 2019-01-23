@@ -1,10 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 
 public class TestRun : IdBasedObject
 {
+	static readonly string _comm = "COMMENT";
+	static readonly string _usr = "USERID";
+	static readonly string _ign = "IGNORE";
+	static readonly string _vus = "VERIFIED_USER_ID";
+	static readonly string _ttid = "TTID";
+	static readonly string _doc = "DOCLINK";
+	static string[] _allCols = new string[] { _comm, _usr, _ign, _vus, _doc, _ttid };
+	static readonly string _Tabl = "TESTRUNS";
+
+	public string TTID
+	{
+		get { return this[_ttid].ToString(); }
+		set { this[_ttid] = value; }
+	}
 	public string COMMENT
 	{
-		get { return this["COMMENT"].ToString(); }
+		get { return this[_comm].ToString(); }
 		set
 		{
 			string oldcomm = COMMENT;
@@ -21,28 +36,28 @@ public class TestRun : IdBasedObject
 				newcomment = value + string.Format("<br>by: {0} at {1}<br>", UserName, DateTime.Now.ToString()) + oldcomm;
 				newcomment = newcomment.Replace("'", "\"");
 			}
-			this["COMMENT"] = newcomment;
+			this[_comm] = newcomment;
 		}
 	}
 	public string USERID
 	{
-		get { return this["USERID"].ToString(); }
-		set { this["USERID"] = value; }
+		get { return this[_usr].ToString(); }
+		set { this[_usr] = value; }
 	}
 	public string IGNORE
 	{
-		get { return this["IGNORE"].ToString(); }
-		set { this["IGNORE"] = value; }
+		get { return this[_ign].ToString(); }
+		set { this[_ign] = value; }
 	}
 	public string VERIFIED_USER_ID
 	{
-		get { return this["VERIFIED_USER_ID"].ToString(); }
-		set { this["VERIFIED_USER_ID"] = value; }
+		get { return this[_vus].ToString(); }
+		set { this[_vus] = value; }
 	}
 	public string DOCLINK
 	{
-		get { return this["DOCLINK"].ToString(); }
-		set { this["DOCLINK"] = value; }
+		get { return this[_doc].ToString(); }
+		set { this[_doc] = value; }
 	}
 	public string TestURL
 	{
@@ -51,8 +66,23 @@ public class TestRun : IdBasedObject
 			return string.Format("ViewLog.aspx?log={0}&RUNID={1}", DOCLINK, _id);
 		}
 	}
+	public void AddTTID(string ttid)
+	{
+		ttid = ttid.ToUpper();
+		string[] arr = TTID.ToUpper().Split(',');
+		List<string> res = new List<string>();
+		foreach (string tt in arr)
+		{
+			if (tt != ttid)
+			{
+				res.Add(tt);
+			}
+		}
+		res.Add(ttid);
+		TTID = string.Join(",", res);
+	}
 	public TestRun(string id)
-		: base("TESTRUNS", new string[] { "COMMENT", "USERID", "IGNORE", "VERIFIED_USER_ID", "DOCLINK" }, id)
+		: base(_Tabl, _allCols, id)
 	{
 	}
 	public static void CommentTestRuns(string ids, string comment)

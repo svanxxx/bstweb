@@ -119,6 +119,23 @@ public class RawSettings
 		get { return GetVal("BSTADDRESS"); }
 		set { values["BSTADDRESS"] = value; }
 	}
+	public string BSTSHARE
+	{
+		get { return GetVal("BSTSHARE"); }
+		set { values["BSTSHARE"] = value; }
+	}
+	public string WORKGIT
+	{
+		get
+		{
+			if (System.Diagnostics.Debugger.IsAttached)
+			{
+				return "S:\\";
+			}
+			return GetVal("WORKGIT");
+		}
+		set { values["WORKGIT"] = value; }
+	}
 	Dictionary<string, string> values = new Dictionary<string, string>();
 	void LoadData()
 	{

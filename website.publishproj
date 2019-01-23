@@ -45,5 +45,11 @@ Copyright (C) Microsoft Corporation. All rights reserved.
       <Value>$(AssemblyVersion)</Value>
     </AssemblyAttributes>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="GitHelper\GitHelper.csproj">
+      <Project>{5A8E054C-B61B-498E-968F-E0BB62B4B4EC}</Project>
+      <Name>GitHelper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(_WebPublishTargetsPath)\Web\Microsoft.WebSite.Publishing.targets" />
 </Project>
