@@ -136,6 +136,11 @@ public class RawSettings
 		}
 		set { values["WORKGIT"] = value; }
 	}
+	public string ROOTGIT
+	{
+		get { return GetVal("ROOTGIT"); }
+		set { values["ROOTGIT"] = value; }
+	}
 	Dictionary<string, string> values = new Dictionary<string, string>();
 	void LoadData()
 	{
