@@ -193,6 +193,8 @@ public class WebService : System.Web.Services.WebService
         {
             GitHelper.Git git = new GitHelper.Git(getSettings().ROOTGIT);
 
+            git.Checkout("master");
+
             git.Checkout(strTestBranch);
 
             if (git.CurrentBranch().ToUpper() != "MASTER")
