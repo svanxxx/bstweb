@@ -12,7 +12,7 @@ function userName() {
 	return document.getElementById("username").value;
 }
 function reActivateTooltips() {
-	setTimeout(function () { $('[data-toggle="tooltip"]').tooltip(); }, 2000);//when data loaded - activate tooltip.
+	setTimeout(function () { $('[data-toggle="tooltip"]').tooltip({ html: true }); }, 1000);//when data loaded - activate tooltip.
 }
 function copyurl() {
 	var $temp = $("<input>");
