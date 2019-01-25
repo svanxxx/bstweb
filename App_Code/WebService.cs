@@ -739,10 +739,13 @@ public class WebService : System.Web.Services.WebService
 		foreach (FileChange fc in files)
 		{
 			//legacy dir fixes
-			int pos = fc.ETA.IndexOf(fx);
-			if (pos > -1)
+			if (!string.IsNullOrEmpty(fc.ETA))
 			{
-				fc.ETA = sh + fc.ETA.Remove(0, pos + fx.Length).Replace("/", "\\");
+				int pos = fc.ETA.IndexOf(fx);
+				if (pos > -1)
+				{
+					fc.ETA = sh + fc.ETA.Remove(0, pos + fx.Length).Replace("/", "\\");
+				}
 			}
 		}
 		return ChangesContainer.Add(new ListOfChanges(files, branch));
