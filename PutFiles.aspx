@@ -11,10 +11,16 @@
 		<div class="row">
 			<h3>Push Files: new etalons</h3>
 			<div class="row">
-				<div class="col-sm-10">
+				<div class="col-sm-6">
 					<b>Branch: </b><span>{{branch}}</span><br />
 					<b>User Name: </b><span>{{user}}</span><br />
 					<label for="comment">Comment:</label>
+				</div>
+				<div class="col-sm-4">
+					<div class="btn-group btn-group-sm">
+						<button ng-click="check(true)" ng-disabled="readonly()" type="button" class="btn btn btn-default"><i class="glyphicon glyphicon-ok"></i>Check All</button>
+						<button ng-click="check(false)" ng-disabled="readonly()" type="button" class="btn btn btn-default"><i class="glyphicon glyphicon-remove"></i>UnCheck All</button>
+					</div>
 				</div>
 				<div class="col-sm-2">
 					<button type="button" ng-click="commit()" ng-disabled="readonly()" class="btn btn-primary">Commit & Push</button>
