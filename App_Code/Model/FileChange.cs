@@ -38,7 +38,7 @@ public class ListOfChanges : List<FileChange>
 	{
 		get
 		{
-			return _branch;
+			return string.IsNullOrEmpty(_branch) ? "master" : _branch;
 		}
 	}
 }
@@ -145,7 +145,17 @@ public class ChangesContainer
 				File.Copy(fc.NEW, gitfile, true);
 				output.AddRange(git.AddFile(gitfile));
 			}
+			Commit oldcommit = git.GetTopCommit();
 			output.AddRange(git.CommitAll("WEB: " + comment, user));
+			Commit newcommit = git.GetTopCommit();
+			if (oldcommit.COMMIT == newcommit.COMMIT)
+			{
+				output.Add("-No files have been commited!");
+			}
+			else
+			{
+				output.Add(string.Format("+{0} files have been commited!", newcommit.EnumFiles().Count));
+			}
 			output.AddRange(git.PushCurrentBranch());
 			output.AddRange(git.ResetHard());
 			output.AddRange(git.Checkout("master"));

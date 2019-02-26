@@ -11,10 +11,16 @@
 		<div class="row">
 			<h3>Push Files: new etalons</h3>
 			<div class="row">
-				<div class="col-sm-10">
+				<div class="col-sm-6">
 					<b>Branch: </b><span>{{branch}}</span><br />
 					<b>User Name: </b><span>{{user}}</span><br />
 					<label for="comment">Comment:</label>
+				</div>
+				<div class="col-sm-4">
+					<div class="btn-group btn-group-sm">
+						<button ng-click="check(true)" ng-disabled="readonly()" type="button" class="btn btn btn-default"><i class="glyphicon glyphicon-ok"></i>Check All</button>
+						<button ng-click="check(false)" ng-disabled="readonly()" type="button" class="btn btn btn-default"><i class="glyphicon glyphicon-remove"></i>UnCheck All</button>
+					</div>
 				</div>
 				<div class="col-sm-2">
 					<button type="button" ng-click="commit()" ng-disabled="readonly()" class="btn btn-primary">Commit & Push</button>
@@ -28,17 +34,20 @@
 		</div>
 		<div class="row">
 			<ul ng-disabled="readonly()" class="list-group list-group-flush">
-				<li class="list-group-item" ng-repeat="f in files" style="background-color:{{f.checked?'transparent':'lightgray'}}">
-					<button ng-disabled="readonly()" type="button" class="btn btn-success btn-xs" ng-click="f.checked = !f.checked;">
-						<span class="glyphicon glyphicon-check" ng-show="f.checked"></span>
-						<span class="glyphicon glyphicon-unchecked" ng-show="!f.checked"></span>
-					</button>
-					<b>{{f.name}}</b>
-					<a class="btn btn-success btn-xs" href="merge.aspx?{{f.ETA}}&{{f.NEW}}" target="_blank">Compare</a>
-					<br />
-					<span class="label label-info">New File:</span><span style="word-wrap: break-word">{{f.NEW}}</span><br />
-					<span class="label label-info">Old File:</span><span style="word-wrap: break-word">{{f.ETA}}</span><br />
-					<span class="label label-info">BST:</span><span style="word-wrap: break-word">{{f.BST}}</span>
+				<li class="list-group-item" ng-repeat="f in files" style="background-color: {{f.checked?'transparent':'lightgray'}}">
+					<div class="input-group">
+						<div class="input-group-btn">
+							<button ng-click="f.checked = !f.checked;" ng-disabled="readonly()" class="btn btn-default" type="button">
+								<i class="glyphicon glyphicon-check" ng-show="f.checked"></i>
+								<i class="glyphicon glyphicon-unchecked" ng-show="!f.checked"></i>
+							</button>
+						</div>
+						<span class="form-control">{{f.name}}</span>
+						<span data-toggle="tooltip" title="{{f.BST}}" class="input-group-addon">BST</span>
+						<a class="btn btn-default btn-xs input-group-addon" href="showfile.aspx?file={{f.ETA}}" target="_blank">Old File</a>
+						<a class="btn btn-default btn-xs input-group-addon" href="showfile.aspx?file={{f.NEW}}" target="_blank">New File</a>
+						<a class="btn btn-default btn-xs input-group-addon" href="merge.aspx?{{f.ETA}}&{{f.NEW}}" target="_blank">Compare</a>
+					</div>
 				</li>
 			</ul>
 		</div>

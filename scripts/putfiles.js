@@ -51,7 +51,11 @@ $(function () {
 					EndProgress(taskprg);
 				});
 		};
-
+		$scope.check = function (c) {
+			$scope.files.forEach(function (f) {
+				f.checked = c;
+			});
+		};
 		$scope.loadData();
 	}]);
 });
