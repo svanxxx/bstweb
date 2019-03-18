@@ -41,11 +41,11 @@ function Compare() {
 
 	var f1 = getParameterByName("file1");
 	$("#fslbl1").html(f1);
-	$("#fslbl1").attr("href", "showfile.aspx?file=" + f1);
+	$("#fslbl1").attr("href", "getfile.aspx?Path=" + f1);
 	$("#fslbl1").attr("title", f1);
 	var f2 = getParameterByName("file2");
 	$("#fslbl2").html(f2);
-	$("#fslbl2").attr("href", "showfile.aspx?file=" + f2);
+	$("#fslbl2").attr("href", "getfile.aspx?Path=" + f2);
 	$("#fslbl2").attr("title", f2);
 
 	var t1 = "";

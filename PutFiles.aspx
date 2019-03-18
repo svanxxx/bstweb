@@ -44,8 +44,8 @@
 						</div>
 						<span class="form-control">{{f.name}}</span>
 						<span data-toggle="tooltip" title="{{f.BST}}" class="input-group-addon">BST</span>
-						<a class="btn btn-default btn-xs input-group-addon" href="showfile.aspx?file={{f.ETA}}" target="_blank">Old File</a>
-						<a class="btn btn-default btn-xs input-group-addon" href="showfile.aspx?file={{f.NEW}}" target="_blank">New File</a>
+						<a class="btn btn-default btn-xs input-group-addon" href="getfile.aspx?Path={{f.ETA}}" target="_blank">Old File</a>
+						<a class="btn btn-default btn-xs input-group-addon" href="getfile.aspx?Path={{f.NEW}}" target="_blank">New File</a>
 						<a class="btn btn-default btn-xs input-group-addon" href="merge.aspx?{{f.ETA}}&{{f.NEW}}" target="_blank">Compare</a>
 					</div>
 				</li>

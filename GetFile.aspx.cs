@@ -51,6 +51,7 @@ public partial class GetFile : CbstHelper
 	{
 		string tempPath = Path.GetTempPath();
 		string strFilePath = Request.Params["Path"];
+		strFilePath.Trim('\"');
 		Boolean bDirectory = false;
 
 		if (strFilePath == null) return;
