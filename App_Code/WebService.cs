@@ -140,7 +140,7 @@ public class WebService : System.Web.Services.WebService
 		return "OK";
 	}
 	[WebMethod(EnableSession = true)]
-	public string RunTest(string strRequestID, string strCommandName, string strUserName, string strTestRunID, string strTestBranch)
+	public string RunTest(string strRequestID, string strCommandName, string strUserName, string strTestRunID)
 	{
 		// if it is release, we need rerun test in the last TESTREQUESTS with the same version
 		string SQL_Command = "select (select max(t.id) from TESTREQUESTS t where t.versionid = x.versionid  and t.ProgAbb = x.ProgAbb) , x.ProgAbb from TESTREQUESTS x where x.id = $id";
@@ -185,38 +185,8 @@ public class WebService : System.Web.Services.WebService
 			" ('" + strCommandName + "', " + strRequestID + "," + strSQLPCName + ",(select T2.ID from PERSONS T2 where T2.USER_LOGIN = '" + strUserName + "'), " + strPRIORITY + ",2, '" + strGuid + "', " + dbtype + ", " + y3dv + ")";
 
 		strSetSQL = strSetSQL.ToUpper();
+
 		CbstHelper.SQLExecute(strSetSQL);
-
-        strTestBranch = strTestBranch.ToUpper();
-
-        if (strTestBranch != "MASTER")
-        {
-            GitHelper.Git git = new GitHelper.Git(getSettings().ROOTGIT);
-
-            git.Checkout("master");
-
-            git.Checkout(strTestBranch);
-
-            if (git.CurrentBranch().ToUpper() != "MASTER")
-            {
-                strSetSQL = @"DELETE FROM REQUESTADDITIONALCOMMANDS WHERE REQUESTID = " + strRequestID;
-
-                strSetSQL = strSetSQL.ToUpper();
-                CbstHelper.SQLExecute(strSetSQL);
-
-                strSetSQL = @"INSERT INTO REQUESTADDITIONALCOMMANDS (COMMAND, POSITION, SEQUENCENUMBER, REQUESTID) VALUES" + " ('GETGIT " + strTestBranch + "', " + 0 + ", " + 1 + ", " + strRequestID + ")";
-
-                strSetSQL = strSetSQL.ToUpper();
-                CbstHelper.SQLExecute(strSetSQL);
-
-                strSetSQL = @"INSERT INTO REQUESTADDITIONALCOMMANDS (COMMAND, POSITION, SEQUENCENUMBER, REQUESTID) VALUES" + " ('GETGIT --reset', " + 1 + ", " + 2 + ", " + strRequestID + ")";
-
-                strSetSQL = strSetSQL.ToUpper();
-                CbstHelper.SQLExecute(strSetSQL);
-
-                git.Checkout("master");
-            }
-        }
 
         TestRun.CommentTestRuns(strTestRunID, "Rerun");
 		FeedLog("Next command has been rerun: " + strCommandName);
@@ -728,7 +698,7 @@ public class WebService : System.Web.Services.WebService
 		return tr.ID;
 	}
 	[WebMethod]
-	public void StartTest(string guid, string commaseparatedbatches, string commaseparatedcommands, string priority)
+	public void StartTest(string guid, string commaseparatedbatches, string commaseparatedcommands, string priority, string branch)
 	{
 		BSTUser bu = new BSTUser("", "bst");
 
@@ -744,6 +714,7 @@ public class WebService : System.Web.Services.WebService
 			string[] Commands;
 			string[] arrGroup;
 			TestRequest.GetCommandsGroups(txtcommands, out Commands, out arrGroup);
+            TestRequest.SetAdditionalCommands(new string[] { "GETGIT " + branch }, new string[] { "GETGIT --reset" }, guid);
 			Schedule.AddCommands(Commands, arrGroup, tr.ID.ToString(), bu.ID.ToString(), priority);
 		}
 	}

@@ -174,4 +174,33 @@ public class TestRequest : IdBasedObject
 		tr.USERID = (new BSTUser("", "bst")).ID.ToString();
 		tr.Store();
 	}
+    public static void SetAdditionalCommands(string[] commandsBefore, string[] commandsAfter, string requestGUID)
+    {
+        SQLExecute("DELETE FROM REQUESTADDITIONALCOMMANDS WHERE REQUESTID = " + requestGUID);
+        SQLExecute("DELETE FROM SCHEDULE WHERE REQUESTID = " + requestGUID + " AND LOCKEDBY is NULL");
+
+        string AdditionalCommandsSQL = "INSERT INTO REQUESTADDITIONALCOMMANDS (COMMAND, REQUESTID, POSITION, SEQUENCENUMBER) VALUES";
+        int addNumber = 0;
+
+        foreach (string command in commandsBefore)
+        {
+            if (command.Trim() != "")
+            {
+                addNumber++;
+                AdditionalCommandsSQL += (addNumber != 1 ? "," : "") + " ( '" + command + "'," + requestGUID + "," + 0 + "," + addNumber.ToString() + ") ";
+            }
+        }
+
+        foreach (string command in commandsAfter)
+        {
+            if (command.Trim() != "")
+            {
+                addNumber++;
+                AdditionalCommandsSQL += (addNumber != 1 ? "," : "") + " ( '" + command + "'," + requestGUID + "," + 1 + "," + addNumber.ToString() + ") ";
+            }
+        }
+
+        if (addNumber != 0)
+            SQLExecute(AdditionalCommandsSQL);
+    }
 }
