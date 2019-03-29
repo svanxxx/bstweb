@@ -772,4 +772,23 @@ public class WebService : System.Web.Services.WebService
 		CbstHelper.FeedLog("Etalon files have been committed to git repository: " + comment);
 		return output;
 	}
+	[WebMethod(EnableSession = true)]
+	public List<BSTUser> getBSTUsers()
+	{
+		return BSTUser.Enum();
+	}
+	[WebMethod(EnableSession = true)]
+	public string setBSTUsers(List<BSTUser> users)
+	{
+		foreach (BSTUser u in users)
+		{
+			BSTUser ustore = new BSTUser(u.ID);
+			ustore.FromAnotherObject(u);
+			if (ustore.IsModified())
+			{
+				ustore.Store();
+			}
+		}
+		return "OK";
+	}
 }

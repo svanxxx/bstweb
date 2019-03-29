@@ -57,7 +57,13 @@
 					<li><a id="requestsignal" href="requests.aspx">Requests</a></li>
 					<li><a href="batches.aspx">Batches</a></li>
 					<li><a href="commands.aspx">Commands</a></li>
-					<li><a href="settings.aspx">Settings</a></li>
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">References<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="settings.aspx">Settings</a></li>
+							<li><a href="users.aspx">Users</a></li>
+						</ul>
+					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a class="bstusername" id="logina" runat="server" href="login.aspx"><span style="padding-right: 5px" class="glyphicon glyphicon-log-in"></span><%=CurrentContext.UserName()%></a></li>
