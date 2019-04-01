@@ -124,6 +124,10 @@ public class ChangesContainer
 			{
 				ListOfChanges changes = Get(key);
 				string gitpath = Settings.CurrentSettings.WORKGIT;
+				if (!Directory.Exists(Settings.CurrentSettings.WORKGIT))
+				{
+					throw new Exception("Git Directory does not exist!: " + Settings.CurrentSettings.WORKGIT);
+				}
 				Git git = new Git(gitpath);
 				output.AddRange(git.ResetHard());
 				output.AddRange(git.FetchAll());
