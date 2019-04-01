@@ -1,4 +1,5 @@
-﻿using System.DirectoryServices.AccountManagement;
+﻿using System.Collections.Generic;
+using System.DirectoryServices.AccountManagement;
 
 public class BSTUser : IdBasedObject
 {
@@ -9,14 +10,25 @@ public class BSTUser : IdBasedObject
 	const string _login = "USER_LOGIN";
 	const string _pass = "USER_PASS";
 	const string _ret = "RETIRED";
+	const string _pho = "PHONE";
 
-	static string[] _allcols = new string[] { _pid, _name, _adm, _login, _pass, _ret, _gue };
+	static string[] _allcols = new string[] { _pid, _name, _adm, _login, _pass, _ret, _gue, _pho };
 	public static string _Tabl = "[PERSONS]";
 
+	public string PHONE
+	{
+		get { return this[_pho].ToString(); }
+		set { this[_pho] = value; }
+	}
 	public string LOGIN
 	{
 		get { return this[_login].ToString(); }
 		set { this[_login] = value; }
+	}
+	public string PASSWORD
+	{
+		get { return this[_pass].ToString(); }
+		set { this[_pass] = value; }
 	}
 	public string USER_NAME
 	{
@@ -33,6 +45,11 @@ public class BSTUser : IdBasedObject
 		get { return GetAsBool(_adm); }
 		set { this[_adm] = value; }
 	}
+	public bool ISGUEST
+	{
+		get { return GetAsBool(_gue); }
+		set { this[_gue] = value; }
+	}
 	public bool RETIRED
 	{
 		get { return GetAsBool(_ret); }
@@ -46,6 +63,10 @@ public class BSTUser : IdBasedObject
 	}
 	public BSTUser(int id)
 	  : base(_Tabl, _allcols, id.ToString(), _pid)
+	{
+	}
+	public BSTUser()
+	  : base(_Tabl, _allcols, 0.ToString(), _pid, false)
 	{
 	}
 	public static BSTUser FindUser(string name, string pass)
@@ -88,5 +109,14 @@ public class BSTUser : IdBasedObject
 			return new BSTUser(i);
 		}
 		return null;
+	}
+	public static List<BSTUser> Enum()
+	{
+		List<BSTUser> ls = new List<BSTUser>();
+		foreach (int i in EnumRecords(_Tabl, _pid))
+		{
+			ls.Add(new BSTUser(i));
+		}
+		return ls;
 	}
 }

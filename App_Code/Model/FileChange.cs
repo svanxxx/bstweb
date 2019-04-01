@@ -120,46 +120,57 @@ public class ChangesContainer
 		output.Add("Starting job...");
 		lock (_commitobj)
 		{
-			ListOfChanges changes = Get(key);
-			string gitpath = Settings.CurrentSettings.WORKGIT;
-			Git git = new Git(gitpath);
-			output.AddRange(git.ResetHard());
-			output.AddRange(git.FetchAll());
-			output.AddRange(git.Checkout(changes.Branch));
-			if (git.CurrentBranch() != changes.Branch)
+			try
 			{
-				output.Add("Failed to switch branch!");
-				return Git.DiffFriendOutput(output);
-			}
-			output.AddRange(git.PullOrigin());
-			foreach (int i in indexes)
-			{
-				FileChange fc = changes[i];
-				string gitfile = fc.BST.Replace(@"S:\", gitpath).Replace(@"s:\", gitpath);
-				string gitdir = Path.GetDirectoryName(gitfile);
-				if (!Directory.Exists(gitdir))
+				ListOfChanges changes = Get(key);
+				string gitpath = Settings.CurrentSettings.WORKGIT;
+				if (!Directory.Exists(Settings.CurrentSettings.WORKGIT))
 				{
-					Directory.CreateDirectory(gitdir);
+					throw new Exception("Git Directory does not exist!: " + Settings.CurrentSettings.WORKGIT);
 				}
-				output.Add("Copying file: " + gitfile + "...");
-				File.Copy(fc.NEW, gitfile, true);
-				output.AddRange(git.AddFile(gitfile));
+				Git git = new Git(gitpath);
+				output.AddRange(git.ResetHard());
+				output.AddRange(git.FetchAll());
+				output.AddRange(git.Checkout(changes.Branch));
+				if (git.CurrentBranch() != changes.Branch)
+				{
+					output.Add("Failed to switch branch!");
+					return Git.DiffFriendOutput(output);
+				}
+				output.AddRange(git.PullOrigin());
+				foreach (int i in indexes)
+				{
+					FileChange fc = changes[i];
+					string gitfile = fc.BST.Replace(@"S:\", gitpath).Replace(@"s:\", gitpath);
+					string gitdir = Path.GetDirectoryName(gitfile);
+					if (!Directory.Exists(gitdir))
+					{
+						Directory.CreateDirectory(gitdir);
+					}
+					output.Add("Copying file: " + gitfile + "...");
+					File.Copy(fc.NEW, gitfile, true);
+					output.AddRange(git.AddFile(gitfile));
+				}
+				Commit oldcommit = git.GetTopCommit();
+				output.AddRange(git.CommitAll("WEB: " + comment, user));
+				Commit newcommit = git.GetTopCommit();
+				if (oldcommit.COMMIT == newcommit.COMMIT)
+				{
+					output.Add("-No files have been commited!");
+				}
+				else
+				{
+					output.Add(string.Format("+{0} files have been commited!", newcommit.EnumFiles().Count));
+				}
+				output.AddRange(git.PushCurrentBranch());
+				output.AddRange(git.ResetHard());
+				output.AddRange(git.Checkout("master"));
+				Remove(key);
 			}
-			Commit oldcommit = git.GetTopCommit();
-			output.AddRange(git.CommitAll("WEB: " + comment, user));
-			Commit newcommit = git.GetTopCommit();
-			if (oldcommit.COMMIT == newcommit.COMMIT)
+			catch (Exception e)
 			{
-				output.Add("-No files have been commited!");
+				output.Add(e.ToString());
 			}
-			else
-			{
-				output.Add(string.Format("+{0} files have been commited!", newcommit.EnumFiles().Count));
-			}
-			output.AddRange(git.PushCurrentBranch());
-			output.AddRange(git.ResetHard());
-			output.AddRange(git.Checkout("master"));
-			Remove(key);
 		}
 		return Git.DiffFriendOutput(output);
 	}
