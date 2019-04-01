@@ -44,6 +44,11 @@ public class RawSettings
 		return ProcessValue(val);
 	}
 
+	public string TASKSSERVICE
+	{
+		get { return GetVal("TASKSSERVICE"); }
+		set { values["TASKSSERVICE"] = value; }
+	}
 	public string SMTPHOST
 	{
 		get { return GetVal("smtp.Host"); }
