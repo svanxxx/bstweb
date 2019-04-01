@@ -714,7 +714,10 @@ public class WebService : System.Web.Services.WebService
 			string[] Commands;
 			string[] arrGroup;
 			TestRequest.GetCommandsGroups(txtcommands, out Commands, out arrGroup);
-            TestRequest.SetAdditionalCommands(new string[] { "GETGIT " + branch }, new string[] { "GETGIT --reset" }, guid);
+            if (!string.IsNullOrEmpty(branch))
+            {
+                TestRequest.SetAdditionalCommands(new string[] { "GETGIT " + branch }, new string[] { "GETGIT --reset" }, guid);
+            }
 			Schedule.AddCommands(Commands, arrGroup, tr.ID.ToString(), bu.ID.ToString(), priority);
 		}
 	}
