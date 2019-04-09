@@ -16,7 +16,10 @@ public static class DefectConnector
 			{
 				wcClient.UploadValues(Settings.CurrentSettings.TASKSSERVICE + "/SetTaskTestStatus", reqparm);
 			}
-			catch (Exception) { };
+			catch (Exception e)
+			{
+				Logger.Log(e);
+			};
 		}
 	}
 	public static void NotifyDefectWorker(string ttid, string message, string userphone)
@@ -31,7 +34,10 @@ public static class DefectConnector
 			{
 				wcClient.UploadValues(Settings.CurrentSettings.TASKSSERVICE + "/NotifyDefectWorker", reqparm);
 			}
-			catch (Exception) { };
+			catch (Exception e)
+			{
+				Logger.Log(e);
+			};
 		}
 	}
 }
