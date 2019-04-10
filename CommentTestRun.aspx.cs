@@ -377,7 +377,7 @@ ORDER BY $order,
 		string tasknumber = Regex.Match(strTTID.ToUpper(), "TT[0-9]+").Value.Replace("TT", "");
 		if (!String.IsNullOrEmpty(tasknumber))
 		{
-			DefectConnector.UpdateDefect(tasknumber, TestFailed.Checked, CurrentContext.User.PHONE);
+			DefectConnector.UpdateDefect(tasknumber, TestFailed.Checked.ToString(), CurrentContext.User.PHONE);
 		}
 		//----update end
 

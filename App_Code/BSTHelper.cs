@@ -540,6 +540,14 @@ public class CbstHelper : System.Web.UI.Page
 		Version v = new Version(tr.VERSIONID);
 		string vers = v.VERSION;
 
+		//----update TestTrack DB
+		string tasknumber = Regex.Match(ttid.ToUpper(), "TT[0-9]+").Value.Replace("TT", "");
+		if (!String.IsNullOrEmpty(tasknumber))
+		{
+			DefectConnector.UpdateDefect(tasknumber, "", CurrentContext.User.PHONE);
+		}
+		//----update end
+
 		string body = string.Format(@"
 		Your request to test version ({0}) was processed by {1}<br>
 		Your version: <a href='http://{2}/runs.aspx?R.RequestID={3}'>{0}</a> will be <b>IGNORED</b><br>

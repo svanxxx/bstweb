@@ -4,7 +4,7 @@ using System.Net;
 
 public static class DefectConnector
 {
-	public static void UpdateDefect(string ttid, bool failed, string userphone)
+	public static void UpdateDefect(string ttid, string failed, string userphone)
 	{
 		using (var wcClient = new WebClient())
 		{
