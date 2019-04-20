@@ -146,6 +146,16 @@ public class RawSettings
 		get { return GetVal("ROOTGIT"); }
 		set { values["ROOTGIT"] = value; }
 	}
+	public string MERGE_IMAGE_FORMATS
+	{
+		get { return GetVal("MERGE_IMAGE_FORMATS"); }
+		set { values["MERGE_IMAGE_FORMATS"] = value; }
+	}
+	public string MERGE_TEXT_FORMATS
+	{
+		get { return GetVal("MERGE_TEXT_FORMATS"); }
+		set { values["MERGE_TEXT_FORMATS"] = value; }
+	}
 	Dictionary<string, string> values = new Dictionary<string, string>();
 	void LoadData()
 	{
