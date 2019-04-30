@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="Test Requests" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeFile="requests.aspx.cs" Inherits="Requests" %>
 
 <asp:Content ID="HeadContentData" ContentPlaceHolderID="HeaddContent" runat="server">
-	<link href="css/requests.css" rel="stylesheet" />
-	<script src="scripts/requests.js"></script>
+	<%=System.Web.Optimization.Styles.Render("~/bundles/requests_css")%>
+	<%=System.Web.Optimization.Scripts.Render("~/bundles/requests_js")%>
 </asp:Content>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server" EnableViewState="false">
