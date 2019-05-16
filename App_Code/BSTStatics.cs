@@ -19,7 +19,7 @@ namespace BSTStatics
 		{
 			string res = match.Groups[0].Value;
 			string id = Convert.ToInt32(res.Replace("TT", "")).ToString();
-			return string.Format("<a href='http://{0}/taskmanagerbeta/showtask.aspx?ttid={1}'>{2}</a>", BSTStat.mainName, id, res);
+			return string.Format("<a href='http://{0}/taskmanager/showtask.aspx?ttid={1}'>{2}</a>", BSTStat.mainName, id, res);
 		}
 	}
 }

@@ -19,7 +19,7 @@ function parseTTLink(txt) {
 	if (ttids && ttids.length > 0) {
 		var ttid = ttids[0];
 		var id = ttid.split("TT")[1]
-		return txt.replace(ttid, "<a title='" + ttid + "' href='http://mps.resnet.com/taskmanagerbeta/showtask.aspx?ttid=" + id + "'>" + ttid + "</a>")
+		return txt.replace(ttid, "<a title='" + ttid + "' href='http://mps.resnet.com/taskmanager/showtask.aspx?ttid=" + id + "'>" + ttid + "</a>")
 	}
 	return txt;
 }
