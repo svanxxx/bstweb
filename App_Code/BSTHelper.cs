@@ -493,17 +493,6 @@ public class CbstHelper : System.Web.UI.Page
 			}
 		}
 	}
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-	public static void SQLExecuteTestTrackDB(string strSQL)
-	{
-		using (OleDbConnection conn = new OleDbConnection("Provider=sqloledb;Data Source=192.168.0.1;Initial Catalog=tt_res;Trusted_Connection=False;User ID=sa;Password=prosuite"))
-		{
-			conn.Open();
-			using (OleDbCommand cmd = new OleDbCommand(strSQL, conn))
-				cmd.ExecuteNonQuery();
-		}
-	}
-
 	public static void IgnoreTestRun(string ids)
 	{
 		string[] sids = ids.Split(',');
