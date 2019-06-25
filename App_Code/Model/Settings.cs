@@ -49,6 +49,11 @@ public class RawSettings
 		get { return GetVal("TASKSSERVICE"); }
 		set { values["TASKSSERVICE"] = value; }
 	}
+	public string DEFECTLINK
+	{
+		get { return GetVal("DEFECTLINK"); }
+		set { values["DEFECTLINK"] = value; }
+	}
 	public string SMTPHOST
 	{
 		get { return GetVal("smtp.Host"); }
@@ -108,6 +113,11 @@ public class RawSettings
 	{
 		get { return GetVal("JQUERYCDN"); }
 		set { values["JQUERYCDN"] = value; }
+	}
+	public string JQUERYUICDN
+	{
+		get { return GetVal("JQUERYUICDN"); }
+		set { values["JQUERYUICDN"] = value; }
 	}
 	public string COMPANYSITE
 	{
