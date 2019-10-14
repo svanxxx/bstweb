@@ -12,12 +12,12 @@ function CheckClass(row, classn) {
 	}
 }
 function BusyTimer() {
+	var curr = new Date();
+	curr = curr.getTime();
 	$('#machines > tbody > tr').each(function (i, obj) {
 		var row = $(obj);
 		var start = row.attr("start");
 		var ping = row.attr("ping");
-		var curr = new Date();
-		curr = curr.getTime();
 
 		var pdiff = (curr - ping) / 1000;
 		var diff = (curr - start) / 1000 / 60;
