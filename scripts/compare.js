@@ -54,16 +54,19 @@ function Compare() {
 	var diffs = 0;
 	for (var i = 0; i < d.length; i++) {
 		var tp = d[i][0];
-		var tx = d[i][1];
+        var tx = d[i][1];
+        var count;
+        tx = tx.replace(/</g, "&lt;");
+        tx = tx.replace(/>/g, "&gt;");
 		var rp = tx.replace(/(?:\r\n|\r|\n)/g, '<br />');
-		if (tp == 0) {
-			t1 += rp
+		if (tp === 0) {
+            t1 += rp;
 			t2 += rp;
 		}
-		else if (tp == 1) {
+		else if (tp === 1) {
 			t2 += "<mark>" + rp + "</mark>";
 			t1 += "<a name = 'def_" + diffs + "'/>";
-			var count = (rp.match(/<br \/>/g) || []).length;
+			count = (rp.match(/<br \/>/g) || []).length;
 			for (var j = 0; j < count; j++) {
 				t1 += "<mark> </mark>" + "<br />";
 			}
@@ -71,8 +74,8 @@ function Compare() {
 				t1 += "<mark> </mark>";
 			diffs++;
 		}
-		else if (tp == -1) {
-			var count = (rp.match(/<br \/>/g) || []).length;
+		else if (tp === -1) {
+			count = (rp.match(/<br \/>/g) || []).length;
 			for (var j = 0; j < count; j++) {
 				t2 += "<span class='del2'> </span>" + "<br />";
 			}
