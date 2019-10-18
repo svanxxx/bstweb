@@ -166,6 +166,16 @@ public class RawSettings
 		get { return GetVal("MERGE_TEXT_FORMATS"); }
 		set { values["MERGE_TEXT_FORMATS"] = value; }
 	}
+	public string USERIMGURL
+	{
+		get { return GetVal("USERIMGURL"); }
+		set { values["USERIMGURL"] = value; }
+	}
+	public string CDNFONTAWESOME
+	{
+		get { return GetVal("CDNFONTAWESOME"); }
+		set { values["CDNFONTAWESOME"] = value; }
+	}
 	Dictionary<string, string> values = new Dictionary<string, string>();
 	void LoadData()
 	{
