@@ -1,0 +1,451 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BST_STATISTICSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="FIPVERSION">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VERSION" Type="nvarchar" MaxLength="255" />
+          <Property Name="COMMENT" Type="ntext" />
+          <Property Name="OFFICIAL" Type="int" />
+        </EntityType>
+        <EntityType Name="PCS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PCNAME" Type="nvarchar" MaxLength="255" />
+          <Property Name="PCIP" Type="nvarchar" MaxLength="255" />
+          <Property Name="UNUSED" Type="bit" Nullable="false" />
+          <Property Name="IPCONFIG" Type="ntext" />
+          <Property Name="PCINFO" Type="ntext" />
+          <Property Name="STARTED" Type="smalldatetime" />
+          <Property Name="CURRENT" Type="nvarchar" MaxLength="255" />
+          <Property Name="LEFTINSEQUENCE" Type="int" />
+          <Property Name="PCPING" Type="datetime" />
+          <Property Name="DISKSSIZE" Type="float" />
+          <Property Name="SS_CODE" Type="datetime2" Precision="7" />
+          <Property Name="VERSION" Type="int" />
+          <Property Name="TESTCASE_ID" Type="int" />
+          <Property Name="PAUSEDBY" Type="int" />
+          <Property Name="COMMITHASH" Type="nvarchar" MaxLength="40" />
+          <Property Name="COMMITFILES" Type="bit" />
+          <Property Name="STOP" Type="int" />
+          <Property Name="ACTIONFLAG" Type="int" />
+          <Property Name="DBTYPE" Type="nvarchar" MaxLength="50" />
+          <Property Name="REQUEST_ID" Type="int" />
+          <Property Name="COMMITFILESLIST" Type="nvarchar(max)" />
+          <Property Name="PHYSICAL" Type="bit" />
+          <Property Name="NO3DV" Type="bit" />
+          <Property Name="PARENT_PC" Type="nvarchar" MaxLength="50" />
+          <Property Name="HOST_ID" Type="int" />
+          <Property Name="LAST_UPDATED" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PERSONS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="USER_NAME" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="USER_LOGIN" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="USER_PASS" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="IS_ADMIN" Type="bit" Nullable="false" />
+          <Property Name="IS_GUEST" Type="bit" Nullable="false" />
+          <Property Name="RETIRED" Type="bit" />
+          <Property Name="PHONE" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="TESTREQUESTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TTID" Type="varchar" MaxLength="4000" />
+          <Property Name="GUID" Type="varchar" MaxLength="50" />
+          <Property Name="RequestDateTime" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="ProgAbb" Type="varchar" MaxLength="50" />
+          <Property Name="Comment" Type="varchar(max)" />
+          <Property Name="VersionID" Type="int" />
+          <Property Name="IGNORE" Type="bit" />
+          <Property Name="TESTED" Type="bit" />
+          <Property Name="GITHASH" Type="varchar" MaxLength="40" />
+          <Property Name="REQUEST_PRIORITY" Type="int" />
+          <Property Name="TESTERID" Type="int" />
+        </EntityType>
+        <Association Name="FK_PCS_PERSONS">
+          <End Role="PERSONS" Type="Self.PERSONS" Multiplicity="0..1" />
+          <End Role="PCS" Type="Self.PCS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PCS">
+              <PropertyRef Name="PAUSEDBY" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PCS_TESTREQUESTS">
+          <End Role="TESTREQUESTS" Type="Self.TESTREQUESTS" Multiplicity="0..1" />
+          <End Role="PCS" Type="Self.PCS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TESTREQUESTS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PCS">
+              <PropertyRef Name="REQUEST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TESTREQUESTS_FIPVERSION">
+          <End Role="FIPVERSION" Type="Self.FIPVERSION" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TESTREQUESTS" Type="Self.TESTREQUESTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FIPVERSION">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TESTREQUESTS">
+              <PropertyRef Name="VersionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TESTREQUESTS_PERSONS">
+          <End Role="PERSONS" Type="Self.PERSONS" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TESTREQUESTS" Type="Self.TESTREQUESTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TESTREQUESTS">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TESTREQUESTS_TESTER">
+          <End Role="PERSONS" Type="Self.PERSONS" Multiplicity="0..1" />
+          <End Role="TESTREQUESTS" Type="Self.TESTREQUESTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TESTREQUESTS">
+              <PropertyRef Name="TESTERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BST_STATISTICSModelStoreContainer">
+          <EntitySet Name="FIPVERSION" EntityType="Self.FIPVERSION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PCS" EntityType="Self.PCS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PERSONS" EntityType="Self.PERSONS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TESTREQUESTS" EntityType="Self.TESTREQUESTS" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_PCS_PERSONS" Association="Self.FK_PCS_PERSONS">
+            <End Role="PERSONS" EntitySet="PERSONS" />
+            <End Role="PCS" EntitySet="PCS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PCS_TESTREQUESTS" Association="Self.FK_PCS_TESTREQUESTS">
+            <End Role="TESTREQUESTS" EntitySet="TESTREQUESTS" />
+            <End Role="PCS" EntitySet="PCS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TESTREQUESTS_FIPVERSION" Association="Self.FK_TESTREQUESTS_FIPVERSION">
+            <End Role="FIPVERSION" EntitySet="FIPVERSION" />
+            <End Role="TESTREQUESTS" EntitySet="TESTREQUESTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TESTREQUESTS_PERSONS" Association="Self.FK_TESTREQUESTS_PERSONS">
+            <End Role="PERSONS" EntitySet="PERSONS" />
+            <End Role="TESTREQUESTS" EntitySet="TESTREQUESTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TESTREQUESTS_TESTER" Association="Self.FK_TESTREQUESTS_TESTER">
+            <End Role="PERSONS" EntitySet="PERSONS" />
+            <End Role="TESTREQUESTS" EntitySet="TESTREQUESTS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BST_STATISTICSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TESTREQUEST">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TTID" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="GUID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RequestDateTime" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="ProgAbb" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="VersionID" Type="Int32" />
+          <Property Name="IGNORE" Type="Boolean" />
+          <Property Name="TESTED" Type="Boolean" />
+          <Property Name="GITHASH" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="REQUEST_PRIORITY" Type="Int32" />
+          <Property Name="TESTERID" Type="Int32" />
+          <NavigationProperty Name="FIPVERSION" Relationship="BST_STATISTICSModel.FK_TESTREQUESTS_FIPVERSION" FromRole="TESTREQUEST" ToRole="FIPVERSION" />
+          <NavigationProperty Name="PCS" Relationship="BST_STATISTICSModel.FK_PCS_TESTREQUESTS" FromRole="TESTREQUEST" ToRole="PC" />
+          <NavigationProperty Name="PERSON" Relationship="BST_STATISTICSModel.FK_TESTREQUESTS_PERSONS" FromRole="TESTREQUEST" ToRole="PERSON" />
+          <NavigationProperty Name="PERSON1" Relationship="BST_STATISTICSModel.FK_TESTREQUESTS_TESTER" FromRole="TESTREQUEST" ToRole="PERSON" />
+          </EntityType>
+        <EntityContainer Name="BST_STATISTICSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TESTREQUESTS" EntityType="Self.TESTREQUEST" />
+          <EntitySet Name="FIPVERSIONs" EntityType="BST_STATISTICSModel.FIPVERSION" />
+          <AssociationSet Name="FK_TESTREQUESTS_FIPVERSION" Association="BST_STATISTICSModel.FK_TESTREQUESTS_FIPVERSION">
+            <End Role="FIPVERSION" EntitySet="FIPVERSIONs" />
+            <End Role="TESTREQUEST" EntitySet="TESTREQUESTS" />
+          </AssociationSet>
+          <EntitySet Name="PCS" EntityType="BST_STATISTICSModel.PC" />
+          <AssociationSet Name="FK_PCS_TESTREQUESTS" Association="BST_STATISTICSModel.FK_PCS_TESTREQUESTS">
+            <End Role="TESTREQUEST" EntitySet="TESTREQUESTS" />
+            <End Role="PC" EntitySet="PCS" />
+          </AssociationSet>
+          <EntitySet Name="PERSONS" EntityType="BST_STATISTICSModel.PERSON" />
+          <AssociationSet Name="FK_PCS_PERSONS" Association="BST_STATISTICSModel.FK_PCS_PERSONS">
+            <End Role="PERSON" EntitySet="PERSONS" />
+            <End Role="PC" EntitySet="PCS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TESTREQUESTS_PERSONS" Association="BST_STATISTICSModel.FK_TESTREQUESTS_PERSONS">
+            <End Role="PERSON" EntitySet="PERSONS" />
+            <End Role="TESTREQUEST" EntitySet="TESTREQUESTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TESTREQUESTS_TESTER" Association="BST_STATISTICSModel.FK_TESTREQUESTS_TESTER">
+            <End Role="PERSON" EntitySet="PERSONS" />
+            <End Role="TESTREQUEST" EntitySet="TESTREQUESTS" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="FIPVERSION">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VERSION" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="COMMENT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OFFICIAL" Type="Int32" />
+          <NavigationProperty Name="TESTREQUESTS" Relationship="BST_STATISTICSModel.FK_TESTREQUESTS_FIPVERSION" FromRole="FIPVERSION" ToRole="TESTREQUEST" />
+        </EntityType>
+        <Association Name="FK_TESTREQUESTS_FIPVERSION">
+          <End Type="BST_STATISTICSModel.FIPVERSION" Role="FIPVERSION" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="BST_STATISTICSModel.TESTREQUEST" Role="TESTREQUEST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FIPVERSION">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TESTREQUEST">
+              <PropertyRef Name="VersionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PC">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PCNAME" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PCIP" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UNUSED" Type="Boolean" Nullable="false" />
+          <Property Name="IPCONFIG" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PCINFO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="STARTED" Type="DateTime" Precision="0" />
+          <Property Name="CURRENT" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LEFTINSEQUENCE" Type="Int32" />
+          <Property Name="PCPING" Type="DateTime" Precision="3" />
+          <Property Name="DISKSSIZE" Type="Double" />
+          <Property Name="SS_CODE" Type="DateTime" Precision="7" />
+          <Property Name="VERSION" Type="Int32" />
+          <Property Name="TESTCASE_ID" Type="Int32" />
+          <Property Name="PAUSEDBY" Type="Int32" />
+          <Property Name="COMMITHASH" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="COMMITFILES" Type="Boolean" />
+          <Property Name="STOP" Type="Int32" />
+          <Property Name="ACTIONFLAG" Type="Int32" />
+          <Property Name="DBTYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="REQUEST_ID" Type="Int32" />
+          <Property Name="COMMITFILESLIST" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PHYSICAL" Type="Boolean" />
+          <Property Name="NO3DV" Type="Boolean" />
+          <Property Name="PARENT_PC" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HOST_ID" Type="Int32" />
+          <Property Name="LAST_UPDATED" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TESTREQUEST" Relationship="BST_STATISTICSModel.FK_PCS_TESTREQUESTS" FromRole="PC" ToRole="TESTREQUEST" />
+          <NavigationProperty Name="PERSON" Relationship="BST_STATISTICSModel.FK_PCS_PERSONS" FromRole="PC" ToRole="PERSON" />
+        </EntityType>
+        <Association Name="FK_PCS_TESTREQUESTS">
+          <End Type="BST_STATISTICSModel.TESTREQUEST" Role="TESTREQUEST" Multiplicity="0..1" />
+          <End Type="BST_STATISTICSModel.PC" Role="PC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TESTREQUEST">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PC">
+              <PropertyRef Name="REQUEST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PERSON">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="USER_NAME" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="USER_LOGIN" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="USER_PASS" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="IS_ADMIN" Type="Boolean" Nullable="false" />
+          <Property Name="IS_GUEST" Type="Boolean" Nullable="false" />
+          <Property Name="RETIRED" Type="Boolean" />
+          <Property Name="PHONE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PCS" Relationship="BST_STATISTICSModel.FK_PCS_PERSONS" FromRole="PERSON" ToRole="PC" />
+          <NavigationProperty Name="TESTREQUESTS" Relationship="BST_STATISTICSModel.FK_TESTREQUESTS_PERSONS" FromRole="PERSON" ToRole="TESTREQUEST" />
+          <NavigationProperty Name="TESTREQUESTS1" Relationship="BST_STATISTICSModel.FK_TESTREQUESTS_TESTER" FromRole="PERSON" ToRole="TESTREQUEST" />
+        </EntityType>
+        <Association Name="FK_PCS_PERSONS">
+          <End Type="BST_STATISTICSModel.PERSON" Role="PERSON" Multiplicity="0..1" />
+          <End Type="BST_STATISTICSModel.PC" Role="PC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PC">
+              <PropertyRef Name="PAUSEDBY" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TESTREQUESTS_PERSONS">
+          <End Type="BST_STATISTICSModel.PERSON" Role="PERSON" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="BST_STATISTICSModel.TESTREQUEST" Role="TESTREQUEST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TESTREQUEST">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TESTREQUESTS_TESTER">
+          <End Type="BST_STATISTICSModel.PERSON" Role="PERSON" Multiplicity="0..1" />
+          <End Type="BST_STATISTICSModel.TESTREQUEST" Role="TESTREQUEST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TESTREQUEST">
+              <PropertyRef Name="TESTERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BST_STATISTICSModelStoreContainer" CdmEntityContainer="BST_STATISTICSEntities">
+          <EntitySetMapping Name="TESTREQUESTS">
+            <EntityTypeMapping TypeName="BST_STATISTICSModel.TESTREQUEST">
+              <MappingFragment StoreEntitySet="TESTREQUESTS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TTID" ColumnName="TTID" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+                <ScalarProperty Name="RequestDateTime" ColumnName="RequestDateTime" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ProgAbb" ColumnName="ProgAbb" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="VersionID" ColumnName="VersionID" />
+                <ScalarProperty Name="IGNORE" ColumnName="IGNORE" />
+                <ScalarProperty Name="TESTED" ColumnName="TESTED" />
+                <ScalarProperty Name="GITHASH" ColumnName="GITHASH" />
+                <ScalarProperty Name="REQUEST_PRIORITY" ColumnName="REQUEST_PRIORITY" />
+                <ScalarProperty Name="TESTERID" ColumnName="TESTERID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FIPVERSIONs">
+            <EntityTypeMapping TypeName="BST_STATISTICSModel.FIPVERSION">
+              <MappingFragment StoreEntitySet="FIPVERSION">
+                <ScalarProperty Name="OFFICIAL" ColumnName="OFFICIAL" />
+                <ScalarProperty Name="COMMENT" ColumnName="COMMENT" />
+                <ScalarProperty Name="VERSION" ColumnName="VERSION" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PCS">
+            <EntityTypeMapping TypeName="BST_STATISTICSModel.PC">
+              <MappingFragment StoreEntitySet="PCS">
+                <ScalarProperty Name="LAST_UPDATED" ColumnName="LAST_UPDATED" />
+                <ScalarProperty Name="HOST_ID" ColumnName="HOST_ID" />
+                <ScalarProperty Name="PARENT_PC" ColumnName="PARENT_PC" />
+                <ScalarProperty Name="NO3DV" ColumnName="NO3DV" />
+                <ScalarProperty Name="PHYSICAL" ColumnName="PHYSICAL" />
+                <ScalarProperty Name="COMMITFILESLIST" ColumnName="COMMITFILESLIST" />
+                <ScalarProperty Name="REQUEST_ID" ColumnName="REQUEST_ID" />
+                <ScalarProperty Name="DBTYPE" ColumnName="DBTYPE" />
+                <ScalarProperty Name="ACTIONFLAG" ColumnName="ACTIONFLAG" />
+                <ScalarProperty Name="STOP" ColumnName="STOP" />
+                <ScalarProperty Name="COMMITFILES" ColumnName="COMMITFILES" />
+                <ScalarProperty Name="COMMITHASH" ColumnName="COMMITHASH" />
+                <ScalarProperty Name="PAUSEDBY" ColumnName="PAUSEDBY" />
+                <ScalarProperty Name="TESTCASE_ID" ColumnName="TESTCASE_ID" />
+                <ScalarProperty Name="VERSION" ColumnName="VERSION" />
+                <ScalarProperty Name="SS_CODE" ColumnName="SS_CODE" />
+                <ScalarProperty Name="DISKSSIZE" ColumnName="DISKSSIZE" />
+                <ScalarProperty Name="PCPING" ColumnName="PCPING" />
+                <ScalarProperty Name="LEFTINSEQUENCE" ColumnName="LEFTINSEQUENCE" />
+                <ScalarProperty Name="CURRENT" ColumnName="CURRENT" />
+                <ScalarProperty Name="STARTED" ColumnName="STARTED" />
+                <ScalarProperty Name="PCINFO" ColumnName="PCINFO" />
+                <ScalarProperty Name="IPCONFIG" ColumnName="IPCONFIG" />
+                <ScalarProperty Name="UNUSED" ColumnName="UNUSED" />
+                <ScalarProperty Name="PCIP" ColumnName="PCIP" />
+                <ScalarProperty Name="PCNAME" ColumnName="PCNAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERSONS">
+            <EntityTypeMapping TypeName="BST_STATISTICSModel.PERSON">
+              <MappingFragment StoreEntitySet="PERSONS">
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="RETIRED" ColumnName="RETIRED" />
+                <ScalarProperty Name="IS_GUEST" ColumnName="IS_GUEST" />
+                <ScalarProperty Name="IS_ADMIN" ColumnName="IS_ADMIN" />
+                <ScalarProperty Name="USER_PASS" ColumnName="USER_PASS" />
+                <ScalarProperty Name="USER_LOGIN" ColumnName="USER_LOGIN" />
+                <ScalarProperty Name="USER_NAME" ColumnName="USER_NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

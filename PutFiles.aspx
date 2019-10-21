@@ -36,6 +36,7 @@
 			<ul ng-disabled="readonly()" class="list-group list-group-flush">
 				<li class="list-group-item" ng-repeat="f in files" style="background-color: {{f.checked?'transparent':'lightgray'}}">
 					<div class="input-group">
+						<span class="input-group-addon">{{$index+1}}</span>
 						<div class="input-group-btn">
 							<button ng-click="f.checked = !f.checked;" ng-disabled="readonly()" class="btn btn-default" type="button">
 								<i class="glyphicon glyphicon-check" ng-show="f.checked"></i>

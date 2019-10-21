@@ -1,9 +1,9 @@
 ﻿<%@ Page Title="Compare Files" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeFile="Compare.aspx.cs" Inherits="Compare" %>
 
 <asp:Content ID="HeadContentData" ContentPlaceHolderID="HeaddContent" runat="server">
-	<link rel="stylesheet" href="css/compare.css" />
 	<script src="scripts/diff_match_patch.js"></script>
-	<script src="scripts/compare.js"></script>
+	<%=System.Web.Optimization.Styles.Render("~/bundles/compare_css")%>
+	<%=System.Web.Optimization.Scripts.Render("~/bundles/compare_js")%>
 </asp:Content>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server" EnableViewState="false">

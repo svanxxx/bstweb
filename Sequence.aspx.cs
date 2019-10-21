@@ -518,6 +518,12 @@ public partial class Sequence : CbstHelper
 				",
 				v.VERSION, CurrentContext.UserName(), r.REQUESTDATETIME, Settings.CurrentSettings.BSTADDRESS, RequestID, r.TTID, r.COMMENT);
 
+				string tasknumber = Regex.Match(r.TTID.ToUpper(), "TT[0-9]+").Value.Replace("TT", "");
+				if (!String.IsNullOrEmpty(tasknumber))
+				{
+					DefectConnector.NotifyDefectWorker(tasknumber, string.Format("Your request for {0} test was processed by: {1}", tasknumber, CurrentContext.UserName()), CurrentContext.User.PHONE);
+				}
+
 				AddEmail(
 					r.PROGABB
 					, string.Format("Your request for version ({0}) test was processed by: {1}", v.VERSION, CurrentContext.UserName())

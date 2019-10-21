@@ -15,11 +15,11 @@ function ShowWaitDlg(bShow) {
 	}
 }
 function parseTTLink(txt) {
-	var ttids = txt.match("TT\\d+")
+	var ttids = txt.match("TT\\d+");
 	if (ttids && ttids.length > 0) {
 		var ttid = ttids[0];
-		var id = ttid.split("TT")[1]
-		return txt.replace(ttid, "<a title='" + ttid + "' href='http://mps.resnet.com/taskmanagerbeta/showtask.aspx?ttid=" + id + "'>" + ttid + "</a>")
+		var id = ttid.split("TT")[1];
+		return txt.replace(ttid, "<a title='" + ttid + "' href='http://mps.resnet.com/taskmanager/showtask.aspx?ttid=" + id + "'>" + ttid + "</a>");
 	}
 	return txt;
 }

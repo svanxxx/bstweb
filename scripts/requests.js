@@ -62,6 +62,10 @@
 				cell.html("");
 				cell.append($but);
 				$but.click(function () {
+					if (!IsAdmin()) {
+						alert("Unknown users or not administrators cannot change the data. Please login as domain user or get admin rights.");
+						return;
+					}
 					var mess = $(this).text();
 					var ignore = mess == "IGNORE";
 					var answer = ignore ? confirm("Are you sure you want to ignore test request?") : confirm("Are you sure you want to UNignore test?");
@@ -82,6 +86,10 @@
 					cell.html("");
 					cell.append($but);
 					$but.click(function () {
+						if (!IsAdmin()) {
+							alert("Unknown users or not administrators cannot change the data. Please login as domain user or get admin rights.");
+							return;
+						}
 						var id = $($($(this).parent()).parent()).attr("requestid");
 						var answer = confirm("Are you sure you want to mark test request as handled manually by you?");
 						if (!answer) {
@@ -97,11 +105,14 @@
 				var t = cell.text();
 				var cap = (t) ? "untest" : "TESTED";
 				var sty = (t) ? (t == "False" ? "btn-danger" : "btn-success") : "btn-info";
-
 				var $but = $("<button style='padding:0; width:100%' type='button' class='btn " + sty + " btn-xs'>" + cap + "</button>");
 				cell.html("");
 				cell.append($but);
 				$but.click(function () {
+					if (!IsAdmin()) {
+						alert("Unknown users or not administrators cannot change the data. Please login as domain user or get admin rights.");
+						return;
+					}
 					var mess = $(this).text();
 					var id = $($($(this).parent()).parent()).attr("requestid");
 					if (mess == "TESTED") {

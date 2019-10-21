@@ -49,6 +49,11 @@ public class RawSettings
 		get { return GetVal("TASKSSERVICE"); }
 		set { values["TASKSSERVICE"] = value; }
 	}
+	public string DEFECTLINK
+	{
+		get { return GetVal("DEFECTLINK"); }
+		set { values["DEFECTLINK"] = value; }
+	}
 	public string SMTPHOST
 	{
 		get { return GetVal("smtp.Host"); }
@@ -109,6 +114,11 @@ public class RawSettings
 		get { return GetVal("JQUERYCDN"); }
 		set { values["JQUERYCDN"] = value; }
 	}
+	public string JQUERYUICDN
+	{
+		get { return GetVal("JQUERYUICDN"); }
+		set { values["JQUERYUICDN"] = value; }
+	}
 	public string COMPANYSITE
 	{
 		get { return GetVal("COMPANYSITE"); }
@@ -145,6 +155,26 @@ public class RawSettings
 	{
 		get { return GetVal("ROOTGIT"); }
 		set { values["ROOTGIT"] = value; }
+	}
+	public string MERGE_IMAGE_FORMATS
+	{
+		get { return GetVal("MERGE_IMAGE_FORMATS"); }
+		set { values["MERGE_IMAGE_FORMATS"] = value; }
+	}
+	public string MERGE_TEXT_FORMATS
+	{
+		get { return GetVal("MERGE_TEXT_FORMATS"); }
+		set { values["MERGE_TEXT_FORMATS"] = value; }
+	}
+	public string USERIMGURL
+	{
+		get { return GetVal("USERIMGURL"); }
+		set { values["USERIMGURL"] = value; }
+	}
+	public string CDNFONTAWESOME
+	{
+		get { return GetVal("CDNFONTAWESOME"); }
+		set { values["CDNFONTAWESOME"] = value; }
 	}
 	Dictionary<string, string> values = new Dictionary<string, string>();
 	void LoadData()
