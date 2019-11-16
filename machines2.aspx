@@ -32,7 +32,7 @@
 						<td class="p-0">{{$index+1}}</td>
 						<td class="p-0"><a href="/runs.aspx?R.REPEATED=<>2&P.PCNAME={{m.NAME}}">{{m.NAME}}</a></td>
 						<td class="p-0">{{m.TESTS}}</td>
-						<td class="p-0 td-center"><a href ng-click="vnc(m.NAME)"><img src="/images/vnc.png" data-toggle="tooltip" title="VNC {{m.NAME}}"></img></a></td>
+						<td class="p-0 td-center"><a href ng-click="vnc(m.IP)"><img src="/images/vnc.png" data-toggle="tooltip" title="VNC {{m.NAME}}"></img></a></td>
 						<td class="p-0 td-center" style="cursor: pointer; white-space: nowrap" ng-click="pauseOnOff(m.ID)" ng-disabled="!isAdmin" data-toggle="tooltip" title="{{m.PAUSEDBY ? 'Resume' : 'Pause'}}  {{m.NAME}}">
 							<img ng-show="m.PAUSEDBY" width="20" height="20" src="<%=Settings.CurrentSettings.USERIMGURL.ToString()%>{{m.PAUSEDBY}}"></img>
 							<i ng-show="m.PAUSEDBY" class="fas fa-play"></i>

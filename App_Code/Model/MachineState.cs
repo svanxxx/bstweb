@@ -12,6 +12,7 @@ public class MachineState
 	public string STARTED { get; set; }
 	public string PCPING { get; set; }
 	public string PAUSEDBY { get; set; }
+	public string IP { get; set; }
 	public MachineState()
 	{
 	}
@@ -24,6 +25,11 @@ public class MachineState
 		STARTED = pc.STARTED == null ? "" : pc.STARTED.GetValueOrDefault().ToString(IdBasedObject.defDateTimeFormat, CultureInfo.InvariantCulture);
 		PCPING = pc.PCPING == null ? "" : pc.PCPING.GetValueOrDefault().ToString(IdBasedObject.defDateTimeFormat, CultureInfo.InvariantCulture);
 		PAUSEDBY = pc.PERSON == null ? "" : pc.PERSON.PHONE;
+		string[] parts = NAME.ToUpper().Split('X');
+		if (parts.Length > 1)
+		{
+			IP = "192.168.0.1" + parts[1];
+		}
 	}
 	public static List<MachineState> EnumUsed()
 	{
