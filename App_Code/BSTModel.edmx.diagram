@@ -5,15 +5,23 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="c5abedfe6e21475d96089ff9a7757c88" Name="Diagram1" ShowGrid="true" DisplayType="true">
-        <EntityTypeShape EntityType="BST_STATISTICSModel.TESTREQUEST" Width="2.375" PointX="4" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="BST_STATISTICSModel.TESTREQUEST" Width="2.375" PointX="3.625" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BST_STATISTICSModel.FIPVERSION" Width="2" PointX="6.625" PointY="1" />
         <AssociationConnector Association="BST_STATISTICSModel.FK_TESTREQUESTS_FIPVERSION" />
-        <EntityTypeShape EntityType="BST_STATISTICSModel.PC" Width="2" PointX="6.625" PointY="3.125" />
+        <EntityTypeShape EntityType="BST_STATISTICSModel.PC" Width="2" PointX="10.375" PointY="1" />
         <AssociationConnector Association="BST_STATISTICSModel.FK_PCS_TESTREQUESTS" />
-        <EntityTypeShape EntityType="BST_STATISTICSModel.PERSON" Width="1.5" PointX="1.75" PointY="3.75" />
+        <EntityTypeShape EntityType="BST_STATISTICSModel.PERSON" Width="1.5" PointX="1.125" PointY="3.75" />
         <AssociationConnector Association="BST_STATISTICSModel.FK_PCS_PERSONS" />
         <AssociationConnector Association="BST_STATISTICSModel.FK_TESTREQUESTS_PERSONS" />
         <AssociationConnector Association="BST_STATISTICSModel.FK_TESTREQUESTS_TESTER" />
+        <EntityTypeShape EntityType="BST_STATISTICSModel.BSTLOG" Width="1.5" PointX="1" PointY="0.75" />
+        <AssociationConnector Association="BST_STATISTICSModel.FK_BSTLOG_PERSONS" />
+        <EntityTypeShape EntityType="BST_STATISTICSModel.SCHEDULE" Width="1.5" PointX="5.625" PointY="7" />
+        <AssociationConnector Association="BST_STATISTICSModel.FK_SCHEDULE_PCS" />
+        <AssociationConnector Association="BST_STATISTICSModel.FK_SCHEDULE_PCS1" />
+        <AssociationConnector Association="BST_STATISTICSModel.FK_SCHEDULE_PERSONS" />
+        <AssociationConnector Association="BST_STATISTICSModel.FK_SCHEDULE_SCHEDULE" />
+        <AssociationConnector Association="BST_STATISTICSModel.FK_SCHEDULE_TESTREQUESTS" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

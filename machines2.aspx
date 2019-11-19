@@ -31,19 +31,17 @@
 					<tr ng-repeat="m in machines | orderBy : ['NAME']" style="background-color: {{m.COLOR}}">
 						<td class="p-0">{{$index+1}}</td>
 						<td class="p-0"><a href="/runs.aspx?R.REPEATED=<>2&P.PCNAME={{m.NAME}}">{{m.NAME}}</a></td>
-						<td class="p-0">{{m.TESTS}}</td>
+						<td class="p-0">{{m.SCHEDULES}}</td>
 						<td class="p-0 td-center"><a href ng-click="vnc(m.IP)"><img src="/images/vnc.png" data-toggle="tooltip" title="VNC {{m.NAME}}"></img></a></td>
 						<td class="p-0 td-center" style="cursor: pointer; white-space: nowrap" ng-click="pauseOnOff(m.ID)" ng-disabled="!isAdmin" data-toggle="tooltip" title="{{m.PAUSEDBY ? 'Resume' : 'Pause'}}  {{m.NAME}}">
 							<img ng-show="m.PAUSEDBY" width="20" height="20" src="<%=Settings.CurrentSettings.USERIMGURL.ToString()%>{{m.PAUSEDBY}}"></img>
 							<i ng-show="m.PAUSEDBY" class="fas fa-play"></i>
 							<i ng-show="!m.PAUSEDBY" class="fas fa-pause-circle"></i>
 						</td>
-
-						<td class="p-0 td-center" data-toggle="tooltip" title="Stop all tests on {{m.NAME}}"><a href><i class="text-danger far fa-stop-circle"></i></a></td>
-						<td class="p-0 td-center" data-toggle="tooltip" title="Shutdown machine {{m.NAME}}"><a href><i class="text-danger fas fa-power-off"></i></a></td>
-						<td class="p-0 td-center"><a href><i class="fas fa-code-branch"></i></a></td>
-						<td class="p-0 td-center"><a href><i class="text-success fas fa-recycle"></i></a></td>
-
+						<td class="p-0 td-center" ng-click="changeState(m.ID, '<%= MachineState.MachineStatus.Stop.ToString() %>')" data-toggle="tooltip" title="Stop all tests on {{m.NAME}}"><a href><i class="text-danger far fa-stop-circle"></i></a></td>
+						<td class="p-0 td-center" ng-click="changeState(m.ID, '<%= MachineState.MachineStatus.Shutdown.ToString() %>')" data-toggle="tooltip" title="Shutdown machine {{m.NAME}}"><a href><i class="text-danger fas fa-power-off"></i></a></td>
+						<td class="p-0 td-center" ng-click="changeState(m.ID, '<%= MachineState.MachineStatus.SSGET.ToString() %>')" data-toggle="tooltip" title="Get git {{m.NAME}}"><a href><i class="fas fa-code-branch"></i></a></td>
+						<td class="p-0 td-center" ng-click="changeState(m.ID, '<%= MachineState.MachineStatus.Restart.ToString() %>')" data-toggle="tooltip" title="Restart {{m.NAME}}"><a href><i class="text-success fas fa-recycle"></i></a></td>
 						<td class="p-0 td-center" data-toggle="tooltip" title="Show {{m.NAME}} Logs"><a href="/Log.aspx?thoster={{m.NAME}}"><i class="fas fa-file-alt"></i></a></td>
 						<td class="p-0">{{m.RUN}}</td>
 						<td class="p-0">{{m.STATUS}}</td>

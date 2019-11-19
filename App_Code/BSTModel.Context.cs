@@ -27,4 +27,6 @@ public partial class BST_STATISTICSEntities : DbContext
     public virtual DbSet<FIPVERSION> FIPVERSIONs { get; set; }
     public virtual DbSet<PC> PCS { get; set; }
     public virtual DbSet<PERSON> PERSONS { get; set; }
+    public virtual DbSet<BSTLOG> BSTLOGs { get; set; }
+    public virtual DbSet<SCHEDULE> SCHEDULEs { get; set; }
 }

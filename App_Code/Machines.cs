@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Web.Services;
-using System.Data;
-using System.Linq;
 
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
@@ -22,6 +20,14 @@ public class MachinesService : System.Web.Services.WebService
 	{
 		CurrentContext.Validate();
 		MachineState.PauseOnOff(id, CurrentContext.UserID);
+		return MachineState.EnumUsed();
+	}
+	[WebMethod(EnableSession = true)]
+	public List<MachineState> ChangeStatus(int id, MachineState.MachineStatus status)
+	{
+		CurrentContext.Validate();
+		MachineState ms = new MachineState(id);
+		ms.UpdateMachineStatus(status);
 		return MachineState.EnumUsed();
 	}
 }

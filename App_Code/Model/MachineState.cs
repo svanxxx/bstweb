@@ -1,22 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
 public class MachineState
 {
+	[Flags]
+	public enum MachineStatus
+	{
+		Start = 1,
+		Stop = 1 << 1,
+		Install = 1 << 2,
+		Release = 1 << 3,
+		Restart = 1 << 4,
+		SSGET = 1 << 5,
+		Shutdown = 1 << 6
+	}
+
 	public int ID { get; set; }
 	public string NAME { get; set; }
-	public int TESTS { get; set; }
 	public string STATUS { get; set; }
 	public string VERSION { get; set; }
 	public string STARTED { get; set; }
 	public string PCPING { get; set; }
 	public string PAUSEDBY { get; set; }
 	public string IP { get; set; }
-	public MachineState()
-	{
-	}
-	public MachineState(PC pc)
+	int ACTIONFLAG { get; set; }
+	int SCHEDULES { get; set; }
+
+	void Init(PC pc)
 	{
 		ID = pc.ID;
 		NAME = pc.PCNAME;
@@ -30,6 +42,41 @@ public class MachineState
 		{
 			IP = "192.168.0.1" + parts[1];
 		}
+		ACTIONFLAG = pc.ACTIONFLAG.GetValueOrDefault(0);
+		SCHEDULES = pc.ACTIONFLAG.GetValueOrDefault(0);
+	}
+	public MachineState()
+	{
+	}
+	public MachineState(PC pc)
+	{
+		Init(pc);
+	}
+	public MachineState(string name)
+	{
+		List<MachineState> res = new List<MachineState>();
+		using (var db = new BST_STATISTICSEntities())
+		{
+			foreach (var m in db.PCS.Where(b => b.PCNAME == name))
+			{
+				Init(m);
+				return;
+			}
+		}
+		throw new Exception("Machine not found.");
+	}
+	public MachineState(int id)
+	{
+		List<MachineState> res = new List<MachineState>();
+		using (var db = new BST_STATISTICSEntities())
+		{
+			foreach (var m in db.PCS.Where(b => b.ID == id))
+			{
+				Init(m);
+				return;
+			}
+		}
+		throw new Exception("Machine not found.");
 	}
 	public static List<MachineState> EnumUsed()
 	{
@@ -53,15 +100,33 @@ public class MachineState
 				if (result.PAUSEDBY == null)
 				{
 					result.PAUSEDBY = idusr;
-					CbstHelper.FeedLog(string.Format("Machine '{0}' has been paused", result.PCNAME));
+					Log.FeedLog(string.Format("Machine '{0}' has been paused", result.PCNAME));
 				}
 				else
 				{
 					result.PAUSEDBY = null;
-					CbstHelper.FeedLog(string.Format("Machine '{0}' has been resumed", result.PCNAME));
+					Log.FeedLog(string.Format("Machine '{0}' has been resumed", result.PCNAME));
 				}
 				db.SaveChanges();
 			}
 		}
+	}
+	public void UpdateMachineStatus(MachineStatus status)
+	{
+		int iStatus = ACTIONFLAG;
+		MachineStatus ActionFlag = (MachineStatus)iStatus;
+		if ((ActionFlag & status) == 0)
+		{
+			ActionFlag |= status;
+
+			using (var db = new BST_STATISTICSEntities())
+			{
+				db.SCHEDULEs.RemoveRange(db.SCHEDULEs.Where(x => x.LOCKEDBY == ID));
+
+				db.PCS.First(p => p.PCNAME == NAME).ACTIONFLAG = (int)ActionFlag;
+				db.SaveChanges();
+			}
+		}
+		Log.FeedLog(string.Format("Machine {0} has been changed: {1}. By {2}", NAME, status.ToString(), CurrentContext.UserName()));
 	}
 }

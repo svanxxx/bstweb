@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="BST_STATISTICSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BSTLOG">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DATETIME" Type="datetime" />
+          <Property Name="TEXT" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="USERID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="FIPVERSION">
           <Key>
             <PropertyRef Name="ID" />
@@ -45,6 +54,7 @@
           <Property Name="PARENT_PC" Type="nvarchar" MaxLength="50" />
           <Property Name="HOST_ID" Type="int" />
           <Property Name="LAST_UPDATED" Type="datetime" />
+          <Property Name="SCHEDULES" Type="int" />
         </EntityType>
         <EntityType Name="PERSONS">
           <Key>
@@ -58,6 +68,22 @@
           <Property Name="IS_GUEST" Type="bit" Nullable="false" />
           <Property Name="RETIRED" Type="bit" />
           <Property Name="PHONE" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="SCHEDULE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="COMMAND" Type="nvarchar(max)" />
+          <Property Name="REQUESTID" Type="int" />
+          <Property Name="PCID" Type="int" />
+          <Property Name="USERID" Type="int" />
+          <Property Name="SEQUENCENUMBER" Type="int" />
+          <Property Name="PRIORITY" Type="int" />
+          <Property Name="LOCKEDBY" Type="int" />
+          <Property Name="SEQUENCEGUID" Type="nvarchar" MaxLength="50" />
+          <Property Name="DBTYPE" Type="nvarchar" MaxLength="50" />
+          <Property Name="Y3DV" Type="bit" />
         </EntityType>
         <EntityType Name="TESTREQUESTS">
           <Key>
@@ -77,6 +103,18 @@
           <Property Name="REQUEST_PRIORITY" Type="int" />
           <Property Name="TESTERID" Type="int" />
         </EntityType>
+        <Association Name="FK_BSTLOG_PERSONS">
+          <End Role="PERSONS" Type="Self.PERSONS" Multiplicity="1" />
+          <End Role="BSTLOG" Type="Self.BSTLOG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BSTLOG">
+              <PropertyRef Name="USERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PCS_PERSONS">
           <End Role="PERSONS" Type="Self.PERSONS" Multiplicity="0..1" />
           <End Role="PCS" Type="Self.PCS" Multiplicity="*" />
@@ -98,6 +136,68 @@
             </Principal>
             <Dependent Role="PCS">
               <PropertyRef Name="REQUEST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCHEDULE_PCS">
+          <End Role="PCS" Type="Self.PCS" Multiplicity="0..1" />
+          <End Role="SCHEDULE" Type="Self.SCHEDULE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PCS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SCHEDULE">
+              <PropertyRef Name="LOCKEDBY" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCHEDULE_PCS1">
+          <End Role="PCS" Type="Self.PCS" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SCHEDULE" Type="Self.SCHEDULE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PCS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SCHEDULE">
+              <PropertyRef Name="PCID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCHEDULE_PERSONS">
+          <End Role="PERSONS" Type="Self.PERSONS" Multiplicity="0..1" />
+          <End Role="SCHEDULE" Type="Self.SCHEDULE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SCHEDULE">
+              <PropertyRef Name="USERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCHEDULE_SCHEDULE">
+          <End Role="SCHEDULE" Type="Self.SCHEDULE" Multiplicity="1" />
+          <End Role="SCHEDULE1" Type="Self.SCHEDULE" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="SCHEDULE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SCHEDULE1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCHEDULE_TESTREQUESTS">
+          <End Role="TESTREQUESTS" Type="Self.TESTREQUESTS" Multiplicity="0..1" />
+          <End Role="SCHEDULE" Type="Self.SCHEDULE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TESTREQUESTS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SCHEDULE">
+              <PropertyRef Name="REQUESTID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -142,10 +242,16 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="BST_STATISTICSModelStoreContainer">
+          <EntitySet Name="BSTLOG" EntityType="Self.BSTLOG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FIPVERSION" EntityType="Self.FIPVERSION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PCS" EntityType="Self.PCS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONS" EntityType="Self.PERSONS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SCHEDULE" EntityType="Self.SCHEDULE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TESTREQUESTS" EntityType="Self.TESTREQUESTS" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BSTLOG_PERSONS" Association="Self.FK_BSTLOG_PERSONS">
+            <End Role="PERSONS" EntitySet="PERSONS" />
+            <End Role="BSTLOG" EntitySet="BSTLOG" />
+          </AssociationSet>
           <AssociationSet Name="FK_PCS_PERSONS" Association="Self.FK_PCS_PERSONS">
             <End Role="PERSONS" EntitySet="PERSONS" />
             <End Role="PCS" EntitySet="PCS" />
@@ -153,6 +259,26 @@
           <AssociationSet Name="FK_PCS_TESTREQUESTS" Association="Self.FK_PCS_TESTREQUESTS">
             <End Role="TESTREQUESTS" EntitySet="TESTREQUESTS" />
             <End Role="PCS" EntitySet="PCS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCHEDULE_PCS" Association="Self.FK_SCHEDULE_PCS">
+            <End Role="PCS" EntitySet="PCS" />
+            <End Role="SCHEDULE" EntitySet="SCHEDULE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCHEDULE_PCS1" Association="Self.FK_SCHEDULE_PCS1">
+            <End Role="PCS" EntitySet="PCS" />
+            <End Role="SCHEDULE" EntitySet="SCHEDULE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCHEDULE_PERSONS" Association="Self.FK_SCHEDULE_PERSONS">
+            <End Role="PERSONS" EntitySet="PERSONS" />
+            <End Role="SCHEDULE" EntitySet="SCHEDULE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCHEDULE_SCHEDULE" Association="Self.FK_SCHEDULE_SCHEDULE">
+            <End Role="SCHEDULE" EntitySet="SCHEDULE" />
+            <End Role="SCHEDULE1" EntitySet="SCHEDULE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCHEDULE_TESTREQUESTS" Association="Self.FK_SCHEDULE_TESTREQUESTS">
+            <End Role="TESTREQUESTS" EntitySet="TESTREQUESTS" />
+            <End Role="SCHEDULE" EntitySet="SCHEDULE" />
           </AssociationSet>
           <AssociationSet Name="FK_TESTREQUESTS_FIPVERSION" Association="Self.FK_TESTREQUESTS_FIPVERSION">
             <End Role="FIPVERSION" EntitySet="FIPVERSION" />
@@ -192,6 +318,7 @@
           <NavigationProperty Name="PCS" Relationship="BST_STATISTICSModel.FK_PCS_TESTREQUESTS" FromRole="TESTREQUEST" ToRole="PC" />
           <NavigationProperty Name="PERSON" Relationship="BST_STATISTICSModel.FK_TESTREQUESTS_PERSONS" FromRole="TESTREQUEST" ToRole="PERSON" />
           <NavigationProperty Name="PERSON1" Relationship="BST_STATISTICSModel.FK_TESTREQUESTS_TESTER" FromRole="TESTREQUEST" ToRole="PERSON" />
+          <NavigationProperty Name="SCHEDULEs" Relationship="BST_STATISTICSModel.FK_SCHEDULE_TESTREQUESTS" FromRole="TESTREQUEST" ToRole="SCHEDULE" />
           </EntityType>
         <EntityContainer Name="BST_STATISTICSEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="TESTREQUESTS" EntityType="Self.TESTREQUEST" />
@@ -217,6 +344,32 @@
           <AssociationSet Name="FK_TESTREQUESTS_TESTER" Association="BST_STATISTICSModel.FK_TESTREQUESTS_TESTER">
             <End Role="PERSON" EntitySet="PERSONS" />
             <End Role="TESTREQUEST" EntitySet="TESTREQUESTS" />
+          </AssociationSet>
+          <EntitySet Name="BSTLOGs" EntityType="BST_STATISTICSModel.BSTLOG" />
+          <AssociationSet Name="FK_BSTLOG_PERSONS" Association="BST_STATISTICSModel.FK_BSTLOG_PERSONS">
+            <End Role="PERSON" EntitySet="PERSONS" />
+            <End Role="BSTLOG" EntitySet="BSTLOGs" />
+          </AssociationSet>
+          <EntitySet Name="SCHEDULEs" EntityType="BST_STATISTICSModel.SCHEDULE" />
+          <AssociationSet Name="FK_SCHEDULE_PCS" Association="BST_STATISTICSModel.FK_SCHEDULE_PCS">
+            <End Role="PC" EntitySet="PCS" />
+            <End Role="SCHEDULE" EntitySet="SCHEDULEs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCHEDULE_PCS1" Association="BST_STATISTICSModel.FK_SCHEDULE_PCS1">
+            <End Role="PC" EntitySet="PCS" />
+            <End Role="SCHEDULE" EntitySet="SCHEDULEs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCHEDULE_PERSONS" Association="BST_STATISTICSModel.FK_SCHEDULE_PERSONS">
+            <End Role="PERSON" EntitySet="PERSONS" />
+            <End Role="SCHEDULE" EntitySet="SCHEDULEs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCHEDULE_SCHEDULE" Association="BST_STATISTICSModel.FK_SCHEDULE_SCHEDULE">
+            <End Role="SCHEDULE" EntitySet="SCHEDULEs" />
+            <End Role="SCHEDULE1" EntitySet="SCHEDULEs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCHEDULE_TESTREQUESTS" Association="BST_STATISTICSModel.FK_SCHEDULE_TESTREQUESTS">
+            <End Role="TESTREQUEST" EntitySet="TESTREQUESTS" />
+            <End Role="SCHEDULE" EntitySet="SCHEDULEs" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="FIPVERSION">
@@ -274,8 +427,11 @@
           <Property Name="PARENT_PC" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="HOST_ID" Type="Int32" />
           <Property Name="LAST_UPDATED" Type="DateTime" Precision="3" />
+          <Property Name="SCHEDULES" Type="Int32" />
           <NavigationProperty Name="TESTREQUEST" Relationship="BST_STATISTICSModel.FK_PCS_TESTREQUESTS" FromRole="PC" ToRole="TESTREQUEST" />
           <NavigationProperty Name="PERSON" Relationship="BST_STATISTICSModel.FK_PCS_PERSONS" FromRole="PC" ToRole="PERSON" />
+          <NavigationProperty Name="SCHEDULEs" Relationship="BST_STATISTICSModel.FK_SCHEDULE_PCS" FromRole="PC" ToRole="SCHEDULE" />
+          <NavigationProperty Name="SCHEDULEs1" Relationship="BST_STATISTICSModel.FK_SCHEDULE_PCS1" FromRole="PC" ToRole="SCHEDULE" />
         </EntityType>
         <Association Name="FK_PCS_TESTREQUESTS">
           <End Type="BST_STATISTICSModel.TESTREQUEST" Role="TESTREQUEST" Multiplicity="0..1" />
@@ -304,6 +460,8 @@
           <NavigationProperty Name="PCS" Relationship="BST_STATISTICSModel.FK_PCS_PERSONS" FromRole="PERSON" ToRole="PC" />
           <NavigationProperty Name="TESTREQUESTS" Relationship="BST_STATISTICSModel.FK_TESTREQUESTS_PERSONS" FromRole="PERSON" ToRole="TESTREQUEST" />
           <NavigationProperty Name="TESTREQUESTS1" Relationship="BST_STATISTICSModel.FK_TESTREQUESTS_TESTER" FromRole="PERSON" ToRole="TESTREQUEST" />
+          <NavigationProperty Name="BSTLOGs" Relationship="BST_STATISTICSModel.FK_BSTLOG_PERSONS" FromRole="PERSON" ToRole="BSTLOG" />
+          <NavigationProperty Name="SCHEDULEs" Relationship="BST_STATISTICSModel.FK_SCHEDULE_PERSONS" FromRole="PERSON" ToRole="SCHEDULE" />
         </EntityType>
         <Association Name="FK_PCS_PERSONS">
           <End Type="BST_STATISTICSModel.PERSON" Role="PERSON" Multiplicity="0..1" />
@@ -340,6 +498,112 @@
             </Principal>
             <Dependent Role="TESTREQUEST">
               <PropertyRef Name="TESTERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BSTLOG">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DATETIME" Type="DateTime" Precision="3" />
+          <Property Name="TEXT" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="USERID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PERSON" Relationship="BST_STATISTICSModel.FK_BSTLOG_PERSONS" FromRole="BSTLOG" ToRole="PERSON" />
+        </EntityType>
+        <Association Name="FK_BSTLOG_PERSONS">
+          <End Type="BST_STATISTICSModel.PERSON" Role="PERSON" Multiplicity="1" />
+          <End Type="BST_STATISTICSModel.BSTLOG" Role="BSTLOG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BSTLOG">
+              <PropertyRef Name="USERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SCHEDULE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="COMMAND" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="REQUESTID" Type="Int32" />
+          <Property Name="PCID" Type="Int32" />
+          <Property Name="USERID" Type="Int32" />
+          <Property Name="SEQUENCENUMBER" Type="Int32" />
+          <Property Name="PRIORITY" Type="Int32" />
+          <Property Name="LOCKEDBY" Type="Int32" />
+          <Property Name="SEQUENCEGUID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DBTYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Y3DV" Type="Boolean" />
+          <NavigationProperty Name="PC" Relationship="BST_STATISTICSModel.FK_SCHEDULE_PCS" FromRole="SCHEDULE" ToRole="PC" />
+          <NavigationProperty Name="PC1" Relationship="BST_STATISTICSModel.FK_SCHEDULE_PCS1" FromRole="SCHEDULE" ToRole="PC" />
+          <NavigationProperty Name="PERSON" Relationship="BST_STATISTICSModel.FK_SCHEDULE_PERSONS" FromRole="SCHEDULE" ToRole="PERSON" />
+          <NavigationProperty Name="SCHEDULE1" Relationship="BST_STATISTICSModel.FK_SCHEDULE_SCHEDULE" FromRole="SCHEDULE" ToRole="SCHEDULE1" />
+          <NavigationProperty Name="SCHEDULE2" Relationship="BST_STATISTICSModel.FK_SCHEDULE_SCHEDULE" FromRole="SCHEDULE1" ToRole="SCHEDULE" />
+          <NavigationProperty Name="TESTREQUEST" Relationship="BST_STATISTICSModel.FK_SCHEDULE_TESTREQUESTS" FromRole="SCHEDULE" ToRole="TESTREQUEST" />
+        </EntityType>
+        <Association Name="FK_SCHEDULE_PCS">
+          <End Type="BST_STATISTICSModel.PC" Role="PC" Multiplicity="0..1" />
+          <End Type="BST_STATISTICSModel.SCHEDULE" Role="SCHEDULE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PC">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SCHEDULE">
+              <PropertyRef Name="LOCKEDBY" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCHEDULE_PCS1">
+          <End Type="BST_STATISTICSModel.PC" Role="PC" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="BST_STATISTICSModel.SCHEDULE" Role="SCHEDULE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PC">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SCHEDULE">
+              <PropertyRef Name="PCID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCHEDULE_PERSONS">
+          <End Type="BST_STATISTICSModel.PERSON" Role="PERSON" Multiplicity="0..1" />
+          <End Type="BST_STATISTICSModel.SCHEDULE" Role="SCHEDULE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SCHEDULE">
+              <PropertyRef Name="USERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCHEDULE_SCHEDULE">
+          <End Type="BST_STATISTICSModel.SCHEDULE" Role="SCHEDULE" Multiplicity="1" />
+          <End Type="BST_STATISTICSModel.SCHEDULE" Role="SCHEDULE1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="SCHEDULE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SCHEDULE1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCHEDULE_TESTREQUESTS">
+          <End Type="BST_STATISTICSModel.TESTREQUEST" Role="TESTREQUEST" Multiplicity="0..1" />
+          <End Type="BST_STATISTICSModel.SCHEDULE" Role="SCHEDULE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TESTREQUEST">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SCHEDULE">
+              <PropertyRef Name="REQUESTID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -381,6 +645,7 @@
           <EntitySetMapping Name="PCS">
             <EntityTypeMapping TypeName="BST_STATISTICSModel.PC">
               <MappingFragment StoreEntitySet="PCS">
+                <ScalarProperty Name="SCHEDULES" ColumnName="SCHEDULES" />
                 <ScalarProperty Name="LAST_UPDATED" ColumnName="LAST_UPDATED" />
                 <ScalarProperty Name="HOST_ID" ColumnName="HOST_ID" />
                 <ScalarProperty Name="PARENT_PC" ColumnName="PARENT_PC" />
@@ -421,6 +686,33 @@
                 <ScalarProperty Name="USER_PASS" ColumnName="USER_PASS" />
                 <ScalarProperty Name="USER_LOGIN" ColumnName="USER_LOGIN" />
                 <ScalarProperty Name="USER_NAME" ColumnName="USER_NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BSTLOGs">
+            <EntityTypeMapping TypeName="BST_STATISTICSModel.BSTLOG">
+              <MappingFragment StoreEntitySet="BSTLOG">
+                <ScalarProperty Name="USERID" ColumnName="USERID" />
+                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
+                <ScalarProperty Name="DATETIME" ColumnName="DATETIME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SCHEDULEs">
+            <EntityTypeMapping TypeName="BST_STATISTICSModel.SCHEDULE">
+              <MappingFragment StoreEntitySet="SCHEDULE">
+                <ScalarProperty Name="Y3DV" ColumnName="Y3DV" />
+                <ScalarProperty Name="DBTYPE" ColumnName="DBTYPE" />
+                <ScalarProperty Name="SEQUENCEGUID" ColumnName="SEQUENCEGUID" />
+                <ScalarProperty Name="LOCKEDBY" ColumnName="LOCKEDBY" />
+                <ScalarProperty Name="PRIORITY" ColumnName="PRIORITY" />
+                <ScalarProperty Name="SEQUENCENUMBER" ColumnName="SEQUENCENUMBER" />
+                <ScalarProperty Name="USERID" ColumnName="USERID" />
+                <ScalarProperty Name="PCID" ColumnName="PCID" />
+                <ScalarProperty Name="REQUESTID" ColumnName="REQUESTID" />
+                <ScalarProperty Name="COMMAND" ColumnName="COMMAND" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

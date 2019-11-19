@@ -87,6 +87,14 @@
 					EndProgress(loadprg);
 				});
 		};
+		$scope.changeState = function (id, state) {
+			var loadprg = StartProgress("Updating machine...");
+			$http.post("machines.asmx/ChangeStatus", JSON.stringify({ id: id, status: state }))
+				.then(function (result) {
+					$scope.fetchData(result.data.d);
+					EndProgress(loadprg);
+				});
+		};
 		$scope.loadData();
 		$interval(function () {
 			$scope.loadData();
