@@ -25,14 +25,17 @@ public class MachineState
 	public string PCPING { get; set; }
 	public string PAUSEDBY { get; set; }
 	public string IP { get; set; }
+	public int SCHEDULES { get; set; }
 	int ACTIONFLAG { get; set; }
-	int SCHEDULES { get; set; }
 
 	void Init(PC pc)
 	{
 		ID = pc.ID;
 		NAME = pc.PCNAME;
-		STATUS = pc.CURRENT;
+		if (!string.IsNullOrEmpty(pc.CURRENT))
+		{
+			STATUS = pc.CURRENT.Split(new string[] { "   :" }, StringSplitOptions.RemoveEmptyEntries).Last().Trim();
+		}
 		VERSION = pc.TESTREQUEST != null ? pc.TESTREQUEST.FIPVERSION.VERSION : "";
 		STARTED = pc.STARTED == null ? "" : pc.STARTED.GetValueOrDefault().ToString(IdBasedObject.defDateTimeFormat, CultureInfo.InvariantCulture);
 		PCPING = pc.PCPING == null ? "" : pc.PCPING.GetValueOrDefault().ToString(IdBasedObject.defDateTimeFormat, CultureInfo.InvariantCulture);
@@ -43,7 +46,7 @@ public class MachineState
 			IP = "192.168.0.1" + parts[1];
 		}
 		ACTIONFLAG = pc.ACTIONFLAG.GetValueOrDefault(0);
-		SCHEDULES = pc.ACTIONFLAG.GetValueOrDefault(0);
+		SCHEDULES = pc.SCHEDULES.GetValueOrDefault(0);
 	}
 	public MachineState()
 	{

@@ -1,1 +1,3 @@
-﻿public partial class Machines : SecurityPage { }
+﻿public partial class Machines : SecurityPage
+{
+}

@@ -1,29 +1,7 @@
-﻿.freemachine {
-	background-color: transparent;
+﻿.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+	padding: 0px;
 }
 
-.workmachine {
-	background-color: yellow;
-}
-
-.longworkmachine {
-	background-color: burlywood;
-}
-
-.verylongworkmachine {
-	background-color: coral;
-}
-
-.noworkmachine {
-	background-color: brown;
-}
-
-.vnc {
-	cursor: pointer;
-	text-align: center;
-}
-
-.pau {
-	cursor: pointer;
-	text-align: center;
+.td-center {
+	text-align: center
 }

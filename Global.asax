@@ -6,7 +6,7 @@
 		BackgroundWorker.Init();
 
 		System.Web.Optimization.BundleTable.EnableOptimizations = true;
-		string[] files = new string[] { "settings", "putfiles", "users", "requests", "testrequests", "machines2", "compare" };
+		string[] files = new string[] { "settings", "putfiles", "users", "requests", "testrequests", "machines", "compare" };
 		foreach (string file in files)
 		{
 			System.Web.Optimization.BundleTable.Bundles.Add(new System.Web.Optimization.ScriptBundle(string.Format("~/bundles/{0}_js", file)).Include(
