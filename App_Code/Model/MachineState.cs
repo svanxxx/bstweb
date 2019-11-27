@@ -26,6 +26,7 @@ public class MachineState
 	public string PAUSEDBY { get; set; }
 	public string IP { get; set; }
 	public int SCHEDULES { get; set; }
+	public int HOSTID { get; set; }
 	int ACTIONFLAG { get; set; }
 
 	void Init(PC pc)
@@ -47,6 +48,7 @@ public class MachineState
 		}
 		ACTIONFLAG = pc.ACTIONFLAG.GetValueOrDefault(0);
 		SCHEDULES = pc.SCHEDULES.GetValueOrDefault(0);
+		HOSTID = pc.HOST_ID.GetValueOrDefault(-1);
 	}
 	public MachineState()
 	{
@@ -81,17 +83,31 @@ public class MachineState
 		}
 		throw new Exception("Machine not found.");
 	}
+
+	static object _Lock = new object();
+	static DateTime? _used = null;
+	static List<MachineState> _machines = new List<MachineState>();
+	static void ResetCache()
+	{
+		lock (_Lock) { _used = null; };
+	}
 	public static List<MachineState> EnumUsed()
 	{
-		List<MachineState> res = new List<MachineState>();
-		using (var db = new BST_STATISTICSEntities())
+		lock (_Lock)
 		{
-			foreach (var m in db.PCS.Where(b => !b.UNUSED))
+			if (_used == null || DateTime.Now.Subtract(_used.Value).Seconds > 10)
 			{
-				res.Add(new MachineState(m));
+				_machines.Clear();
+				using (var db = new BST_STATISTICSEntities())
+				{
+					foreach (var m in db.PCS.Where(b => !b.UNUSED))
+					{
+						_machines.Add(new MachineState(m));
+					}
+				}
 			}
+			return _machines.ConvertAll(mach => (MachineState)mach.MemberwiseClone());
 		}
-		return res;
 	}
 	public static void PauseOnOff(int id, int idusr)
 	{
@@ -113,6 +129,7 @@ public class MachineState
 				db.SaveChanges();
 			}
 		}
+		ResetCache();
 	}
 	public void UpdateMachineStatus(MachineStatus status)
 	{
@@ -131,5 +148,6 @@ public class MachineState
 			}
 		}
 		Log.FeedLog(string.Format("Machine {0} has been changed: {1}. By {2}", NAME, status.ToString(), CurrentContext.UserName()));
+		ResetCache();
 	}
 }

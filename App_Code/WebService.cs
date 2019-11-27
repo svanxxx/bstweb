@@ -444,64 +444,6 @@ public class WebService : System.Web.Services.WebService
 		UpdateMachineCommand(machine, CbstHelper.ThosterStatus.Restart, string.Format("Machine '{0}' has been restarted.", machine));
 	}
 	[WebMethod(EnableSession = true)]
-	public Host[] GetHosts()
-	{
-		string sql = @"
-            SELECT H.[NAME]
-                  ,[IP]
-                  ,[MAC]
-                  ,[SYSTEMINFO]
-                  ,[PCPING]
-	              ,[STARTED]
-	              ,(SELECT P.PCNAME + ', ' AS 'data()' FROM PCS P WHERE P.HOST_ID = H.ID FOR XML PATH('')) LIST
-            FROM [BST_STATISTICS].[DBO].[HOSTS] H
-            WHERE INACTIVE IS NULL
-            ORDER BY H.NAME
-            ";
-		List<Host> ms = new List<Host>();
-
-		using (DataSet ds = CbstHelper.GetDataSet(sql))
-		{
-			foreach (DataRow dr in ds.Tables[0].Rows)
-			{
-				Host m = new Host();
-				m.Name = dr["NAME"].ToString();
-				m.IP = dr["IP"].ToString();
-				m.MAC = dr["MAC"].ToString();
-				m.Info = dr["SYSTEMINFO"].ToString();
-				m.Pcping = dr["PCPING"] == DBNull.Value ? "" : GetTime(Convert.ToDateTime(dr["PCPING"])).ToString();
-				m.Started = dr["STARTED"] == DBNull.Value ? "" : GetTime(Convert.ToDateTime(dr["STARTED"])).ToString();
-				m.List = dr["LIST"].ToString();
-				ms.Add(m);
-			}
-		}
-		return ms.ToArray();
-	}
-	public void UpdateHost(string host, bool start, string comment)
-	{
-		BstHost h = new BstHost(host);
-		if (start)
-		{
-			h.POWERON = true;
-		}
-		else
-		{
-			h.POWEROFF = true;
-		}
-		h.Store();
-		CbstHelper.FeedLog(comment);
-	}
-	[WebMethod(EnableSession = true)]
-	public void StartHost(string host)
-	{
-		UpdateHost(host, true, string.Format("Machine '{0}' has been launched using web host control", host));
-	}
-	[WebMethod(EnableSession = true)]
-	public void StopHost(string host)
-	{
-		UpdateHost(host, false, string.Format("Machine '{0}' has been stopped using web host control", host));
-	}
-	[WebMethod(EnableSession = true)]
 	public string StopSequence(string SEQUENCEGUID, string ThosterID)
 	{
 		using (DataSet ds = CbstHelper.GetDataSet(string.Format(@"
@@ -539,13 +481,6 @@ public class WebService : System.Web.Services.WebService
 			CbstHelper.SQLExecute("update PCS set ACTIONFLAG = 2 where ID = " + ThosterID);
 		}
 		return "OK";
-	}
-	[WebMethod(EnableSession = true)]
-	public void DelM(string machine)
-	{
-		BstHost h = new BstHost(machine) { INACTIVE = true };
-		h.Store();
-		CbstHelper.FeedLog("Machine was deleted: " + machine);
 	}
 	[WebMethod(EnableSession = true)]
 	public string IgnoreTests(string commaSeparatedIDs)

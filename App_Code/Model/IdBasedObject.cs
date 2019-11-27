@@ -391,4 +391,8 @@ public class IdBasedObject
 	{
 		return this[column] == DBNull.Value ? defVal : Convert.ToBoolean(this[column]);
 	}
+	public static string DateTimeToString(DateTime? dt)
+	{
+		return dt == null ? "" : dt.GetValueOrDefault().ToString(defDateTimeFormat, CultureInfo.InvariantCulture);
+	}
 }

@@ -23,6 +23,24 @@
           <Property Name="COMMENT" Type="ntext" />
           <Property Name="OFFICIAL" Type="int" />
         </EntityType>
+        <EntityType Name="HOSTS">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ip" Type="nvarchar" MaxLength="50" />
+          <Property Name="mac" Type="nvarchar" MaxLength="50" />
+          <Property Name="command" Type="nvarchar" MaxLength="255" />
+          <Property Name="poweroff" Type="bit" />
+          <Property Name="poweron" Type="bit" />
+          <Property Name="systeminfo" Type="nvarchar(max)" />
+          <Property Name="pcping" Type="datetime" />
+          <Property Name="comment" Type="nvarchar" MaxLength="255" />
+          <Property Name="inactive" Type="bit" />
+          <Property Name="STARTED" Type="datetime" />
+          <Property Name="LAST_UPDATED" Type="datetime" />
+        </EntityType>
         <EntityType Name="PCS">
           <Key>
             <PropertyRef Name="ID" />
@@ -112,6 +130,18 @@
             </Principal>
             <Dependent Role="BSTLOG">
               <PropertyRef Name="USERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PCS_HOSTS">
+          <End Role="HOSTS" Type="Self.HOSTS" Multiplicity="0..1" />
+          <End Role="PCS" Type="Self.PCS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HOSTS">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PCS">
+              <PropertyRef Name="HOST_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -244,6 +274,7 @@
         <EntityContainer Name="BST_STATISTICSModelStoreContainer">
           <EntitySet Name="BSTLOG" EntityType="Self.BSTLOG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FIPVERSION" EntityType="Self.FIPVERSION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HOSTS" EntityType="Self.HOSTS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PCS" EntityType="Self.PCS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONS" EntityType="Self.PERSONS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SCHEDULE" EntityType="Self.SCHEDULE" Schema="dbo" store:Type="Tables" />
@@ -251,6 +282,10 @@
           <AssociationSet Name="FK_BSTLOG_PERSONS" Association="Self.FK_BSTLOG_PERSONS">
             <End Role="PERSONS" EntitySet="PERSONS" />
             <End Role="BSTLOG" EntitySet="BSTLOG" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PCS_HOSTS" Association="Self.FK_PCS_HOSTS">
+            <End Role="HOSTS" EntitySet="HOSTS" />
+            <End Role="PCS" EntitySet="PCS" />
           </AssociationSet>
           <AssociationSet Name="FK_PCS_PERSONS" Association="Self.FK_PCS_PERSONS">
             <End Role="PERSONS" EntitySet="PERSONS" />
@@ -371,6 +406,11 @@
             <End Role="TESTREQUEST" EntitySet="TESTREQUESTS" />
             <End Role="SCHEDULE" EntitySet="SCHEDULEs" />
           </AssociationSet>
+          <EntitySet Name="HOSTS" EntityType="BST_STATISTICSModel.HOST" />
+          <AssociationSet Name="FK_PCS_HOSTS" Association="BST_STATISTICSModel.FK_PCS_HOSTS">
+            <End Role="HOST" EntitySet="HOSTS" />
+            <End Role="PC" EntitySet="PCS" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="FIPVERSION">
           <Key>
@@ -432,6 +472,7 @@
           <NavigationProperty Name="PERSON" Relationship="BST_STATISTICSModel.FK_PCS_PERSONS" FromRole="PC" ToRole="PERSON" />
           <NavigationProperty Name="SCHEDULEs" Relationship="BST_STATISTICSModel.FK_SCHEDULE_PCS" FromRole="PC" ToRole="SCHEDULE" />
           <NavigationProperty Name="SCHEDULEs1" Relationship="BST_STATISTICSModel.FK_SCHEDULE_PCS1" FromRole="PC" ToRole="SCHEDULE" />
+          <NavigationProperty Name="HOST" Relationship="BST_STATISTICSModel.FK_PCS_HOSTS" FromRole="PC" ToRole="HOST" />
         </EntityType>
         <Association Name="FK_PCS_TESTREQUESTS">
           <End Type="BST_STATISTICSModel.TESTREQUEST" Role="TESTREQUEST" Multiplicity="0..1" />
@@ -607,6 +648,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="HOST">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="mac" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="command" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="poweroff" Type="Boolean" />
+          <Property Name="poweron" Type="Boolean" />
+          <Property Name="systeminfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="pcping" Type="DateTime" Precision="3" />
+          <Property Name="comment" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="inactive" Type="Boolean" />
+          <Property Name="STARTED" Type="DateTime" Precision="3" />
+          <Property Name="LAST_UPDATED" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="PCS" Relationship="BST_STATISTICSModel.FK_PCS_HOSTS" FromRole="HOST" ToRole="PC" />
+        </EntityType>
+        <Association Name="FK_PCS_HOSTS">
+          <End Type="BST_STATISTICSModel.HOST" Role="HOST" Multiplicity="0..1" />
+          <End Type="BST_STATISTICSModel.PC" Role="PC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HOST">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PC">
+              <PropertyRef Name="HOST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -714,6 +786,25 @@
                 <ScalarProperty Name="REQUESTID" ColumnName="REQUESTID" />
                 <ScalarProperty Name="COMMAND" ColumnName="COMMAND" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HOSTS">
+            <EntityTypeMapping TypeName="BST_STATISTICSModel.HOST">
+              <MappingFragment StoreEntitySet="HOSTS">
+                <ScalarProperty Name="LAST_UPDATED" ColumnName="LAST_UPDATED" />
+                <ScalarProperty Name="STARTED" ColumnName="STARTED" />
+                <ScalarProperty Name="inactive" ColumnName="inactive" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="pcping" ColumnName="pcping" />
+                <ScalarProperty Name="systeminfo" ColumnName="systeminfo" />
+                <ScalarProperty Name="poweron" ColumnName="poweron" />
+                <ScalarProperty Name="poweroff" ColumnName="poweroff" />
+                <ScalarProperty Name="command" ColumnName="command" />
+                <ScalarProperty Name="mac" ColumnName="mac" />
+                <ScalarProperty Name="ip" ColumnName="ip" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

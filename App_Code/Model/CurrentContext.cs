@@ -62,6 +62,14 @@ public static class CurrentContext
 		}
 		return User.USER_NAME;
 	}
+	public static string UserPho()
+	{
+		if (!Valid)
+		{
+			return "";
+		}
+		return User.PHONE;
+	}
 	public static string UserLogin()
 	{
 		if (!Valid)

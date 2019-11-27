@@ -29,4 +29,5 @@ public partial class BST_STATISTICSEntities : DbContext
     public virtual DbSet<PERSON> PERSONS { get; set; }
     public virtual DbSet<BSTLOG> BSTLOGs { get; set; }
     public virtual DbSet<SCHEDULE> SCHEDULEs { get; set; }
+    public virtual DbSet<HOST> HOSTS { get; set; }
 }

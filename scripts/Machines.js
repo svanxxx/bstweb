@@ -2,13 +2,19 @@
 	var app = angular.module('mpsapplication', []);
 	app.controller('mpscontroller', ["$scope", "$http", "$interval", function ($scope, $http, $interval) {
 		$scope.readonly = !IsAdmin();
-		var loadprg = StartProgress("Loading data...");
 		$scope.machines = [];
 
 		$scope.isAdmin = IsAdmin();
 		$scope.fetchData = function (d) {
 			$scope.machines = d;
+			var urlparam = getParameterByName("machines");
+			var filter = urlparam === "" ? [] : getParameterByName("machines").split(",");
+		
 			$scope.machines.forEach(function (m) {
+				m.VISIBLE = true;
+				if (filter.length > 0) {
+					m.VISIBLE = !!filter.find(function (s) { return s === m.NAME; });
+				}
 				if (m.STARTED) {
 					m.STARTED = StringToDateTime(m.STARTED);
 				}
@@ -21,6 +27,7 @@
 			reActivateTooltips();
 		};
 		$scope.loadData = function () {
+			var loadprg = StartProgress("Synchronizing data...");
 			$http.post("machines.asmx/getMachines", JSON.stringify({}))
 				.then(function (result) {
 					$scope.fetchData(result.data.d);
@@ -95,7 +102,9 @@
 					EndProgress(loadprg);
 				});
 		};
-		$scope.loadData();
+
+		$scope.fetchData(JSON.parse(document.getElementById("inidata").value));
+
 		$interval(function () {
 			$scope.loadData();
 		}, 30000);

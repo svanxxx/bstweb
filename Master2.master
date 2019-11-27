@@ -1,0 +1,93 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" Inherits="System.Web.UI.MasterPage" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+	<title>MPS testing system</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<link <%= "href='" + Settings.CurrentSettings.CDNFONTAWESOME.ToString() + "css/all.min.css'"%> rel="stylesheet" />
+
+	<%--<link <%= "href='" + Settings.CurrentSettings.BOOTCSSCDN.ToString() + "bootstrap.min.css'"%> rel="stylesheet" />--%>
+	<link <%= "href='http://mps.resnet.com/cdn/bootstrap4/css/bootstrap.min.css'"%> rel="stylesheet" />
+
+	<link <%= "href='" + Settings.CurrentSettings.MPSCDN.ToString() + "mpshelper.css'"%> rel="stylesheet" />
+	<link href="css/common.css" rel="stylesheet" />
+	<script <%="src='" + Settings.CurrentSettings.JQUERYCDN.ToString() + "jquery-3.2.1.min.js'"%>></script>
+	<script <%="src='" + Settings.CurrentSettings.JQUERYCDN.ToString() + "jquery.cookie.js'"%>></script>
+	<script <%="src='" + Settings.CurrentSettings.JQUERYUICDN.ToString() + "jquery-ui.min.js'"%>></script>
+
+	<%--<script <%="src='" + Settings.CurrentSettings.BOOTSTRAPCDN.ToString() + "bootstrap.min.js'"%>></script>--%>
+	<script <%="src='http://mps.resnet.com/cdn/bootstrap4/js/popper.min.js'"%>></script>
+	<script <%="src='http://mps.resnet.com/cdn/bootstrap4/js/bootstrap.min.js'"%>></script>
+
+	<script <%="src='" + Settings.CurrentSettings.MPSCDN.ToString() + "mpshelper.js'" %>></script>
+	<script src="scripts/common.js"></script>
+	<script src="scripts/bstSignal.js"></script>
+	<asp:ContentPlaceHolder ID="HeaddContent" runat="server">
+	</asp:ContentPlaceHolder>
+	<script>
+		$(function () {
+			$('#footerp').html("&copy; " + (new Date().getFullYear()) + " MPS quality control system");
+			$('a').each(function () {
+				if (window.location.href.toUpperCase().indexOf($(this).prop('href').toUpperCase()) != -1) {
+					$(this).addClass('active'); $(this).parents('li').addClass('active');
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<input type="hidden" id="isadmin" value="<%=CurrentContext.Admin.ToString()%>" />
+	<input type="hidden" id="userid" value="<%=CurrentContext.UserID.ToString()%>" />
+	<input type="hidden" id="username" value="<%=CurrentContext.UserName()%>" />
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+		<a class="navbar-brand" href="<%= Settings.CurrentSettings.COMPANYSITE.ToString()%>"><%= Settings.CurrentSettings.COMPANYNAME.ToString()%></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav mr-auto">
+				<li><a class="nav-link pl-3" href="machines.aspx">Machines</a></li>
+				<li><a class="nav-link pl-3" href="hosts.aspx">Hosts</a></li>
+				<li><a class="nav-link pl-3" href="vsummary.aspx">Versions</a></li>
+				<li><a class="nav-link pl-3" href="tsummary.aspx">Tests</a></li>
+				<li><a class="nav-link pl-3" href="activity.aspx">Activity</a></li>
+				<li><a class="nav-link pl-3" href="log.aspx">BST Log</a></li>
+				<li><a class="nav-link pl-3" href="runs.aspx">Runs</a></li>
+				<li><a class="nav-link pl-3" id="requestsignal" href="requests.aspx">Requests</a></li>
+				<li><a class="nav-link pl-3" href="batches.aspx">Batches</a></li>
+				<li><a class="nav-link pl-3" href="commands.aspx">Commands</a></li>
+				<li class="nav-item dropdown">
+					<a class="nav-link pl-3 dropdown-toggle" data-toggle="dropdown" href="#">References</a>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="settings.aspx">Settings</a></li>
+						<li><a class="dropdown-item" href="users.aspx">Users</a></li>
+					</ul>
+				</li>
+			</ul>
+			<ul class="navbar-nav">
+				<li>
+					<a class="bstusername" href="<%=SecurityPage.loginpage.ToString()%>">
+						<i style="padding-right: 5px" class="fas fa-sign-in-alt"></i><%=CurrentContext.UserLogin()%>
+						<img src="<%=Settings.CurrentSettings.USERIMGURL.ToString() + CurrentContext.UserPho()%>" alt="Smile" height="20" width="20" class="rounded-circle" />
+					</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<br>
+	<form id="form1" runat="server">
+		<div class="container-fluid">
+			<asp:ContentPlaceHolder ID="MainContent" runat="server">
+			</asp:ContentPlaceHolder>
+			<hr />
+			<footer>
+				<p id="footerp"></p>
+			</footer>
+		</div>
+	</form>
+</body>
+</html>
