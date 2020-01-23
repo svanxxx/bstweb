@@ -21,19 +21,19 @@ public partial class GetFileAsExcel : CbstHelper
 		string str1 = string.Format("http://{0}", Settings.CurrentSettings.BSTADDRESS);
 		if (strFilePath.IndexOf(str1) == 0)
 		{
-			strFilePath = strFilePath.Replace(str1, @"//192.168.0.8/public");
+			strFilePath = strFilePath.Replace(str1, @"//bst_master/public");
 		}
 
 		str1 = string.Format("http://{0}", BSTStat.globalIPAddress);
 		if (strFilePath.IndexOf(str1) == 0)
 		{
-			strFilePath = strFilePath.Replace(str1, @"//192.168.0.8/public");
+			strFilePath = strFilePath.Replace(str1, @"//bst_master/public");
 		}
 
 		str1 = Settings.CurrentSettings.COMPANYSITE;
 		if (strFilePath.IndexOf(str1) == 0)
 		{
-			strFilePath = strFilePath.Replace(str1, @"//192.168.0.8/public");
+			strFilePath = strFilePath.Replace(str1, @"//bst_master/public");
 		}
 
 		string ext = Path.GetExtension(strFilePath).ToUpper();

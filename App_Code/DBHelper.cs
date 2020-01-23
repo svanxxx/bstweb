@@ -7,7 +7,7 @@ public class DBHelper
 	public const string sdefaultDate = "01.01.1901";
 	public readonly DateTime defaultDate = new DateTime(1901, 1, 1);
 	public const string SQLDateFormat = "yyyy-MM-dd HH:mm:ss";
-	private const string g_connString = "Provider=SQLOLEDB;Data Source=192.168.0.8;Initial Catalog=BST_STATISTICS;Persist Security Info=True;User ID=sa;Password=prosuite";
+	private const string g_connString = "Provider=SQLOLEDB;Data Source=bst_master;Initial Catalog=BST_STATISTICS;Persist Security Info=True;User ID=sa;Password=prosuite";
 	private static OleDbConnection NewConnection
 	{
 		get { return new OleDbConnection(g_connString); }
