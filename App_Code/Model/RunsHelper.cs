@@ -68,6 +68,7 @@ public class RunsHelper
 			,PR2.[USER_LOGIN] [V]
 			,(PR.[USER_LOGIN] + ':' + R.[COMMENT]) [Comment]
 			,R.[RUN_HASH] [Hash]
+			,R.[BRANCH] [Branch]
 		", _fEx, _fDb, _fOu, _fEr, _fWa);
 
 		string sqlJoins = @"
