@@ -545,11 +545,11 @@ public class CbstHelper : System.Web.UI.Page
 		Person responsible: <b>{1}</b><br><br>
 		Best regards, {1}
 		", vers, CurrentContext.UserName(), Settings.CurrentSettings.BSTADDRESS, id, ttid, comm);
-		AddEmail(
+		/*AddEmail(
 				emal
 				, string.Format("Your request to test version({0}) was processed by {1}", vers, CurrentContext.UserName())
 				, body
-				, IgnoreTT);
+				, IgnoreTT);*/
 	}
 	public static void UntestRequest(string id)
 	{

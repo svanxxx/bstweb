@@ -550,11 +550,11 @@ public partial class Sequence : CbstHelper
 					DefectConnector.NotifyDefectWorker(tasknumber, string.Format("Your request for {0} test was processed by: {1}", tasknumber, CurrentContext.UserName()), CurrentContext.User.PHONE);
 				}
 
-				AddEmail(
+				/*AddEmail(
 					r.PROGABB
 					, string.Format("Your request for version ({0}) test was processed by: {1}", v.VERSION, CurrentContext.UserName())
 					, body
-					, "#FEFCFF");
+					, "#FEFCFF");*/
 			}
 		}
 
