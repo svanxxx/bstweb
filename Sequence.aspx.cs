@@ -476,36 +476,10 @@ public partial class Sequence : CbstHelper
 
 		string[] Commands;
 		string[] arrGroup;
+
 		TestRequest.GetCommandsGroups(FileTextBox.Text, out Commands, out arrGroup);
 
-		SQLExecute("DELETE FROM REQUESTADDITIONALCOMMANDS WHERE REQUESTID = " + RequestID);
-		SQLExecute("DELETE FROM SCHEDULE WHERE REQUESTID = " + RequestID + " AND LOCKEDBY is NULL");
-
-
-		//save before and after commands
-		string[] commandsBefore = TextBoxBefore.Text.Replace("'", "''").Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
-		string[] commandsAfter = TextBoxAfter.Text.Replace("'", "''").Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
-
-		string AdditionalCommandsSQL = "INSERT INTO REQUESTADDITIONALCOMMANDS (COMMAND, REQUESTID, POSITION, SEQUENCENUMBER) VALUES";
-		int addNumber = 0;
-		foreach (string command in commandsBefore)
-		{
-			if (command.Trim() != "")
-			{
-				addNumber++;
-				AdditionalCommandsSQL += (addNumber != 1 ? "," : "") + " ( '" + command + "'," + RequestID + "," + 0 + "," + addNumber.ToString() + ") ";
-			}
-		}
-		foreach (string command in commandsAfter)
-		{
-			if (command.Trim() != "")
-			{
-				addNumber++;
-				AdditionalCommandsSQL += (addNumber != 1 ? "," : "") + " ( '" + command + "'," + RequestID + "," + 1 + "," + addNumber.ToString() + ") ";
-			}
-		}
-		if (addNumber != 0)
-			SQLExecute(AdditionalCommandsSQL);
+        TestRequest.SetAdditionalCommands(TextBoxBefore.Text.Replace("'", "''").Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None), TextBoxAfter.Text.Replace("'", "''").Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None), RequestID);
 
 		// get user id
 

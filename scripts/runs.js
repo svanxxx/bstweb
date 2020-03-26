@@ -125,7 +125,7 @@ function ProcessTableData() {
 				if (location.href.indexOf(filter) != -1) {
 					window.location = removeUrlParam(location.href, filter);
 				} else {
-					window.location = replaceUrlParam(location.href, filter, "<>0");
+                    window.location = replaceUrlParam(location.href, "page", "1&" + filter + "=<>0");
 				}
 			});
 		}

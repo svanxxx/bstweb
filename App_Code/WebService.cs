@@ -140,21 +140,21 @@ public class WebService : System.Web.Services.WebService
 		return "OK";
 	}
 	[WebMethod(EnableSession = true)]
-	public string RunTest(string strReqestID, string strCommandName, string UserName, string TestRunID)
+	public string RunTest(string strRequestID, string strCommandName, string strUserName, string strTestRunID)
 	{
 		// if it is release, we need rerun test in the last TESTREQUESTS with the same version
 		string SQL_Command = "select (select max(t.id) from TESTREQUESTS t where t.versionid = x.versionid  and t.ProgAbb = x.ProgAbb) , x.ProgAbb from TESTREQUESTS x where x.id = $id";
 
 		string ProgAbb;
 		string strLastReqestID;
-		using (DataSet ds = CbstHelper.GetDataSet(SQL_Command.Replace("$id", strReqestID)))
+		using (DataSet ds = CbstHelper.GetDataSet(SQL_Command.Replace("$id", strRequestID)))
 		{
 			ProgAbb = ds.Tables[0].Rows[0][1].ToString();
 			strLastReqestID = ds.Tables[0].Rows[0][0].ToString();
 		}
 		if (ProgAbb.ToUpper() == "ADMIN")
 		{
-			strReqestID = strLastReqestID;
+			strRequestID = strLastReqestID;
 		}
 
 		strCommandName = (strCommandName.Replace('`', '"').Replace('~', '\\'));
@@ -182,12 +182,13 @@ public class WebService : System.Web.Services.WebService
 
 		string strSetSQL =
 			@"INSERT INTO SCHEDULE (COMMAND, REQUESTID, PCID, USERID, PRIORITY, SEQUENCENUMBER, SEQUENCEGUID, DBTYPE, Y3DV) VALUES" +
-			" ('" + strCommandName + "', " + strReqestID + "," + strSQLPCName + ",(select T2.ID from PERSONS T2 where T2.USER_LOGIN = '" + UserName + "'), " + strPRIORITY + ",2, '" + strGuid + "', " + dbtype + ", " + y3dv + ")";
+			" ('" + strCommandName + "', " + strRequestID + "," + strSQLPCName + ",(select T2.ID from PERSONS T2 where T2.USER_LOGIN = '" + strUserName + "'), " + strPRIORITY + ",2, '" + strGuid + "', " + dbtype + ", " + y3dv + ")";
 
 		strSetSQL = strSetSQL.ToUpper();
+
 		CbstHelper.SQLExecute(strSetSQL);
 
-		TestRun.CommentTestRuns(TestRunID, "Rerun");
+        TestRun.CommentTestRuns(strTestRunID, "Rerun");
 		FeedLog("Next command has been rerun: " + strCommandName);
 		return "OK";
 	}
@@ -632,7 +633,7 @@ public class WebService : System.Web.Services.WebService
 		return tr.ID;
 	}
 	[WebMethod]
-	public void StartTest(string guid, string commaseparatedbatches, string commaseparatedcommands, string priority)
+	public void StartTest(string guid, string commaseparatedbatches, string commaseparatedcommands, string priority, string branch)
 	{
 		BSTUser bu = new BSTUser("", "bst");
 
@@ -648,6 +649,10 @@ public class WebService : System.Web.Services.WebService
 			string[] Commands;
 			string[] arrGroup;
 			TestRequest.GetCommandsGroups(txtcommands, out Commands, out arrGroup);
+            if (!string.IsNullOrEmpty(branch))
+            {
+                TestRequest.SetAdditionalCommands(new string[] { "GETGIT " + branch }, new string[] { "GETGIT --reset" }, guid);
+            }
 			Schedule.AddCommands(Commands, arrGroup, tr.ID.ToString(), bu.ID.ToString(), priority);
 		}
 	}
