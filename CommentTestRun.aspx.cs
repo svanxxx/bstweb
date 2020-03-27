@@ -396,11 +396,11 @@ ORDER BY $order,
 			<br>
 			<br>Best regards, <b>{10}</b>"
 		, strDT, Settings.CurrentSettings.BSTADDRESS, RequestID, strFiPVersion, strTTID, strComment, strText, strFiPVersionBase, strCommentTest, TestsInMail, CurrentContext.UserName());
-		AddEmail(
+		/*AddEmail(
 			strProgrammer
 			, string.Format("Your request for version ({0}) was tested. Request info: ({1})", strFiPVersion, strTTID)
 			, body
-			, strPutColor);
+			, strPutColor);*/
 
 		LabelError.Visible = false;
 		if (getBackUrl != null) Response.Redirect(getBackUrl);
