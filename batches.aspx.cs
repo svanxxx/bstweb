@@ -26,7 +26,7 @@ public partial class Batches : PagedOutput
 			SELECT T.* FROM 
 			(
 			SELECT R.[ID]
-					,ROW_NUMBER() OVER (ORDER BY R.[ID] DESC) [#]
+					,ROW_NUMBER() OVER (ORDER BY R.[BATCH_NAME] ASC) [#]
 					,R.[BATCH_NAME]
 					,R.[BATCH_DATA]
 					,R.[BATCH_COMM]
