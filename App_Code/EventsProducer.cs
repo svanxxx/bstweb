@@ -126,7 +126,7 @@ public class EventsProducer
 			return true;
 		}
 	}
-	private void SendEvents(EventsProducerListener bs)
+	private bool SendEvents(EventsProducerListener bs)
 	{
 		foreach (KeyValuePair<string, string> entry1 in _eventsState)
 		{
@@ -139,21 +139,29 @@ public class EventsProducer
 				}
 				string s1 = string.Format("event: {0}\n", entry1.Key);
 				string s2 = string.Format("data: {0}\n\n", entry1.Value);
-				bs._Response.Write(s1);
-				bs._Response.Write(s2);
-				bs._Response.Flush();
+				
+				try
+				{
+					bs._Response.Write(s1);
+					bs._Response.Write(s2);
+					bs._Response.Flush();
 
-				//temp workaround - cannot fix quickly
-				bs._Response.Write(s1);
-				bs._Response.Write(s2);
-				bs._Response.Flush();
-
+					//temp workaround - cannot fix quickly
+					bs._Response.Write(s1);
+					bs._Response.Write(s2);
+					bs._Response.Flush();
+				}
+				catch
+				{
+					return false;
+				}
 				break;
 			}
 			//second update state to new one
 			if (bs._eventsState.ContainsKey(entry1.Key))
 				bs._eventsState[entry1.Key] = entry1.Value;
 		}
+		return true;
 	}
 	private bool ClientUpdate(EventsProducerListener bs)
 	{
@@ -161,8 +169,7 @@ public class EventsProducer
 		{
 			return false;
 		}
-		SendEvents(bs);
-		return true;
+		return SendEvents(bs);
 	}
 	//trying to send new data to client, if failed - mark client as dead(so the client will be removed )
 	private void SendEventsToClients()
