@@ -51,7 +51,7 @@ public static class CurrentContext
 			{
 				return "";
 			}
-			return UserLogin().Split('@')[0];
+			return UserName() + " <" + UserLogin().Split('@')[0] + "@" + Settings.CurrentSettings.TEAMDOMAIN + ">";
 		}
 	}
 	public static string UserName()

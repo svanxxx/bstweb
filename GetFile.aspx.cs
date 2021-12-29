@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.IO;
 using System.Diagnostics;
 
@@ -54,13 +49,17 @@ public partial class GetFile : CbstHelper
 		strFilePath.Trim('\"');
 		Boolean bDirectory = false;
 
-		if (strFilePath == null) return;
+		if (string.IsNullOrEmpty(strFilePath))
+		{
+			Response.Write("No file to show");
+			return;
+		}
 
 		if (strFilePath[strFilePath.Length - 1] == '\\')
 		{
-			if (!System.IO.Directory.Exists(strFilePath))
+			if (!Directory.Exists(strFilePath))
 			{
-				Response.Write("Sory, directory <b>" + strFilePath + "</b> not exist.");
+				Response.Write("Sorry, directory <b>" + strFilePath + "</b> not exist.");
 				return;
 			}
 			bDirectory = true;
@@ -92,12 +91,12 @@ public partial class GetFile : CbstHelper
 
 			strFilePath = strPathRarFile;
 		}
-		if (!System.IO.File.Exists(strFilePath))
+		if (!File.Exists(strFilePath))
 		{
 			Response.Write("Sory, file <b>" + strFilePath + "</b> not exist.");
 			return;
 		}
-		System.IO.FileInfo file_Info = new System.IO.FileInfo(strFilePath);
+		FileInfo file_Info = new FileInfo(strFilePath);
 		long lFileSize = file_Info.Length;
 
 		Response.ClearContent();
@@ -120,7 +119,7 @@ public partial class GetFile : CbstHelper
 		Response.Flush();
 
 		// delete rar file, if exist
-		if (bDirectory) System.IO.File.Delete(strFilePath);
+		if (bDirectory) File.Delete(strFilePath);
 
 		Response.End();
 

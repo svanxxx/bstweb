@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using GitHelper;
 using System.IO;
+using System.Linq;
 
 public class FileChange
 {
@@ -48,7 +49,7 @@ public class ChangesContainer
 	static object _commitobj = new object();
 	static object _lockobj = new object();
 	static Dictionary<string, ListOfChanges> _dic = new Dictionary<string, ListOfChanges>();
-	
+
 	public static string ProcessPageList(string lstFiles)
 	{
 		string key = Guid.NewGuid().ToString();
@@ -83,7 +84,7 @@ public class ChangesContainer
 			List<string> ls = new List<string>(_dic.Keys);
 			foreach (string dickey in ls)
 			{
-				if ((DateTime.Now -_dic[dickey].Created).TotalHours > 1)
+				if ((DateTime.Now - _dic[dickey].Created).TotalHours > 1)
 				{
 					_dic.Remove(dickey);
 				}
@@ -138,6 +139,7 @@ public class ChangesContainer
 					return Git.DiffFriendOutput(output);
 				}
 				output.AddRange(git.PullOrigin());
+				var FilesMap = new Dictionary<string, bool>();
 				foreach (int i in indexes)
 				{
 					FileChange fc = changes[i];
@@ -149,7 +151,11 @@ public class ChangesContainer
 					}
 					output.Add("Copying file: " + gitfile + "...");
 					File.Copy(fc.NEW, gitfile, true);
-					output.AddRange(git.AddFile(gitfile));
+					if (!FilesMap.ContainsKey(gitfile.ToUpper()))
+					{
+						FilesMap[gitfile.ToUpper()] = true;
+						output.AddRange(git.AddFile(gitfile));
+					}
 				}
 				Commit oldcommit = git.GetTopCommit();
 				output.AddRange(git.CommitAll("WEB: " + comment, user));

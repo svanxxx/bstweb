@@ -131,10 +131,6 @@ public class CbstHelper : System.Web.UI.Page
 	{
 		get { return CurrentContext.Valid; }
 	}
-	public static string GitUser
-	{
-		get { return CurrentContext.UserLogin().Split('@')[0]; }
-	}
 	public bool IsUserGuest
 	{
 		get { return Session["IsUserGuest"] != null; }
