@@ -4,7 +4,18 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="BST_STATISTICSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BST_STATISTICSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BATCHES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BATCH_DATA" Type="text" Nullable="false" />
+          <Property Name="BATCH_COMM" Type="text" />
+          <Property Name="PC_NAME" Type="text" />
+          <Property Name="BATCH_NAME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MUST_RUN" Type="bit" />
+        </EntityType>
         <EntityType Name="BSTLOG">
           <Key>
             <PropertyRef Name="ID" />
@@ -22,6 +33,7 @@
           <Property Name="VERSION" Type="nvarchar" MaxLength="255" />
           <Property Name="COMMENT" Type="ntext" />
           <Property Name="OFFICIAL" Type="int" />
+          <Property Name="MODIFIED_DATE" Type="datetime" />
         </EntityType>
         <EntityType Name="HOSTS">
           <Key>
@@ -272,6 +284,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="BST_STATISTICSModelStoreContainer">
+          <EntitySet Name="BATCHES" EntityType="Self.BATCHES" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BSTLOG" EntityType="Self.BSTLOG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FIPVERSION" EntityType="Self.FIPVERSION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HOSTS" EntityType="Self.HOSTS" Schema="dbo" store:Type="Tables" />
@@ -411,6 +424,7 @@
             <End Role="HOST" EntitySet="HOSTS" />
             <End Role="PC" EntitySet="PCS" />
           </AssociationSet>
+          <EntitySet Name="BATCHES" EntityType="BST_STATISTICSModel.s" />
           </EntityContainer>
         <EntityType Name="FIPVERSION">
           <Key>
@@ -421,6 +435,7 @@
           <Property Name="COMMENT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OFFICIAL" Type="Int32" />
           <NavigationProperty Name="TESTREQUESTS" Relationship="BST_STATISTICSModel.FK_TESTREQUESTS_FIPVERSION" FromRole="FIPVERSION" ToRole="TESTREQUEST" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_TESTREQUESTS_FIPVERSION">
           <End Type="BST_STATISTICSModel.FIPVERSION" Role="FIPVERSION" Multiplicity="0..1">
@@ -679,6 +694,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="s">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BATCH_DATA" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BATCH_COMM" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PC_NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BATCH_NAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MUST_RUN" Type="Boolean" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -707,6 +733,7 @@
           <EntitySetMapping Name="FIPVERSIONs">
             <EntityTypeMapping TypeName="BST_STATISTICSModel.FIPVERSION">
               <MappingFragment StoreEntitySet="FIPVERSION">
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
                 <ScalarProperty Name="OFFICIAL" ColumnName="OFFICIAL" />
                 <ScalarProperty Name="COMMENT" ColumnName="COMMENT" />
                 <ScalarProperty Name="VERSION" ColumnName="VERSION" />
@@ -805,6 +832,18 @@
                 <ScalarProperty Name="ip" ColumnName="ip" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BATCHES">
+            <EntityTypeMapping TypeName="BST_STATISTICSModel.s">
+              <MappingFragment StoreEntitySet="BATCHES">
+                <ScalarProperty Name="MUST_RUN" ColumnName="MUST_RUN" />
+                <ScalarProperty Name="BATCH_NAME" ColumnName="BATCH_NAME" />
+                <ScalarProperty Name="PC_NAME" ColumnName="PC_NAME" />
+                <ScalarProperty Name="BATCH_COMM" ColumnName="BATCH_COMM" />
+                <ScalarProperty Name="BATCH_DATA" ColumnName="BATCH_DATA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

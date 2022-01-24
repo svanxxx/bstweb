@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.IO;
-using System.Diagnostics;
-using System.Collections;
 using BSTStatics;
 
 public partial class GetFileAsExcel : CbstHelper
 {
 	protected void Page_Load(object sender, EventArgs e)
 	{
-		string tempPath = System.IO.Path.GetTempPath();
+		string tempPath = Path.GetTempPath();
 		string strFilePath = Request.Params["Path"];
 
 		if (strFilePath == null) return;
@@ -46,7 +39,8 @@ public partial class GetFileAsExcel : CbstHelper
 		filetoshow.Text = strFilePath.Replace('/', '\\');
 		return;
 
-		if (!System.IO.File.Exists(strFilePath))
+		/*
+		if (!File.Exists(strFilePath))
 		{
 			Response.Write("Sory, file <b>" + strFilePath + "</b> not exist.");
 			return;
@@ -58,7 +52,7 @@ public partial class GetFileAsExcel : CbstHelper
 
 		if (ext == "txt")
 		{
-			System.IO.StreamReader file = new System.IO.StreamReader(strFilePath);
+			StreamReader file = new StreamReader(strFilePath);
 			string line;
 			ArrayList htmlbody = new ArrayList();
 			while ((line = file.ReadLine()) != null)
@@ -136,5 +130,6 @@ public partial class GetFileAsExcel : CbstHelper
 		}
 		Response.Flush();
 		Response.End();
+		*/
 	}
 }

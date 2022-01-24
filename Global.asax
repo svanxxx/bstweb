@@ -1,4 +1,8 @@
 ﻿<%@ Application Language="C#" %>
+<%@ Import Namespace="System.Web.Http" %>
+<%@ Import Namespace="System.Web.Routing" %>
+<%@ Import Namespace="Newtonsoft" %>
+<%@ Import Namespace="Newtonsoft.Json" %>
 
 <script RunAt="server">
 	void Application_Start(object sender, EventArgs e)
@@ -19,6 +23,12 @@
 				, string.Format("~/css/{0}.css", file)
 				));
 		}
+		
+		RouteTable.Routes.MapHttpRoute(
+			 name: "DefaultApi",
+			 routeTemplate: "api/{controller}/{id}",
+			 defaults: new { id = System.Web.Http.RouteParameter.Optional }
+		);
 	}
 	void Application_End(object sender, EventArgs e)
 	{

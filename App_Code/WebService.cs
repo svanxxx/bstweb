@@ -634,22 +634,7 @@ public class WebService : System.Web.Services.WebService
 	[WebMethod]
 	public void StartTest(string guid, string commaseparatedbatches, string commaseparatedcommands, string priority)
 	{
-		BSTUser bu = new BSTUser("", "bst");
-
-		string[] batches = commaseparatedbatches.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-		foreach (string batch in batches)
-		{
-			TestRequest.RunBatch4Request(bu.LOGIN, batch, guid, priority);
-		}
-		if (!string.IsNullOrEmpty(commaseparatedcommands))
-		{
-			TestRequest tr = new TestRequest("", guid);
-			string txtcommands = string.Join("\r\n", commaseparatedcommands.Split(','));
-			string[] Commands;
-			string[] arrGroup;
-			TestRequest.GetCommandsGroups(txtcommands, out Commands, out arrGroup);
-			Schedule.AddCommands(Commands, arrGroup, tr.ID.ToString(), bu.ID.ToString(), priority);
-		}
+		RequestManager.StartTest(guid, commaseparatedbatches, commaseparatedcommands, priority);
 	}
 	//================================
 	[WebMethod(EnableSession = true)]

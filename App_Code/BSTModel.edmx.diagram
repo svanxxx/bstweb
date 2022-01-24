@@ -24,6 +24,7 @@
         <AssociationConnector Association="BST_STATISTICSModel.FK_SCHEDULE_TESTREQUESTS" />
         <EntityTypeShape EntityType="BST_STATISTICSModel.HOST" Width="2.125" PointX="0.75" PointY="9" />
         <AssociationConnector Association="BST_STATISTICSModel.FK_PCS_HOSTS" />
+        <EntityTypeShape EntityType="BST_STATISTICSModel.s" Width="1.75" PointX="8.125" PointY="8.5" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

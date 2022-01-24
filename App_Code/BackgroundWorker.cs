@@ -40,7 +40,7 @@ public class BackgroundWorker
 								CbstHelper.SQLExecute("DELETE FROM [EMAILS] WHERE [ID] =" + r[0].ToString());
 							}
 						}
-						catch (Exception e)
+						catch (Exception)
 						{
 
 						}

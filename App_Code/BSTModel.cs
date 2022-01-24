@@ -32,6 +32,7 @@ public partial class FIPVERSION
     public string VERSION { get; set; }
     public string COMMENT { get; set; }
     public Nullable<int> OFFICIAL { get; set; }
+    public Nullable<System.DateTime> MODIFIED_DATE { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
     public virtual ICollection<TESTREQUEST> TESTREQUESTS { get; set; }
@@ -141,6 +142,16 @@ public partial class PERSON
     public virtual ICollection<BSTLOG> BSTLOGs { get; set; }
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
     public virtual ICollection<SCHEDULE> SCHEDULEs { get; set; }
+}
+
+public partial class s
+{
+    public int ID { get; set; }
+    public string BATCH_DATA { get; set; }
+    public string BATCH_COMM { get; set; }
+    public string PC_NAME { get; set; }
+    public string BATCH_NAME { get; set; }
+    public Nullable<bool> MUST_RUN { get; set; }
 }
 
 public partial class SCHEDULE
