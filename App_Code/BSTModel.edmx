@@ -129,7 +129,7 @@
           <Property Name="VersionID" Type="int" />
           <Property Name="IGNORE" Type="bit" />
           <Property Name="TESTED" Type="bit" />
-          <Property Name="GITHASH" Type="varchar" MaxLength="40" />
+          <Property Name="GITHASH" Type="varchar" MaxLength="256" />
           <Property Name="REQUEST_PRIORITY" Type="int" />
           <Property Name="TESTERID" Type="int" />
         </EntityType>
@@ -359,7 +359,7 @@
           <Property Name="VersionID" Type="Int32" />
           <Property Name="IGNORE" Type="Boolean" />
           <Property Name="TESTED" Type="Boolean" />
-          <Property Name="GITHASH" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="GITHASH" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="REQUEST_PRIORITY" Type="Int32" />
           <Property Name="TESTERID" Type="Int32" />
           <NavigationProperty Name="FIPVERSION" Relationship="BST_STATISTICSModel.FK_TESTREQUESTS_FIPVERSION" FromRole="TESTREQUEST" ToRole="FIPVERSION" />
