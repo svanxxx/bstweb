@@ -40,6 +40,10 @@ public static class RequestManager
 				db.TESTREQUESTS.Add(request);
 				await db.SaveChangesAsync();
 
+				if (batches == null)
+				{
+					batches = "";
+				}
 				var LsBatches = batches.ToUpper().Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 				var CorBatches = await db.BATCHES.Where(x => LsBatches.Contains(x.BATCH_NAME.ToUpper())).Select(x => x.BATCH_NAME).ToListAsync();
 				StartTest(guid, string.Join(",", CorBatches), commands, priority.ToString());
@@ -53,13 +57,22 @@ public static class RequestManager
 	}
 	public static void StartTest(string guid, string commaseparatedbatches, string commaseparatedcommands, string priority)
 	{
-		BSTUser bu = new BSTUser("", "bst");
-		string[] batches = commaseparatedbatches.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-		foreach (string batch in batches)
+		var hasBatches = !string.IsNullOrEmpty(commaseparatedbatches);
+		var hasCommand = !string.IsNullOrEmpty(commaseparatedcommands);
+		if (!hasBatches && !hasCommand)
 		{
-			TestRequest.RunBatch4Request(bu.LOGIN, batch, guid, priority);
+			return;
 		}
-		if (!string.IsNullOrEmpty(commaseparatedcommands))
+		BSTUser bu = new BSTUser("", "bst");
+		if (hasBatches)
+		{
+			string[] batches = commaseparatedbatches.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+			foreach (string batch in batches)
+			{
+				TestRequest.RunBatch4Request(bu.LOGIN, batch, guid, priority);
+			}
+		}
+		if (hasCommand)
 		{
 			TestRequest tr = new TestRequest("", guid);
 			string txtcommands = string.Join("\r\n", commaseparatedcommands.Split(','));
