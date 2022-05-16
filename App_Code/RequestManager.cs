@@ -25,7 +25,12 @@ public static class RequestManager
 					db.FIPVERSIONs.Add(dbVersion);
 					await db.SaveChangesAsync();
 				}
-				var user = await db.PERSONS.Where(x => x.USER_LOGIN == "bst").Select(x => x.ID).FirstOrDefaultAsync();
+				int? user = null;
+				if (!string.IsNullOrEmpty(commands) || !string.IsNullOrEmpty(batches))
+				{
+					user = await db.PERSONS.Where(x => x.USER_LOGIN == "bst").Select(x => x.ID).FirstOrDefaultAsync();
+				}
+				
 				var request = new TESTREQUEST()
 				{
 					TTID = "TT" + id + " " + name,
