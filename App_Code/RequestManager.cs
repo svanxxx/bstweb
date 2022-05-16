@@ -25,17 +25,19 @@ public static class RequestManager
 					db.FIPVERSIONs.Add(dbVersion);
 					await db.SaveChangesAsync();
 				}
+				var user = await db.PERSONS.Where(x => x.USER_LOGIN == "bst").Select(x => x.ID).FirstOrDefaultAsync();
 				var request = new TESTREQUEST()
 				{
 					TTID = "TT" + id + " " + name,
 					GUID = guid,
-					RequestDateTime = System.DateTime.Now,
+					RequestDateTime = DateTime.Now,
 					ProgAbb = owner,
 					Comment = comment,
 					FIPVERSION = dbVersion,
 					IGNORE = null,
 					GITHASH = git,
 					REQUEST_PRIORITY = priority,
+					UserID = user,
 				};
 				db.TESTREQUESTS.Add(request);
 				await db.SaveChangesAsync();
