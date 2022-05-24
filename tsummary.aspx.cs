@@ -52,7 +52,7 @@ public partial class TSummary : CbstHelper
 			foreach (DataRow dr in dt.Rows)
 			{
 				ListItem li = new ListItem(dr[0].ToString());
-				if (!setsel && li.Text.ToUpper().EndsWith("AUTOBOT"))
+				if (!setsel && char.IsDigit(li.Text[li.Text.Length - 1]))
 				{
 					li.Selected = setsel = true;
 				}
