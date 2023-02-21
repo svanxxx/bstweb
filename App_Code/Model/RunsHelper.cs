@@ -10,7 +10,7 @@ public class RunsHelper
 	static readonly string _fOu = "[Ou R.TEST_OUTPUTERRORS]";
 	static readonly string _fEr = "[Er R.TEST_ERRORS]";
 	static readonly string _fWa = "[Wr R.TEST_WARNINGS]";
-	public static string fEx { get{ return _fEx.Replace("]", "").Replace("[", ""); } }
+	public static string fEx { get { return _fEx.Replace("]", "").Replace("[", ""); } }
 	public static string fDb { get { return _fDb.Replace("]", "").Replace("[", ""); } }
 	public static string fOu { get { return _fOu.Replace("]", "").Replace("[", ""); } }
 	public static string fEr { get { return _fEr.Replace("]", "").Replace("[", ""); } }
@@ -69,6 +69,7 @@ public class RunsHelper
 			,(PR.[USER_LOGIN] + ':' + R.[COMMENT]) [Comment]
 			,R.[RUN_HASH] [Hash]
 			,R.[BRANCH] [Branch]
+			,TR.[TASKID] [TASKID]
 		", _fEx, _fDb, _fOu, _fEr, _fWa);
 
 		string sqlJoins = @"
@@ -79,6 +80,7 @@ public class RunsHelper
 			INNER JOIN [TEST_CASES] C ON C.[ID] = R.[TEST_CASE_ID]
 			INNER JOIN [DBTYPES] D ON D.[ID] = R.[DBTYPE_ID]
 			INNER JOIN [TESTS] T ON T.[ID] = C.[TEST_ID]
+			INNER JOIN [TESTREQUESTS] TR ON R.[RequestID] = TR.[ID]
 		";
 		string sqlJoinsCount = sqlJoins;
 

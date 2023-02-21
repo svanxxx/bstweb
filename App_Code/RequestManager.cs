@@ -30,7 +30,10 @@ public static class RequestManager
 				{
 					user = await db.PERSONS.Where(x => x.USER_LOGIN == "bst").Select(x => x.ID).FirstOrDefaultAsync();
 				}
-				
+
+				int iid = 0;
+				int.TryParse(id, out iid);
+
 				var request = new TESTREQUEST()
 				{
 					TTID = "TT" + id + " " + name,
@@ -43,6 +46,7 @@ public static class RequestManager
 					GITHASH = git,
 					REQUEST_PRIORITY = priority,
 					UserID = user,
+					TASKID = iid,
 				};
 				db.TESTREQUESTS.Add(request);
 				await db.SaveChangesAsync();

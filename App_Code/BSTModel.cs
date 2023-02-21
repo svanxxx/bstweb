@@ -198,6 +198,7 @@ public partial class TESTREQUEST
     public string GITHASH { get; set; }
     public Nullable<int> REQUEST_PRIORITY { get; set; }
     public Nullable<int> TESTERID { get; set; }
+    public Nullable<int> TASKID { get; set; }
 
     public virtual FIPVERSION FIPVERSION { get; set; }
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

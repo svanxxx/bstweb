@@ -132,6 +132,7 @@
           <Property Name="GITHASH" Type="varchar" MaxLength="256" />
           <Property Name="REQUEST_PRIORITY" Type="int" />
           <Property Name="TESTERID" Type="int" />
+          <Property Name="TASKID" Type="int" />
         </EntityType>
         <Association Name="FK_BSTLOG_PERSONS">
           <End Role="PERSONS" Type="Self.PERSONS" Multiplicity="1" />
@@ -367,6 +368,7 @@
           <NavigationProperty Name="PERSON" Relationship="BST_STATISTICSModel.FK_TESTREQUESTS_PERSONS" FromRole="TESTREQUEST" ToRole="PERSON" />
           <NavigationProperty Name="PERSON1" Relationship="BST_STATISTICSModel.FK_TESTREQUESTS_TESTER" FromRole="TESTREQUEST" ToRole="PERSON" />
           <NavigationProperty Name="SCHEDULEs" Relationship="BST_STATISTICSModel.FK_SCHEDULE_TESTREQUESTS" FromRole="TESTREQUEST" ToRole="SCHEDULE" />
+          <Property Name="TASKID" Type="Int32" />
           </EntityType>
         <EntityContainer Name="BST_STATISTICSEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="TESTREQUESTS" EntityType="Self.TESTREQUEST" />
@@ -714,6 +716,7 @@
           <EntitySetMapping Name="TESTREQUESTS">
             <EntityTypeMapping TypeName="BST_STATISTICSModel.TESTREQUEST">
               <MappingFragment StoreEntitySet="TESTREQUESTS">
+                <ScalarProperty Name="TASKID" ColumnName="TASKID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="TTID" ColumnName="TTID" />
                 <ScalarProperty Name="GUID" ColumnName="GUID" />
