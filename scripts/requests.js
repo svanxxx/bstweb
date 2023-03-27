@@ -8,11 +8,11 @@
 			var requestid = $(rows[r]).attr("requestid");
 			var column = th.text();
 			if (column == "F") {
-				var download = "\\\\bst_master\\ReleaseSocket\\Stack\\" + $(rows[r]).attr("guid") + "\\Release.zip";
+				var download = "\\\\bst_master\\ReleaseSocket\\Stack\\" + $(rows[r]).attr("guid") + "\\FIELDPRO_SERVER.msi";
 				cell.append("<a href='getfile.aspx?Path=" + download + "'><img title='" + download + "' src='images/save.GIF'></img></a>");
 			}
 			else if (column == "C") {
-				var download = "\\\\bst_master\\ReleaseSocket\\Stack\\" + $(rows[r]).attr("guid") + "\\Modules.zip";
+				var download = "\\\\bst_master\\ReleaseSocket\\Stack\\" + $(rows[r]).attr("guid") + "\\FIELDPRO_MODELS_ONSITE_REAL_TIME.msi";
 				cell.append("<a href='getfile.aspx?Path=" + download + "'><img title='" + download + "' src='images/save.GIF'></img></a>");
 			}
 			else if (column == "VERSION") {

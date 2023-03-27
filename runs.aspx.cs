@@ -1,8 +1,8 @@
-﻿using System;
+﻿using BSTStatics;
+using System;
 using System.Data;
 using System.Globalization;
 using System.Web.UI.WebControls;
-using BSTStatics;
 
 public partial class Runs : PagedOutput
 {
@@ -55,6 +55,7 @@ public partial class Runs : PagedOutput
 				}
 			}
 			TTable.Rows.Add(th);
+			var DEFECTLINK = Settings.CurrentRawSettings.DEFECTLINK;
 
 			foreach (DataRow dr in dt.Rows)
 			{
@@ -121,6 +122,10 @@ public partial class Runs : PagedOutput
 					else if (colname == "Link")
 					{
 						tc.Text = "<a href='ViewLog.aspx?log=" + txt + "&RUNID=" + dr[0].ToString() + "'>Link</a>";
+					}
+					else if (colname == "TASKID")
+					{
+						tc.Text = "<a href='" + DEFECTLINK + txt + "'>" + txt + "</a>";
 					}
 					else if (colname == "Hash")
 					{
