@@ -1,6 +1,6 @@
-﻿using System;
+﻿using BSTStatics;
+using System;
 using System.IO;
-using BSTStatics;
 
 public partial class ViewLog : CbstHelper
 {
@@ -8,7 +8,7 @@ public partial class ViewLog : CbstHelper
 	public string NetworkFormat(string strPath)
 	{
 		string strReturn = strPath.Replace(
-													string.Format("http://{0}/BST/", BSTStat.globalIPAddress), 
+													string.Format("http://{0}/BST/", BSTStat.globalIPAddress),
 													string.Format("\\\\{0}\\Public\\BST\\", BSTStat.networkBSTMachine));
 		return strReturn;
 	}
@@ -38,7 +38,7 @@ public partial class ViewLog : CbstHelper
 		string text = File.ReadAllText(filename);
 		Response.Clear();
 
-		string output = text.Replace("http://mps.resnet.com/bst/web/", "").
+		string output = text.Replace("http://mps.efieldpro.com/bst/web/", "").
 			Replace(BSTStat.globalIPAddress, Settings.CurrentSettings.BSTADDRESS).
 			Replace("192.168.0.8", BSTStat.networkBSTMachine);
 		Response.Write(output);

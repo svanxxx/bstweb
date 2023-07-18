@@ -11,7 +11,7 @@
 	<link <%= "href='" + Settings.CurrentSettings.CDNFONTAWESOME.ToString() + "css/all.min.css'"%> rel="stylesheet" />
 
 	<%--<link <%= "href='" + Settings.CurrentSettings.BOOTCSSCDN.ToString() + "bootstrap.min.css'"%> rel="stylesheet" />--%>
-	<link <%= "href='http://mps.resnet.com/cdn/bootstrap4/css/bootstrap.min.css'"%> rel="stylesheet" />
+	<link <%= "href='http://mps.efieldpro.com/cdn/bootstrap4/css/bootstrap.min.css'"%> rel="stylesheet" />
 
 	<link <%= "href='" + Settings.CurrentSettings.MPSCDN.ToString() + "mpshelper.css'"%> rel="stylesheet" />
 	<link href="css/common.css" rel="stylesheet" />
@@ -20,8 +20,8 @@
 	<script <%="src='" + Settings.CurrentSettings.JQUERYUICDN.ToString() + "jquery-ui.min.js'"%>></script>
 
 	<%--<script <%="src='" + Settings.CurrentSettings.BOOTSTRAPCDN.ToString() + "bootstrap.min.js'"%>></script>--%>
-	<script <%="src='http://mps.resnet.com/cdn/bootstrap4/js/popper.min.js'"%>></script>
-	<script <%="src='http://mps.resnet.com/cdn/bootstrap4/js/bootstrap.min.js'"%>></script>
+	<script <%="src='http://mps.efieldpro.com/cdn/bootstrap4/js/popper.min.js'"%>></script>
+	<script <%="src='http://mps.efieldpro.com/cdn/bootstrap4/js/bootstrap.min.js'"%>></script>
 
 	<script <%="src='" + Settings.CurrentSettings.MPSCDN.ToString() + "mpshelper.js'" %>></script>
 	<script src="scripts/common.js"></script>
