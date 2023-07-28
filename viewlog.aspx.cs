@@ -40,7 +40,8 @@ public partial class ViewLog : CbstHelper
 
 		string output = text.Replace("http://mps.efieldpro.com:2222/", "https://bst.efieldpro.com/").
 			Replace(BSTStat.globalIPAddress, Settings.CurrentSettings.BSTADDRESS).
-			Replace("192.168.0.8", BSTStat.networkBSTMachine);
+			Replace("192.168.0.8", BSTStat.networkBSTMachine).
+			Replace("http://bst.", "https://bst.");
 		Response.Write(output);
 		Response.End();
 	}
