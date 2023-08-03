@@ -1,6 +1,6 @@
-﻿using System;
+﻿using BSTStatics;
+using System;
 using System.IO;
-using BSTStatics;
 
 public partial class GetFileAsExcel : CbstHelper
 {
@@ -11,7 +11,7 @@ public partial class GetFileAsExcel : CbstHelper
 
 		if (strFilePath == null) return;
 
-		string str1 = string.Format("http://{0}", Settings.CurrentSettings.BSTADDRESS);
+		string str1 = string.Format("https://{0}", Settings.CurrentSettings.BSTADDRESS);
 		if (strFilePath.IndexOf(str1) == 0)
 		{
 			strFilePath = strFilePath.Replace(str1, @"//bst_master/public");
